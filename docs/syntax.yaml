@@ -1,0 +1,43 @@
+
+Lyre - Endpoint mock tool
+Syntax to describe endpoints and its behaviours.
+
+Needs to support
+* path and value (concatenated) or just use path ou value.
+* support parameters as variables
+  * path
+  * query
+* way to inject values on variables.
+* body object as json, xml, yaml
+* cookies
+
+Basic example
+
+endpoint=/api/v{version}/search?words={list}
+data={config:"foo"}
+cookie= A | B | C
+params
+  version=1
+  list=foo, bar
+response
+  status=200
+  data={config:"foo"}
+  cookie= A | B | C
+  params
+
+endpoints:
+  GET /api/v{version}/search?words={list}:
+    value: (optional) /search?words={list}
+    method: (required or implicit)
+    data: (optional) data put on body of http request.
+    cookie: (optional) cookies sent, can use params as info.
+  params: (optional)
+    param:
+    param:
+  response:
+    status:
+    data:
+    cookie:
+    params:
+      param:
+      param:
