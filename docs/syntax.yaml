@@ -1,6 +1,6 @@
 
 Lyre - Endpoint mock tool
-Syntax to describe endpoints and its behaviours.
+1.0 Syntax to describe endpoints and its behaviours.
 
 Needs to support
 * path and value (concatenated) or just use path ou value.

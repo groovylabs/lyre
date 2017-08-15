@@ -1,14 +1,15 @@
-package lyre;
+package test;
 
+import io.groovelabs.lyre.LyreApplication;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@LyreApplication()
 @SpringBootApplication
-public class Lyre {
+public class TestBoot {
 
     public static void main(String[] args) {
-        SpringApplication.run(Lyre.class, args);
+        SpringApplication.run(TestBoot.class);
     }
 
 }

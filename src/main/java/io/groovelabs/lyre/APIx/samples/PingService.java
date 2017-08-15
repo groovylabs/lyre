@@ -1,4 +1,4 @@
-package lyre.APIx.samples;
+package io.groovelabs.lyre.APIx.samples;
 
 
 import org.springframework.stereotype.Component;

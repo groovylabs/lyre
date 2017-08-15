@@ -1,4 +1,4 @@
-package lyre.scanner;
+package io.groovelabs.lyre.scanner;
 
 import org.springframework.stereotype.Component;
 

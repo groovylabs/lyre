@@ -1,4 +1,4 @@
-package lyre.domain;
+package io.groovelabs.lyre.domain;
 
 import java.util.ArrayList;
 import java.util.List;

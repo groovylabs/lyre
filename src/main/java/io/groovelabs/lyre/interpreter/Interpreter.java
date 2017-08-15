@@ -1,17 +1,9 @@
-package lyre.interpreter;
+package io.groovelabs.lyre.interpreter;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import lyre.domain.Bundle;
-import lyre.domain.Endpoint;
-import lyre.reader.Reader;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import javax.inject.Singleton;
-import java.util.ArrayList;
-import java.util.List;
+import io.groovelabs.lyre.domain.Bundle;
+import io.groovelabs.lyre.domain.Endpoint;
+import io.groovelabs.lyre.reader.Reader;
 
 public class Interpreter {
 
