@@ -1,9 +1,9 @@
-package lyre.APIx;
+package io.groovelabs.lyre.APIx;
 
-import lyre.APIx.samples.PingService;
-import lyre.domain.Bundle;
-import lyre.domain.Endpoint;
-import lyre.interpreter.Interpreter;
+import io.groovelabs.lyre.domain.Bundle;
+import io.groovelabs.lyre.APIx.samples.PingService;
+import io.groovelabs.lyre.domain.Endpoint;
+import io.groovelabs.lyre.interpreter.Interpreter;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;

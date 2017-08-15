@@ -1,12 +1,9 @@
-package lyre.reader;
+package io.groovelabs.lyre.reader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.sun.org.apache.regexp.internal.RE;
-import lyre.scanner.Scanner;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import io.groovelabs.lyre.scanner.Scanner;
 
 import java.io.File;
 

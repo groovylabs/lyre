@@ -1,4 +1,4 @@
-package lyre.domain;
+package io.groovelabs.lyre.domain;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
