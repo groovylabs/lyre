@@ -7,11 +7,9 @@ import lyre.interpreter.Interpreter;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.container.ContainerRequestContext;
-import java.util.List;
 
 @Component
 public class APIx extends ResourceConfig {
@@ -37,7 +35,7 @@ public class APIx extends ResourceConfig {
                             return endpoint.getData();
                         }
                     });
-                
+
                 registerResources(resourceBuilder.build());
             }
 
