@@ -1,9 +1,13 @@
 package io.groovelabs.lyre.interpreter;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
 import io.groovelabs.lyre.reader.Reader;
+
+import java.util.List;
+
 
 public class Interpreter {
 
@@ -17,62 +21,66 @@ public class Interpreter {
 
         Bundle bundle = new Bundle();
 
-        reader.read().fields().forEachRemaining(entry -> {
+        List<ObjectNode> nodes = reader.read();
 
-            Endpoint e = new Endpoint();
+        for (ObjectNode parentNode : nodes) {
+            parentNode.fields().forEachRemaining(entry -> {
 
-            // explicit mode
-            if (explicit(entry.getKey())) {
+                Endpoint e = new Endpoint();
 
-                System.out.println("explicit");
+                // explicit mode
+                if (explicit(entry.getKey())) {
 
-            } else {
+                    System.out.println("explicit");
 
-                try {
+                } else {
 
-                    System.out.println("implicit");
+                    try {
 
-                    String[] words = entry.getKey().split(" ", 4);
+                        System.out.println("implicit");
 
-                    e.setMethod(words[0]);
-                    e.setPath(words[1]);
+                        String[] words = entry.getKey().split(" ", 4);
 
-                    JsonNode children = entry.getValue();
+                        e.setMethod(words[0]);
+                        e.setPath(words[1]);
 
-                    children.fields().forEachRemaining(child -> {
+                        JsonNode children = entry.getValue();
 
-                        if (child.getKey().equals("response")) {
+                        children.fields().forEachRemaining(child -> {
 
-                            JsonNode node = child.getValue();
+                            if (child.getKey().equals("response")) {
 
-                            node.fields().forEachRemaining(responses -> {
+                                JsonNode node = child.getValue();
 
-                                try {
-                                    if (responses.getKey().equals("status"))
-                                        e.setStatus(responses.getValue().asText());
-                                    else if (responses.getKey().equals("data")) {
-                                        e.setData(responses.getValue().asText());
+                                node.fields().forEachRemaining(responses -> {
+
+                                    try {
+                                        if (responses.getKey().equals("status"))
+                                            e.setStatus(responses.getValue().asText());
+                                        else if (responses.getKey().equals("data")) {
+                                            e.setData(responses.getValue().asText());
+                                        }
+                                    } catch (Exception ex2) {
+                                        System.out.println("parse error");
                                     }
-                                } catch (Exception ex2) {
-                                    System.out.println("parse error");
-                                }
 
-                            });
-                        }
+                                });
+                            }
 
 
-                    });
+                        });
 
 
-                } catch (Exception ex) {
-                    System.out.println("parse error");
+                    } catch (Exception ex) {
+                        System.out.println("parse error");
+                    }
+
                 }
 
-            }
+                bundle.add(e);
 
-            bundle.add(e);
-
-        });
+            });
+        }
 
         return bundle;
     }

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import io.groovelabs.lyre.scanner.Scanner;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Reader {
 
@@ -15,25 +17,29 @@ public class Reader {
         scanner = new Scanner();
     }
 
-    public ObjectNode read() {
+    public List<ObjectNode> read() {
 
-        ObjectNode objectNode = null;
+        List<ObjectNode> objectNodes = new ArrayList<>();
 
-        ClassLoader classLoader = getClass().getClassLoader();
+//        ObjectNode objectNode = null;
+
+//        ClassLoader classLoader = getClass().getClassLoader();
 
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
         try {
 
-            // TODO Scan all *.lyre files on project on Scanner Class
-            objectNode = mapper.readValue(new File(classLoader.getResource("endpoint.lyre").getFile()), ObjectNode.class);
+            List<File> lyreFiles = scanner.scan();
 
-            System.out.println(objectNode);
+            for (File lyreFile : lyreFiles)
+                objectNodes.add(mapper.readValue(lyreFile, ObjectNode.class));
+
+            System.out.println(objectNodes);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        return objectNode;
+        return objectNodes;
     }
 }
