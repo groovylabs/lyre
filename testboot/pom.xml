@@ -53,7 +53,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.5.6.RELEASE</version>
                 <configuration>
-                    <mainClass>test.TestBoot</mainClass>
+                    <mainClass>boot.TestBoot</mainClass>
                 </configuration>
                 <executions>
                     <execution>
