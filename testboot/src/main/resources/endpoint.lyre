@@ -1,13 +1,19 @@
 GET /api/ping:
-  response:
-    data: GET PONG
-    status: 200
+    response:
+        data: GET PONG
+        status: 200
 
 POST /api/ping:
-  response:
-    data: POST PONG
-    status: 200
+    response:
+        data: POST PONG
+        status: 200
+
+/api/ping2:
+    method: GET
+    response:
+        data: PING 2
+        status: 400
 
 GET /api/v{version}/search?words={list}:
-  response:
-    status: 200
+    response:
+        status: 200

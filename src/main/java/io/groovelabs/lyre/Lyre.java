@@ -21,6 +21,7 @@ public class Lyre {
     @Bean
     public EmbeddedServletContainerCustomizer containerCustomizer() {
         return (container -> {
+            container.setContextPath(lyreProperties.getContextPath());
             container.setPort(lyreProperties.getPort());
         });
     }

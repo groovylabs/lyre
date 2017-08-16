@@ -10,6 +10,7 @@ import org.glassfish.jersey.server.model.Resource;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Response;
 
 @Component
 public class APIx extends ResourceConfig {
@@ -31,8 +32,8 @@ public class APIx extends ResourceConfig {
                     .produces("text/plain")
                     .handledBy(new Inflector<ContainerRequestContext, Object>() {
                         @Override
-                        public Object apply(ContainerRequestContext containerRequestContext) {
-                            return endpoint.getData();
+                        public Response apply(ContainerRequestContext containerRequestContext) {
+                            return Response.status(endpoint.getStatus().value()).entity(endpoint.getData()).build();
                         }
                     });
 

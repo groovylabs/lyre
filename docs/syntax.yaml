@@ -26,18 +26,18 @@ response
   params
 
 endpoints:
-  GET /api/v{version}/search?words={list}:
-    value: (optional) /search?words={list}
-    method: (required or implicit)
-    data: (optional) data put on body of http request.
-    cookie: (optional) cookies sent, can use params as info.
-  params: (optional)
-    param:
-    param:
-  response:
-    status:
-    data:
-    cookie:
-    params:
-      param:
-      param:
+    GET /api/v{version}/search?words={list}:
+        value: (optional) /search?words={list}
+        method: (required or implicit)
+        data: (optional) data put on body of http request.
+        cookie: (optional) cookies sent, can use params as info.
+        params: (optional)
+            param:
+            param:
+        response:
+            status:
+            data:
+            cookie:
+            params:
+                param:
+                param:

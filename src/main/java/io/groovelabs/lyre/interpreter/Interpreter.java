@@ -7,6 +7,7 @@ import io.groovelabs.lyre.domain.Endpoint;
 import io.groovelabs.lyre.reader.Reader;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class Interpreter {
@@ -26,63 +27,94 @@ public class Interpreter {
         for (ObjectNode parentNode : nodes) {
             parentNode.fields().forEachRemaining(entry -> {
 
-                Endpoint e = new Endpoint();
+                Endpoint endpoint = new Endpoint();
 
-                // explicit mode
-                if (explicit(entry.getKey())) {
-
-                    System.out.println("explicit");
-
-                } else {
-
-                    try {
-
-                        System.out.println("implicit");
-
-                        String[] words = entry.getKey().split(" ", 4);
-
-                        e.setMethod(words[0]);
-                        e.setPath(words[1]);
-
-                        JsonNode children = entry.getValue();
-
-                        children.fields().forEachRemaining(child -> {
-
-                            if (child.getKey().equals("response")) {
-
-                                JsonNode node = child.getValue();
-
-                                node.fields().forEachRemaining(responses -> {
-
-                                    try {
-                                        if (responses.getKey().equals("status"))
-                                            e.setStatus(responses.getValue().asText());
-                                        else if (responses.getKey().equals("data")) {
-                                            e.setData(responses.getValue().asText());
-                                        }
-                                    } catch (Exception ex2) {
-                                        System.out.println("parse error");
-                                    }
-
-                                });
-                            }
-
-
-                        });
-
-
-                    } catch (Exception ex) {
-                        System.out.println("parse error");
-                    }
-
+                try {
+                    this.parse(endpoint, entry, Level.ENDPOINT);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
-                bundle.add(e);
+                bundle.add(endpoint);
 
             });
         }
 
         return bundle;
+    }
+
+    public void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level level) {
+
+        switch (level) {
+            case ENDPOINT:
+
+                String[] words = entry.getKey().split(" ", 4);
+
+                if (explicit(entry.getKey())) {
+                    endpoint.setPath(words[0]);
+                } else {
+                    endpoint.setMethod(words[0]);
+                    endpoint.setPath(words[1]);
+                }
+
+                entry.getValue().fields().forEachRemaining(node ->
+                    this.parse(endpoint, node, Level.PROPERTY));
+
+                break;
+
+            case RESPONSE:
+
+                // TODO refact it to set status and data inside Response object (data can not be replaced).
+
+                if (Property.STATUS.is(entry.getKey())) {
+
+                    endpoint.setStatus(entry.getValue().asText());
+
+                } else if (Property.DATA.is(entry.getKey())) {
+
+                    endpoint.setData(entry.getValue().asText());
+
+                }
+
+            case PROPERTY:
+
+                if (Property.PARAMS.is(entry.getKey())) {
+
+                    entry.getValue().fields().forEachRemaining(node ->
+                        this.parse(endpoint, node, Level.PARAMETER));
+
+                } else if (Property.VALUE.is(entry.getKey())) {
+
+                    endpoint.setPath(endpoint.getPath() + entry.getValue().asText());
+
+                } else if (Property.METHOD.is(entry.getKey())) {
+
+                    endpoint.setMethod(entry.getValue().asText());
+
+                } else if (Property.DATA.is(entry.getKey())) {
+
+                    endpoint.setData(entry.getValue().asText());
+
+                } else if (Property.COOKIE.is(entry.getKey())) {
+
+                    // TODO implement cookie parser
+
+                } else if (Property.RESPONSE.is(entry.getKey())) {
+
+                    entry.getValue().fields().forEachRemaining(node ->
+                        this.parse(endpoint, node, Level.RESPONSE));
+
+                } else {
+
+                }
+
+                break;
+
+            case PARAMETER:
+                break;
+
+        }
+
     }
 
     private boolean explicit(String entry) {

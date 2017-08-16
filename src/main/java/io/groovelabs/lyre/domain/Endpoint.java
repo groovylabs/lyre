@@ -3,6 +3,8 @@ package io.groovelabs.lyre.domain;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 
+import javax.ws.rs.core.Cookie;
+
 public class Endpoint {
 
     private HttpMethod method;
@@ -13,26 +15,18 @@ public class Endpoint {
 
     private String data;
 
+    private Cookie cookie;
+
     public Endpoint() {
 
     }
 
-    // TODO create InvalidHttpMethodException
-    public void setMethod(String method) throws Exception {
-
+    public void setMethod(String method) {
         this.setMethod(HttpMethod.resolve(method));
-
-        if (method == null)
-            throw new Exception();
     }
 
-    // TODO create InvalidHttpStatusException
-    public void setStatus(String status) throws Exception {
-
+    public void setStatus(String status) {
         this.setStatus(HttpStatus.valueOf(Integer.parseInt(status)));
-
-        if (status == null)
-            throw new Exception();
     }
 
     public HttpMethod getMethod() {
