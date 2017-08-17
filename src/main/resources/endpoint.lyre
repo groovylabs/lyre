@@ -1,0 +1,14 @@
+GET /api/ping:
+  response:
+    data: GET PONG
+    status: 200
+
+GET /test/livereload:
+  response:
+    data: GET LIVERELOAD
+    status: 200
+
+GET /test/livereload1:
+  response:
+    data: GET LIVERELOAD 1111123
+    status: 200
