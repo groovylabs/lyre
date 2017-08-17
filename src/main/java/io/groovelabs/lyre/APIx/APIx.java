@@ -1,7 +1,7 @@
 package io.groovelabs.lyre.APIx;
 
-import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.APIx.samples.PingService;
+import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
 import io.groovelabs.lyre.interpreter.Interpreter;
 import org.glassfish.jersey.process.Inflector;
@@ -15,35 +15,33 @@ import javax.ws.rs.core.Response;
 @Component
 public class APIx extends ResourceConfig {
 
+    Interpreter interpreter;
+
     public APIx() {
+        interpreter = new Interpreter(this);
 
-        Interpreter interpreter = new Interpreter();
+        //Default resources registration
+        register(PingService.class);
+    }
 
-        try {
+    public void registerResources(Bundle bundle) {
 
-            Bundle bundle = interpreter.interpret();
+        for (Endpoint endpoint : bundle.getList()) {
 
-            for (Endpoint endpoint : bundle.getList()) {
+            Resource.Builder resourceBuilder =
+                Resource.builder().path(endpoint.getPath());
 
-                Resource.Builder resourceBuilder =
-                    Resource.builder().path(endpoint.getPath());
+            resourceBuilder.addMethod(endpoint.getMethod().name())
+                .produces("text/plain")
+                .handledBy(new Inflector<ContainerRequestContext, Object>() {
+                    @Override
+                    public Response apply(ContainerRequestContext containerRequestContext) {
+                        return Response.status(endpoint.getResponse().getStatus().value()).entity(endpoint.getData()).build();
+                    }
+                });
 
-                resourceBuilder.addMethod(endpoint.getMethod().name())
-                    .produces("text/plain")
-                    .handledBy(new Inflector<ContainerRequestContext, Object>() {
-                        @Override
-                        public Response apply(ContainerRequestContext containerRequestContext) {
-                            return Response.status(endpoint.getResponse().getStatus().value()).entity(endpoint.getData()).build();
-                        }
-                    });
-
-                registerResources(resourceBuilder.build());
-            }
-
-            register(PingService.class);
-
-        } catch (Exception e) {
-            System.out.println("APIx error");
+            registerResources(resourceBuilder.build());
         }
+
     }
 }

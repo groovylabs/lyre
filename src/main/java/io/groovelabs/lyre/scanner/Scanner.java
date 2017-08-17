@@ -1,18 +1,24 @@
 package io.groovelabs.lyre.scanner;
 
+import io.groovelabs.lyre.APIx.engine.Overlay;
+import io.groovelabs.lyre.reader.Reader;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@Component
-public class Scanner {
+public class Scanner extends Overlay<Reader> {
 
     private final static String pathLyreFiles = System.getProperty("user.dir") + "/src/main/resources";
     private List<File> lyreFiles = new ArrayList<>();
 
-    public List<File> scan() {
+    public Scanner(Reader reader) {
+        super(reader);
+        scan();
+    }
+
+    public void scan() {
         System.out.println("pathLyreFiles = " + pathLyreFiles);
 
         File folder = new File(pathLyreFiles);
@@ -23,7 +29,7 @@ public class Scanner {
         Thread checkLyreFiles = new Thread(new CheckLyreFilesThread(lyreFiles));
         checkLyreFiles.start();
 
-        return lyreFiles;
+        overlay().read(lyreFiles);
     }
 
     private void recursiveSearchLyreFile(File[] listOfFiles) {

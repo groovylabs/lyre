@@ -1,7 +1,10 @@
+
 package io.groovelabs.lyre.interpreter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.groovelabs.lyre.APIx.APIx;
+import io.groovelabs.lyre.APIx.engine.Overlay;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
 import io.groovelabs.lyre.reader.Reader;
@@ -9,20 +12,19 @@ import io.groovelabs.lyre.reader.Reader;
 import java.util.List;
 import java.util.Map;
 
-
-public class Interpreter {
+public class Interpreter extends Overlay<APIx> {
 
     private Reader reader;
 
-    public Interpreter() {
-        reader = new Reader();
+    public Interpreter(APIx apix) {
+        super(apix);
+
+        reader = new Reader(this);
     }
 
-    public Bundle interpret() throws Exception {
+    public void interpret(List<ObjectNode> nodes) {
 
         Bundle bundle = new Bundle();
-
-        List<ObjectNode> nodes = reader.read();
 
         for (ObjectNode parentNode : nodes) {
             parentNode.fields().forEachRemaining(entry -> {
@@ -40,10 +42,10 @@ public class Interpreter {
             });
         }
 
-        return bundle;
+        overlay().registerResources(bundle);
     }
 
-    public void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level level) {
+    private void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level level) {
 
         switch (level) {
             case ENDPOINT:

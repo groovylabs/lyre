@@ -8,7 +8,7 @@ POST /api/ping:
         data: POST PONG
         status: 200
 
-/api/ping2:
+GET /api/ping2:
     method: GET
     response:
         data: PING 2
