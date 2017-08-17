@@ -11,22 +11,18 @@ public class Endpoint {
 
     private String path;
 
-    private HttpStatus status;
-
     private String data;
 
     private Cookie cookie;
 
-    public Endpoint() {
+    private Response response;
 
+    public Endpoint() {
+        this.setResponse(new Response());
     }
 
     public void setMethod(String method) {
         this.setMethod(HttpMethod.resolve(method));
-    }
-
-    public void setStatus(String status) {
-        this.setStatus(HttpStatus.valueOf(Integer.parseInt(status)));
     }
 
     public HttpMethod getMethod() {
@@ -45,19 +41,27 @@ public class Endpoint {
         this.path = path;
     }
 
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(HttpStatus status) {
-        this.status = status;
-    }
-
     public String getData() {
         return data;
     }
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public Cookie getCookie() {
+        return cookie;
+    }
+
+    public void setCookie(Cookie cookie) {
+        this.cookie = cookie;
+    }
+
+    public Response getResponse() {
+        return response;
+    }
+
+    public void setResponse(Response response) {
+        this.response = response;
     }
 }

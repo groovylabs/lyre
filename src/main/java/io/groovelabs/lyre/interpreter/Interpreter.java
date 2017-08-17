@@ -68,7 +68,7 @@ public class Interpreter {
 
                 if (Property.STATUS.is(entry.getKey())) {
 
-                    endpoint.setStatus(entry.getValue().asText());
+                    endpoint.getResponse().setStatus(entry.getValue().asText());
 
                 } else if (Property.DATA.is(entry.getKey())) {
 

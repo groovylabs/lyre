@@ -33,7 +33,7 @@ public class APIx extends ResourceConfig {
                     .handledBy(new Inflector<ContainerRequestContext, Object>() {
                         @Override
                         public Response apply(ContainerRequestContext containerRequestContext) {
-                            return Response.status(endpoint.getStatus().value()).entity(endpoint.getData()).build();
+                            return Response.status(endpoint.getResponse().getStatus().value()).entity(endpoint.getData()).build();
                         }
                     });
 
