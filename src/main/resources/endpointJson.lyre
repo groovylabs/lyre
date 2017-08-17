@@ -1,0 +1,8 @@
+{
+    "GET /api/ping2" : {
+        "response" : {
+            "data" : "GET PRONG",
+            "status" : "200"
+        }
+    }
+}

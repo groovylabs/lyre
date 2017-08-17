@@ -1,5 +1,7 @@
 package io.groovelabs.lyre.scanner;
 
+import io.groovelabs.lyre.domain.LyreFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -9,9 +11,9 @@ public class CheckLyreFilesThread implements Runnable {
 
     private final static String pathLyreFiles = System.getProperty("user.dir") + "/src/main/resources";
     private final Path path = FileSystems.getDefault().getPath(pathLyreFiles);
-    private List<File> lyreFiles;
+    private List<LyreFile> lyreFiles;
 
-    public CheckLyreFilesThread(List<File> lyreFiles) {
+    public CheckLyreFilesThread(List<LyreFile> lyreFiles) {
         this.lyreFiles = lyreFiles;
     }
 
@@ -32,8 +34,8 @@ public class CheckLyreFilesThread implements Runnable {
                     System.out.println(changedFile);
 
                     if (changedFile.getName().endsWith(".lyre")) {
-                        for (File lyreFile : lyreFiles) {
-                            if (lyreFile.getName().equals(changedFile.getName())) {
+                        for (LyreFile lyreFile : lyreFiles) {
+                            if (lyreFile.getFile().getName().equals(changedFile.getName())) {
                                 System.out.println("Matched the files, do things with this! =]");
                                 break;
                             }

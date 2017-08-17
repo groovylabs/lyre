@@ -1,8 +1,13 @@
 package io.groovelabs.lyre.reader;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import io.groovelabs.lyre.domain.Endpoint;
+import io.groovelabs.lyre.domain.LyreFile;
+import io.groovelabs.lyre.domain.enums.FileType;
 import io.groovelabs.lyre.scanner.Scanner;
 
 import java.io.File;
@@ -21,18 +26,20 @@ public class Reader {
 
         List<ObjectNode> objectNodes = new ArrayList<>();
 
-//        ObjectNode objectNode = null;
-
-//        ClassLoader classLoader = getClass().getClassLoader();
-
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        ObjectMapper mapperJson = new ObjectMapper(new JsonFactory());
 
         try {
 
-            List<File> lyreFiles = scanner.scan();
+            List<LyreFile> lyreFiles = scanner.scan();
 
-            for (File lyreFile : lyreFiles)
-                objectNodes.add(mapper.readValue(lyreFile, ObjectNode.class));
+            for (LyreFile lyreFile : lyreFiles) {
+                if (lyreFile.getFileType().equals(FileType.YAML)) {
+                    objectNodes.add(mapper.readValue(lyreFile.getFile(), ObjectNode.class));
+                } else {
+                    objectNodes.add(mapperJson.readValue(lyreFile.getFile(), ObjectNode.class));
+                }
+            }
 
             System.out.println(objectNodes);
         } catch (Exception e) {
