@@ -23,21 +23,14 @@ response
   status=200
   data={config:"foo"}
   cookie= A | B | C
-  params
 
 endpoints:
-    GET /api/v{version}/search?words={list}:
+    GET /api/v{version}/search?data=1&q=2:
         value: (optional) /search?words={list}
         method: (required or implicit)
-        data: (optional) data put on body of http request.
+        data:
         cookie: (optional) cookies sent, can use params as info.
-        params: (optional)
-            param:
-            param:
         response:
             status:
             data:
             cookie:
-            params:
-                param:
-                param:
