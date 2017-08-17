@@ -20,6 +20,9 @@ public class Scanner {
 
         recursiveSearchLyreFile(listOfFiles);
 
+        Thread checkLyreFiles = new Thread(new CheckLyreFilesThread(lyreFiles));
+        checkLyreFiles.start();
+
         return lyreFiles;
     }
 
