@@ -20,6 +20,10 @@ public class Interpreter extends Overlay<APIx> {
 
     private String fileName;
 
+    private boolean update = false;
+
+    private Bundle bundle = new Bundle();
+
     public Interpreter(APIx apix) {
         super(apix);
 
@@ -27,8 +31,6 @@ public class Interpreter extends Overlay<APIx> {
     }
 
     public void interpret(Map<String, ObjectNode> nodes) {
-
-        Bundle bundle = new Bundle();
 
         for (Map.Entry<String, ObjectNode> object : nodes.entrySet()) {
 
@@ -42,7 +44,7 @@ public class Interpreter extends Overlay<APIx> {
                 try {
                     this.parse(endpoint, entry, Level.ENDPOINT);
 
-                    if (Validator.integrity(fileName, endpoint, bundle.getList()))
+                    if (Validator.integrity(fileName, endpoint, bundle.getList(), update))
                         bundle.add(endpoint);
 
                 } catch (Exception e) {
@@ -52,6 +54,8 @@ public class Interpreter extends Overlay<APIx> {
             });
 
         }
+
+        update = true;
 
         overlay().boot(bundle);
     }
