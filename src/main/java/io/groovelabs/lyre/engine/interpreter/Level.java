@@ -1,4 +1,4 @@
-package io.groovelabs.lyre.interpreter;
+package io.groovelabs.lyre.engine.interpreter;
 
 public enum Level {
 

@@ -1,15 +1,14 @@
 
-package io.groovelabs.lyre.interpreter;
+package io.groovelabs.lyre.engine.interpreter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.groovelabs.lyre.APIx.APIx;
-import io.groovelabs.lyre.APIx.engine.Overlay;
+import io.groovelabs.lyre.engine.APIx.APIx;
+import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
-import io.groovelabs.lyre.reader.Reader;
+import io.groovelabs.lyre.engine.reader.Reader;
 
-import java.util.List;
 import java.util.Map;
 
 public class Interpreter extends Overlay<APIx> {
@@ -22,7 +21,7 @@ public class Interpreter extends Overlay<APIx> {
         reader = new Reader(this);
     }
 
-    public void interpret(List<ObjectNode> nodes) {
+    public void interpret(ObjectNode... nodes) {
 
         Bundle bundle = new Bundle();
 
@@ -42,7 +41,7 @@ public class Interpreter extends Overlay<APIx> {
             });
         }
 
-        overlay().registerResources(bundle);
+        overlay().boot(bundle);
     }
 
     private void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level level) {

@@ -1,5 +1,6 @@
-package io.groovelabs.lyre;
+package io.groovelabs.lyre.config;
 
+import io.groovelabs.lyre.Lyre;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;

@@ -1,11 +1,11 @@
-package io.groovelabs.lyre.reader;
+package io.groovelabs.lyre.engine.reader;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import io.groovelabs.lyre.APIx.engine.Overlay;
-import io.groovelabs.lyre.interpreter.Interpreter;
-import io.groovelabs.lyre.scanner.Scanner;
+import io.groovelabs.lyre.engine.Overlay;
+import io.groovelabs.lyre.engine.interpreter.Interpreter;
+import io.groovelabs.lyre.engine.scanner.Scanner;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class Reader extends Overlay<Interpreter> {
         scanner = new Scanner(this);
     }
 
-    public void read(List<File> lyreFiles) {
+    public void read(File... files) {
 
         List<ObjectNode> objectNodes = new ArrayList<>();
 
@@ -29,8 +29,8 @@ public class Reader extends Overlay<Interpreter> {
 
         try {
 
-            for (File lyreFile : lyreFiles)
-                objectNodes.add(mapper.readValue(lyreFile, ObjectNode.class));
+            for (File file : files)
+                objectNodes.add(mapper.readValue(file, ObjectNode.class));
 
             System.out.println(objectNodes);
         } catch (Exception e) {
@@ -38,6 +38,6 @@ public class Reader extends Overlay<Interpreter> {
             e.printStackTrace();
         }
 
-        overlay().interpret(objectNodes);
+        overlay().interpret(objectNodes.toArray(new ObjectNode[]{}));
     }
 }

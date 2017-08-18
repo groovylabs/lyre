@@ -1,5 +1,6 @@
 package io.groovelabs.lyre;
 
+import io.groovelabs.lyre.config.LyreConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

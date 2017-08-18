@@ -1,4 +1,4 @@
-package io.groovelabs.lyre;
+package io.groovelabs.lyre.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -8,6 +8,8 @@ public class LyreProperties {
     private int port = 9000;
 
     private String contextPath = "";
+
+    public ScannerProperties scanner;
 
     public int getPort() {
         return port;
@@ -23,5 +25,13 @@ public class LyreProperties {
 
     public void setContextPath(String contextPath) {
         this.contextPath = contextPath;
+    }
+
+    public ScannerProperties getScanner() {
+        return scanner;
+    }
+
+    public void setScanner(ScannerProperties scanner) {
+        this.scanner = scanner;
     }
 }

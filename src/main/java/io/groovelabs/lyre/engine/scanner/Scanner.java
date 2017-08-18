@@ -1,8 +1,8 @@
-package io.groovelabs.lyre.scanner;
+package io.groovelabs.lyre.engine.scanner;
 
-import io.groovelabs.lyre.APIx.engine.Overlay;
-import io.groovelabs.lyre.reader.Reader;
-import org.springframework.stereotype.Component;
+import io.groovelabs.lyre.engine.Overlay;
+import io.groovelabs.lyre.config.ScannerProperties;
+import io.groovelabs.lyre.engine.reader.Reader;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,8 +10,7 @@ import java.util.List;
 
 public class Scanner extends Overlay<Reader> {
 
-    private final static String pathLyreFiles = System.getProperty("user.dir") + "/src/main/resources";
-    private List<File> lyreFiles = new ArrayList<>();
+    private List<File> files = new ArrayList<>();
 
     public Scanner(Reader reader) {
         super(reader);
@@ -19,23 +18,23 @@ public class Scanner extends Overlay<Reader> {
     }
 
     public void scan() {
-        System.out.println("pathLyreFiles = " + pathLyreFiles);
+        System.out.println("pathLyreFiles = " + ScannerProperties.path);
 
-        File folder = new File(pathLyreFiles);
+        File folder = new File(ScannerProperties.path);
         File[] listOfFiles = folder.listFiles();
 
         recursiveSearchLyreFile(listOfFiles);
 
-        Thread checkLyreFiles = new Thread(new CheckLyreFilesThread(lyreFiles));
+        Thread checkLyreFiles = new Thread(new Watcher(this, files));
         checkLyreFiles.start();
 
-        overlay().read(lyreFiles);
+        overlay().read(files.toArray(new File[]{}));
     }
 
     private void recursiveSearchLyreFile(File[] listOfFiles) {
         for (File fileOrFolder : listOfFiles) {
             if (fileOrFolder.isFile() && fileOrFolder.getName().endsWith(".lyre"))
-                lyreFiles.add(fileOrFolder);
+                files.add(fileOrFolder);
             else if (fileOrFolder.isDirectory())
                 recursiveSearchLyreFile(fileOrFolder.listFiles());
         }

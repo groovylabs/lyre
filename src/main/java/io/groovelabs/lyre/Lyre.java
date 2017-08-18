@@ -1,5 +1,9 @@
 package io.groovelabs.lyre;
 
+import io.groovelabs.lyre.config.LyreProperties;
+import io.groovelabs.lyre.engine.APIx.APIx;
+import org.glassfish.jersey.server.spi.Container;
+import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +23,7 @@ public class Lyre {
     }
 
     @Bean
-    public EmbeddedServletContainerCustomizer containerCustomizer() {
+    public EmbeddedServletContainerCustomizer embeddedServletContainerCustomizer() {
         return (container -> {
             container.setContextPath(lyreProperties.getContextPath());
             container.setPort(lyreProperties.getPort());
