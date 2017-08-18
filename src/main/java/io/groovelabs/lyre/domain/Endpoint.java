@@ -17,6 +17,8 @@ public class Endpoint {
 
     private Response response;
 
+    private String fileName;
+
     public Endpoint() {
         this.setResponse(new Response());
     }
@@ -63,5 +65,13 @@ public class Endpoint {
 
     public void setResponse(Response response) {
         this.response = response;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }
