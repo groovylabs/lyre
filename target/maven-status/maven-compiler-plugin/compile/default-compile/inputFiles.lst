@@ -9,7 +9,6 @@
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/config/LyreConfiguration.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/Overlay.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/domain/Response.java
-/home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/interpreter/Validator.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/scanner/Watcher.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/interpreter/Property.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/domain/Bundle.java

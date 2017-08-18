@@ -1,4 +1,4 @@
-GET /api/ping:
+GET /api/ping1:
     test: QWER
     response:
         data: PING

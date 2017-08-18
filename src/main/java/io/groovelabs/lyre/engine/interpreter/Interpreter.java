@@ -73,40 +73,13 @@ public class Interpreter extends Overlay<APIx> {
                 endpoint.setFileName(fileName);
 
                 entry.getValue().fields().forEachRemaining(node ->
-                    this.parse(endpoint, node, Level.PROPERTY));
+                    this.parse(endpoint, node, Level.REQUEST));
 
                 break;
 
-            case RESPONSE:
+            case REQUEST:
 
-                // TODO refact it to set status and data inside Response object (data can not be replaced).
-
-                if (Property.STATUS.is(entry.getKey())) {
-
-                    endpoint.getResponse().setStatus(entry.getValue().asText());
-
-                } else if (Property.PRODUCES.is(entry.getKey())) {
-
-                    endpoint.getResponse().setProduces(entry.getValue().asText());
-
-                } else if (Property.COOKIE.is(entry.getKey())) {
-
-                    // TODO implement cookie parser
-
-                } else {
-                    LOGGER.warn("Unrecognized element [{}] on [{}] level, inside file: [{}]", entry.getKey(), level, fileName);
-                }
-
-                break;
-
-            case PROPERTY:
-
-                if (Property.PARAMS.is(entry.getKey())) {
-
-                    entry.getValue().fields().forEachRemaining(node ->
-                        this.parse(endpoint, node, Level.PARAMETER));
-
-                } else if (Property.VALUE.is(entry.getKey())) {
+                if (Property.VALUE.is(entry.getKey())) {
 
                     endpoint.setPath(endpoint.getPath() + entry.getValue().asText());
 
@@ -125,6 +98,29 @@ public class Interpreter extends Overlay<APIx> {
 
                 } else {
                     LOGGER.warn("Unrecognized element: [{}] on [{}] level, inside file: [{}]", entry.getKey(), level, fileName);
+                }
+
+                break;
+            case RESPONSE:
+
+                if (Property.STATUS.is(entry.getKey())) {
+
+                    endpoint.getResponse().setStatus(entry.getValue().asText());
+
+                } else if (Property.PRODUCES.is(entry.getKey())) {
+
+                    endpoint.getResponse().setProduces(entry.getValue().asText());
+
+                } else if (Property.DATA.is(entry.getKey())) {
+
+                    endpoint.getResponse().setData(entry.getValue().asText());
+
+                } else if (Property.COOKIE.is(entry.getKey())) {
+
+                    // TODO implement cookie parser
+
+                } else {
+                    LOGGER.warn("Unrecognized element [{}] on [{}] level, inside file: [{}]", entry.getKey(), level, fileName);
                 }
 
                 break;

@@ -1,15 +1,22 @@
 package io.groovelabs.lyre;
 
 import io.groovelabs.lyre.config.LyreProperties;
+import io.groovelabs.lyre.engine.APIx.APIx;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jersey.JerseyProperties;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.RegistrationBean;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+
+import java.util.Map;
 
 @SpringBootApplication
 @EnableConfigurationProperties(LyreProperties.class)
@@ -30,6 +37,23 @@ public class Lyre {
             container.setContextPath(lyreProperties.getContextPath());
             container.setPort(lyreProperties.getPort());
         });
+    }
+
+    @Bean
+    public ServletRegistrationBean jerseyServletRegistration(
+        JerseyProperties jerseyProperties, ResourceConfig config) {
+
+        ServletRegistrationBean registration = new ServletRegistrationBean(
+            new ServletContainer(config));
+
+        for (Map.Entry<String, String> entry : jerseyProperties.getInit().entrySet()) {
+            registration.addInitParameter(entry.getKey(), entry.getValue());
+        }
+
+        registration.setName(APIx.class.getName());
+        registration.setLoadOnStartup(1);
+        return registration;
+
     }
 
 }

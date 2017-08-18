@@ -2,9 +2,9 @@ package io.groovelabs.lyre.engine.interpreter;
 
 public enum Level {
 
-    ENDPOINT(Property.VALUE, Property.METHOD, Property.CONSUMES, Property.RESPONSE),
+    ENDPOINT,
+    REQUEST(Property.VALUE, Property.METHOD, Property.CONSUMES, Property.RESPONSE),
     RESPONSE(Property.STATUS, Property.HEADER, Property.DATA, Property.COOKIE),
-    PROPERTY(Property.values()),
     PARAMETER();
 
     private Property[] properties;
