@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Bundle {
 
-    List<Endpoint> list = new ArrayList<>();
+    private List<Endpoint> list = new ArrayList<>();
 
     public Bundle() {
 

@@ -11,9 +11,9 @@ public class CheckLyreFilesThread implements Runnable {
 
     private final static String pathLyreFiles = System.getProperty("user.dir") + "/src/main/resources";
     private final Path path = FileSystems.getDefault().getPath(pathLyreFiles);
-    private List<LyreFile> lyreFiles;
+    private List<File> lyreFiles;
 
-    public CheckLyreFilesThread(List<LyreFile> lyreFiles) {
+    public CheckLyreFilesThread(List<File> lyreFiles) {
         this.lyreFiles = lyreFiles;
     }
 
@@ -34,8 +34,8 @@ public class CheckLyreFilesThread implements Runnable {
                     System.out.println(changedFile);
 
                     if (changedFile.getName().endsWith(".lyre")) {
-                        for (LyreFile lyreFile : lyreFiles) {
-                            if (lyreFile.getFile().getName().equals(changedFile.getName())) {
+                        for (File lyreFile : lyreFiles) {
+                            if (lyreFile.getName().equals(changedFile.getName())) {
                                 System.out.println("Matched the files, do things with this! =]");
                                 break;
                             }

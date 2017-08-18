@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
 import io.groovelabs.lyre.reader.Reader;
+import io.groovelabs.lyre.validator.Validator;
 
-import java.util.List;
 import java.util.Map;
 
 
@@ -22,28 +22,39 @@ public class Interpreter {
 
         Bundle bundle = new Bundle();
 
-        List<ObjectNode> nodes = reader.read();
+        Map<String, ObjectNode> nodes = reader.read();
 
-        for (ObjectNode parentNode : nodes) {
+        for (Map.Entry<String, ObjectNode> object : nodes.entrySet()) {
+
+            String fileName = object.getKey();
+            ObjectNode parentNode = object.getValue();
+
             parentNode.fields().forEachRemaining(entry -> {
 
                 Endpoint endpoint = new Endpoint();
 
                 try {
-                    this.parse(endpoint, entry, Level.ENDPOINT);
+                    this.parse(endpoint, entry, Level.ENDPOINT, fileName);
+
+                    if (Validator.integrity(fileName, endpoint, bundle.getList()))
+                        bundle.add(endpoint);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                bundle.add(endpoint);
-
             });
+
         }
+
+//        for (ObjectNode parentNode : nodes) {
+
+//        }
 
         return bundle;
     }
 
-    public void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level level) {
+    public void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level level, String fileName) {
 
         switch (level) {
             case ENDPOINT:
@@ -57,8 +68,10 @@ public class Interpreter {
                     endpoint.setPath(words[1]);
                 }
 
+                endpoint.setFileName(fileName);
+
                 entry.getValue().fields().forEachRemaining(node ->
-                    this.parse(endpoint, node, Level.PROPERTY));
+                    this.parse(endpoint, node, Level.PROPERTY, fileName));
 
                 break;
 
@@ -81,7 +94,7 @@ public class Interpreter {
                 if (Property.PARAMS.is(entry.getKey())) {
 
                     entry.getValue().fields().forEachRemaining(node ->
-                        this.parse(endpoint, node, Level.PARAMETER));
+                        this.parse(endpoint, node, Level.PARAMETER, fileName));
 
                 } else if (Property.VALUE.is(entry.getKey())) {
 
@@ -102,7 +115,7 @@ public class Interpreter {
                 } else if (Property.RESPONSE.is(entry.getKey())) {
 
                     entry.getValue().fields().forEachRemaining(node ->
-                        this.parse(endpoint, node, Level.RESPONSE));
+                        this.parse(endpoint, node, Level.RESPONSE, fileName));
 
                 } else {
 
