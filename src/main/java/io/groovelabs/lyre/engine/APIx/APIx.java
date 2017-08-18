@@ -71,7 +71,8 @@ public class APIx extends ResourceConfig {
                 Resource.builder().path(endpoint.getPath());
 
             resourceBuilder.addMethod(endpoint.getMethod().name())
-                .produces("text/plain")
+                .consumes(endpoint.getConsumes())
+                .produces(endpoint.getResponse().getProduces())
                 .handledBy(new Inflector<ContainerRequestContext, Object>() {
                     @Override
                     public Response apply(ContainerRequestContext containerRequestContext) {

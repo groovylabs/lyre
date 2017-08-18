@@ -2,16 +2,23 @@ package io.groovelabs.lyre.engine.interpreter;
 
 public enum Level {
 
-    ENDPOINT(1), RESPONSE(1), PROPERTY(2), PARAMETER(3);
+    ENDPOINT(Property.VALUE, Property.METHOD, Property.CONSUMES, Property.RESPONSE),
+    RESPONSE(Property.STATUS, Property.HEADER, Property.DATA, Property.COOKIE),
+    PROPERTY(Property.values()),
+    PARAMETER();
 
-    private final Integer index;
+    private Property[] properties;
 
-    private Integer index() {
-        return this.index;
+    Level(Property... properties) {
+        this.properties = properties;
     }
 
-    Level(Integer index) {
-        this.index = index;
+    public Property has(String property) {
+        for (Property prop : properties) {
+            if (prop.is(property))
+                return prop;
+        }
+        return null;
     }
 
 }

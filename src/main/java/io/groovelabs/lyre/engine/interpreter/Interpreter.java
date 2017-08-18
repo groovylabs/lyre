@@ -85,9 +85,10 @@ public class Interpreter extends Overlay<APIx> {
 
                     endpoint.getResponse().setStatus(entry.getValue().asText());
 
-                } else if (Property.DATA.is(entry.getKey())) {
+                } else if (Property.PRODUCES.is(entry.getKey())) {
 
-                    endpoint.getResponse().setData(entry.getValue().asText());
+                    endpoint.getResponse().setProduces(entry.getValue().asText());
+
                 } else if (Property.COOKIE.is(entry.getKey())) {
 
                     // TODO implement cookie parser
@@ -112,6 +113,10 @@ public class Interpreter extends Overlay<APIx> {
                 } else if (Property.METHOD.is(entry.getKey())) {
 
                     endpoint.setMethod(entry.getValue().asText());
+
+                } else if (Property.CONSUMES.is(entry.getKey())) {
+
+                    endpoint.setConsumes(entry.getValue().asText());
 
                 } else if (Property.RESPONSE.is(entry.getKey())) {
 

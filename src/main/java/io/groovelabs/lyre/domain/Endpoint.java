@@ -10,6 +10,8 @@ public class Endpoint {
 
     private String path;
 
+    private String consumes = "*/*";
+
     private Cookie cookie;
 
     private Response response;
@@ -38,6 +40,14 @@ public class Endpoint {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public String getConsumes() {
+        return consumes;
+    }
+
+    public void setConsumes(String consumes) {
+        this.consumes = consumes;
     }
 
     public Cookie getCookie() {
