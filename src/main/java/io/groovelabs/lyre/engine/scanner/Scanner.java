@@ -18,7 +18,7 @@ public class Scanner extends Overlay<Reader> {
     }
 
     public void scan() {
-        System.out.println("pathLyreFiles = " + ScannerProperties.path);
+        System.out.println("resources path = " + ScannerProperties.path);
 
         File folder = new File(ScannerProperties.path);
         File[] listOfFiles = folder.listFiles();

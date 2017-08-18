@@ -3,6 +3,8 @@ package io.groovelabs.lyre.engine.scanner;
 import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.config.ScannerProperties;
 
+import io.groovelabs.lyre.domain.LyreFile;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;

@@ -7,6 +7,7 @@ import io.groovelabs.lyre.engine.APIx.APIx;
 import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
+import io.groovelabs.lyre.validator.Validator;
 import io.groovelabs.lyre.engine.reader.Reader;
 
 import java.util.Map;
@@ -15,30 +16,39 @@ public class Interpreter extends Overlay<APIx> {
 
     private Reader reader;
 
+    private String fileName;
+
     public Interpreter(APIx apix) {
         super(apix);
 
         reader = new Reader(this);
     }
 
-    public void interpret(ObjectNode... nodes) {
+    public void interpret(Map<String, ObjectNode> nodes) {
 
         Bundle bundle = new Bundle();
 
-        for (ObjectNode parentNode : nodes) {
+        for (Map.Entry<String, ObjectNode> object : nodes.entrySet()) {
+
+            fileName = object.getKey();
+            ObjectNode parentNode = object.getValue();
+
             parentNode.fields().forEachRemaining(entry -> {
 
                 Endpoint endpoint = new Endpoint();
 
                 try {
                     this.parse(endpoint, entry, Level.ENDPOINT);
+
+                    if (Validator.integrity(fileName, endpoint, bundle.getList()))
+                        bundle.add(endpoint);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                bundle.add(endpoint);
-
             });
+
         }
 
         overlay().boot(bundle);
@@ -57,6 +67,8 @@ public class Interpreter extends Overlay<APIx> {
                     endpoint.setMethod(words[0]);
                     endpoint.setPath(words[1]);
                 }
+
+                endpoint.setFileName(fileName);
 
                 entry.getValue().fields().forEachRemaining(node ->
                     this.parse(endpoint, node, Level.PROPERTY));

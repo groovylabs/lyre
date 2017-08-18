@@ -4,7 +4,7 @@ GET /api/ping:
         status: 200
 
 
-POST /api/ping
+POST /api/ping:
     response:
         data: POST PONG
         status: 200
