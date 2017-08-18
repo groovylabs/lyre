@@ -1,7 +1,6 @@
 package io.groovelabs.lyre.domain;
 
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 
 import javax.ws.rs.core.Cookie;
 

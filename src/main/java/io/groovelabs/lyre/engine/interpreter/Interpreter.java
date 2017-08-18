@@ -3,25 +3,27 @@ package io.groovelabs.lyre.engine.interpreter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.groovelabs.lyre.engine.APIx.APIx;
-import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
-import io.groovelabs.lyre.validator.Validator;
+import io.groovelabs.lyre.engine.APIx.APIx;
+import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.engine.reader.Reader;
+import io.groovelabs.lyre.validator.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
 public class Interpreter extends Overlay<APIx> {
 
-    private Reader reader;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Interpreter.class);
 
     private String fileName;
 
     public Interpreter(APIx apix) {
         super(apix);
 
-        reader = new Reader(this);
+        new Reader(this);
     }
 
     public void interpret(Map<String, ObjectNode> nodes) {

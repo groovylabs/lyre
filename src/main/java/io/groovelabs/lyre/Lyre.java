@@ -1,9 +1,8 @@
 package io.groovelabs.lyre;
 
 import io.groovelabs.lyre.config.LyreProperties;
-import io.groovelabs.lyre.engine.APIx.APIx;
-import org.glassfish.jersey.server.spi.Container;
-import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +13,8 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 @EnableConfigurationProperties(LyreProperties.class)
 public class Lyre {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Lyre.class);
 
     @Autowired
     private LyreProperties lyreProperties;

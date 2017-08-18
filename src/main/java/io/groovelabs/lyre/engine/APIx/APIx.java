@@ -4,12 +4,13 @@ import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
 import io.groovelabs.lyre.engine.interpreter.Interpreter;
 import org.glassfish.hk2.api.Immediate;
-import org.glassfish.hk2.utilities.ServiceLocatorUtilities;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
 import org.glassfish.jersey.server.spi.Container;
 import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.container.ContainerRequestContext;
@@ -19,13 +20,13 @@ import javax.ws.rs.core.Response;
 @Component
 public class APIx extends ResourceConfig {
 
-    static Container container;
+    private static final Logger LOGGER = LoggerFactory.getLogger(APIx.class);
 
-    Interpreter interpreter;
+    private static Container container;
 
     public APIx() {
         config(this);
-        interpreter = new Interpreter(this);
+        new Interpreter(this);
     }
 
 

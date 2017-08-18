@@ -1,9 +1,7 @@
 package io.groovelabs.lyre.engine.scanner;
 
-import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.config.ScannerProperties;
-
-import io.groovelabs.lyre.domain.LyreFile;
+import io.groovelabs.lyre.engine.Overlay;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,7 +32,6 @@ public class Watcher extends Overlay<Scanner> implements Runnable {
 
                 for (WatchEvent<?> event : wk.pollEvents()) {
 
-                    //we only register "ENTRY_MODIFY" so the context is always a Path.
                     final Path changedPath = (Path) event.context();
                     File changedFile = new File(changedPath.getFileName().toString());
                     System.out.println(changedFile);
@@ -53,7 +50,6 @@ public class Watcher extends Overlay<Scanner> implements Runnable {
                     }
                 }
 
-                // reset the key
                 wk.reset();
             }
         } catch (IOException | InterruptedException e) {
