@@ -87,9 +87,16 @@ public class Interpreter extends Overlay<APIx> {
 
                 } else if (Property.DATA.is(entry.getKey())) {
 
-                    endpoint.setData(entry.getValue().asText());
+                    endpoint.getResponse().setData(entry.getValue().asText());
+                } else if (Property.COOKIE.is(entry.getKey())) {
 
+                    // TODO implement cookie parser
+
+                } else {
+                    LOGGER.warn("Unrecognized element [{}] on [{}] level, inside file: [{}]", entry.getKey(), level, fileName);
                 }
+
+                break;
 
             case PROPERTY:
 
@@ -106,21 +113,13 @@ public class Interpreter extends Overlay<APIx> {
 
                     endpoint.setMethod(entry.getValue().asText());
 
-                } else if (Property.DATA.is(entry.getKey())) {
-
-                    endpoint.setData(entry.getValue().asText());
-
-                } else if (Property.COOKIE.is(entry.getKey())) {
-
-                    // TODO implement cookie parser
-
                 } else if (Property.RESPONSE.is(entry.getKey())) {
 
                     entry.getValue().fields().forEachRemaining(node ->
                         this.parse(endpoint, node, Level.RESPONSE));
 
                 } else {
-
+                    LOGGER.warn("Unrecognized element: [{}] on [{}] level, inside file: [{}]", entry.getKey(), level, fileName);
                 }
 
                 break;

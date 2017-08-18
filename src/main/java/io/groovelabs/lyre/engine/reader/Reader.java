@@ -42,10 +42,10 @@ public class Reader extends Overlay<Interpreter> {
         ObjectMapper mapperJson = new ObjectMapper(new JsonFactory());
 
         try {
-            objectNodes.put(lyreFile.getName(), mapper.readValue(lyreFile, ObjectNode.class));
+            objectNodes.put(lyreFile.getPath(), mapper.readValue(lyreFile, ObjectNode.class));
         } catch (JsonParseException | JsonMappingException fileMapperException) {
             try {
-                objectNodes.put(lyreFile.getName(), mapperJson.readValue(lyreFile, ObjectNode.class));
+                objectNodes.put(lyreFile.getPath(), mapperJson.readValue(lyreFile, ObjectNode.class));
             } catch (JsonParseException | JsonMappingException fileMapperException2) {
                 LOGGER.error("Error to mount JSON or YAML from file [{}]", lyreFile.getName());
             } catch (IOException io2) {

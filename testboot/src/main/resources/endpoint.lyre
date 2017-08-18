@@ -1,8 +1,9 @@
 GET /api/ping:
+    test: QWER
     response:
         data: PING
         status: 200
-
+        error: err
 
 POST /api/ping:
     response:

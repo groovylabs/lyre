@@ -1,6 +1,7 @@
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/APIx/samples/PingService.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/reader/Reader.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/interpreter/Level.java
+/home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/domain/enums/FileType.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/APIx/APIx.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/LyreApplication.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/interpreter/Interpreter.java
@@ -9,11 +10,11 @@
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/Overlay.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/domain/Response.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/interpreter/Validator.java
-/home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/domain/Parameter.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/scanner/Watcher.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/interpreter/Property.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/domain/Bundle.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/config/ScannerProperties.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/Lyre.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/domain/Endpoint.java
+/home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/validator/Validator.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/io/groovelabs/lyre/engine/scanner/Scanner.java
