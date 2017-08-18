@@ -1,7 +1,6 @@
 package io.groovelabs.lyre.domain;
 
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 
 import javax.ws.rs.core.Cookie;
 
@@ -11,7 +10,7 @@ public class Endpoint {
 
     private String path;
 
-    private String data;
+    private String consumes = "*/*";
 
     private Cookie cookie;
 
@@ -43,12 +42,12 @@ public class Endpoint {
         this.path = path;
     }
 
-    public String getData() {
-        return data;
+    public String getConsumes() {
+        return consumes;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setConsumes(String consumes) {
+        this.consumes = consumes;
     }
 
     public Cookie getCookie() {

@@ -3,18 +3,20 @@ package io.groovelabs.lyre.engine.interpreter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import io.groovelabs.lyre.engine.APIx.APIx;
-import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
-import io.groovelabs.lyre.validator.Validator;
+import io.groovelabs.lyre.engine.APIx.APIx;
+import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.engine.reader.Reader;
+import io.groovelabs.lyre.validator.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
 public class Interpreter extends Overlay<APIx> {
 
-    private Reader reader;
+    private static final Logger LOGGER = LoggerFactory.getLogger(Interpreter.class);
 
     private String fileName;
 
@@ -25,7 +27,7 @@ public class Interpreter extends Overlay<APIx> {
     public Interpreter(APIx apix) {
         super(apix);
 
-        reader = new Reader(this);
+        new Reader(this);
     }
 
     public void interpret(Map<String, ObjectNode> nodes) {
@@ -87,11 +89,19 @@ public class Interpreter extends Overlay<APIx> {
 
                     endpoint.getResponse().setStatus(entry.getValue().asText());
 
-                } else if (Property.DATA.is(entry.getKey())) {
+                } else if (Property.PRODUCES.is(entry.getKey())) {
 
-                    endpoint.setData(entry.getValue().asText());
+                    endpoint.getResponse().setProduces(entry.getValue().asText());
 
+                } else if (Property.COOKIE.is(entry.getKey())) {
+
+                    // TODO implement cookie parser
+
+                } else {
+                    LOGGER.warn("Unrecognized element [{}] on [{}] level, inside file: [{}]", entry.getKey(), level, fileName);
                 }
+
+                break;
 
             case PROPERTY:
 
@@ -108,13 +118,9 @@ public class Interpreter extends Overlay<APIx> {
 
                     endpoint.setMethod(entry.getValue().asText());
 
-                } else if (Property.DATA.is(entry.getKey())) {
+                } else if (Property.CONSUMES.is(entry.getKey())) {
 
-                    endpoint.setData(entry.getValue().asText());
-
-                } else if (Property.COOKIE.is(entry.getKey())) {
-
-                    // TODO implement cookie parser
+                    endpoint.setConsumes(entry.getValue().asText());
 
                 } else if (Property.RESPONSE.is(entry.getKey())) {
 
@@ -122,7 +128,7 @@ public class Interpreter extends Overlay<APIx> {
                         this.parse(endpoint, node, Level.RESPONSE));
 
                 } else {
-
+                    LOGGER.warn("Unrecognized element: [{}] on [{}] level, inside file: [{}]", entry.getKey(), level, fileName);
                 }
 
                 break;

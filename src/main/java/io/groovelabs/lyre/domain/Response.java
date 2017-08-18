@@ -8,10 +8,12 @@ public class Response {
 
     private String data;
 
+    private String produces = "*/*";
+
     public void setStatus(String status) {
         this.setStatus(HttpStatus.valueOf(Integer.parseInt(status)));
     }
-    
+
     public HttpStatus getStatus() {
         return status;
     }
@@ -26,5 +28,13 @@ public class Response {
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public String getProduces() {
+        return produces;
+    }
+
+    public void setProduces(String produces) {
+        this.produces = produces;
     }
 }

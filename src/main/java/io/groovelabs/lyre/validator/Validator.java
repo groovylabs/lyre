@@ -23,7 +23,7 @@ public class Validator {
 
         for (Endpoint savedEndpoint : savedEndpoints) {
             if (savedEndpoint.getMethod().equals(endpoint.getMethod()) && savedEndpoint.getPath().equals(endpoint.getPath())) {
-                LOGGER.error("Fail to insert the follow endpoint: [{} {} -> FILE [{}]]. Reason: Because this endpoint already exists in the file [{}]",
+                LOGGER.error("Fail to insert the follow endpoint: [{} {} -> FILE [{}]]. Reason: This endpoint already exists in the file [{}]",
                     endpoint.getMethod(), endpoint.getPath(), fileName, savedEndpoint.getFileName());
                 return false;
             }

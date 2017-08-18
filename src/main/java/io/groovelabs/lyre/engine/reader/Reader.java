@@ -6,11 +6,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.engine.interpreter.Interpreter;
 import io.groovelabs.lyre.engine.scanner.Scanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,12 +21,10 @@ public class Reader extends Overlay<Interpreter> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Reader.class);
 
-    private Scanner scanner;
-
     public Reader(Interpreter interpreter) {
         super(interpreter);
 
-        scanner = new Scanner(this);
+        new Scanner(this);
     }
 
     public void read(File... files) {
@@ -44,10 +42,10 @@ public class Reader extends Overlay<Interpreter> {
         ObjectMapper mapperJson = new ObjectMapper(new JsonFactory());
 
         try {
-            objectNodes.put(lyreFile.getName(), mapper.readValue(lyreFile, ObjectNode.class));
+            objectNodes.put(lyreFile.getPath(), mapper.readValue(lyreFile, ObjectNode.class));
         } catch (JsonParseException | JsonMappingException fileMapperException) {
             try {
-                objectNodes.put(lyreFile.getName(), mapperJson.readValue(lyreFile, ObjectNode.class));
+                objectNodes.put(lyreFile.getPath(), mapperJson.readValue(lyreFile, ObjectNode.class));
             } catch (JsonParseException | JsonMappingException fileMapperException2) {
                 LOGGER.error("Error to mount JSON or YAML from file [{}]", lyreFile.getName());
             } catch (IOException io2) {
