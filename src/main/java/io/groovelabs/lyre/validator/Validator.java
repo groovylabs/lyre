@@ -13,7 +13,10 @@ public class Validator {
     /**
      * Responsible to check the integrity of endpoint before insert it into list and verify if it's already been inserted.
      */
-    public static boolean integrity(String fileName, Endpoint endpoint, List<Endpoint> savedEndpoints) {
+    public static boolean integrity(String fileName, Endpoint endpoint, List<Endpoint> savedEndpoints, boolean updatable) {
+
+        if (updatable)
+            savedEndpoints.removeIf(itEndpoint -> itEndpoint.getMethod().equals(endpoint.getMethod()) && itEndpoint.getPath().equals(endpoint.getPath()));
 
         if (savedEndpoints.isEmpty())
             return true;
