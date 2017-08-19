@@ -96,6 +96,10 @@ public class Interpreter extends Overlay<APIx> {
 
                     endpoint.setConsumes(entry.getValue().asText());
 
+                } else if (Property.IDLE.is(entry.getKey())) {
+
+                    endpoint.setIdle(entry.getValue().asLong(-1));
+
                 } else if (Property.RESPONSE.is(entry.getKey())) {
 
                     entry.getValue().fields().forEachRemaining(node ->
@@ -132,11 +136,7 @@ public class Interpreter extends Overlay<APIx> {
                 break;
             case SETUP:
 
-                if (Property.IDLE.is(entry.getKey())) {
-
-                    endpoint.getSetup().setIdle(entry.getValue().asLong(-1));
-
-                } else if (Property.BUSY.is(entry.getKey())) {
+                if (Property.BUSY.is(entry.getKey())) {
 
                     // TODO factory to make Countdown
                     endpoint.getSetup().setCountdown(new Countdown(HttpStatus.TOO_MANY_REQUESTS, entry.getValue().asLong(-1)));

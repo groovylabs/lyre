@@ -14,6 +14,8 @@ public class Endpoint {
 
     private Cookie cookie;
 
+    private long idle = -1;
+
     private Response response;
 
     private Setup setup;
@@ -59,6 +61,14 @@ public class Endpoint {
 
     public void setCookie(Cookie cookie) {
         this.cookie = cookie;
+    }
+
+    public long getIdle() {
+        return idle;
+    }
+
+    public void setIdle(long idle) {
+        this.idle = idle;
     }
 
     public Response getResponse() {
