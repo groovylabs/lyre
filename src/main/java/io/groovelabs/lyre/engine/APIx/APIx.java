@@ -2,6 +2,7 @@ package io.groovelabs.lyre.engine.APIx;
 
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
+import io.groovelabs.lyre.engine.APIx.services.EndpointService;
 import io.groovelabs.lyre.engine.interpreter.Interpreter;
 import org.glassfish.hk2.api.Immediate;
 import org.glassfish.jersey.process.Inflector;
@@ -22,6 +23,9 @@ public class APIx extends ResourceConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(APIx.class);
 
+    // TODO need to be stored (memory, file, redis if configurable)
+    public static Bundle bundle = null;
+
     private static Container container;
 
     public APIx() {
@@ -31,6 +35,9 @@ public class APIx extends ResourceConfig {
 
 
     public void boot(Bundle bundle) {
+
+        APIx.bundle = bundle;
+
         if (APIx.container != null) {
             final ResourceConfig resourceConfig = this.createResources(bundle, null);
             APIx.container.reload(resourceConfig);
@@ -84,6 +91,8 @@ public class APIx extends ResourceConfig {
 
             resourceConfig.registerResources(resourceBuilder.build());
         }
+
+        resourceConfig.register(EndpointService.class);
 
         return resourceConfig;
     }

@@ -1,4 +1,4 @@
-package io.groovelabs.lyre.engine.APIx.samples;
+package io.groovelabs.lyre.engine.APIx.services;
 
 
 import org.springframework.stereotype.Component;
@@ -9,7 +9,7 @@ import javax.ws.rs.Path;
 
 @Component
 @Path(value = "/ping")
-public class PingService {
+public class HealthService {
 
     @GET
     @Consumes()
