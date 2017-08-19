@@ -2,7 +2,8 @@ package io.groovelabs.lyre.engine.interpreter;
 
 public enum Property {
 
-    VALUE, METHOD, COOKIE, PARAMS, RESPONSE, STATUS, CONSUMES, PRODUCES, HEADER, DATA;
+    VALUE, METHOD, PARAMS, RESPONSE, STATUS, CONSUMES, PRODUCES, HEADER, DATA,
+    SETUP, IDLE, BUSY, BROKEN, FORBIDDEN;
 
     public boolean is(String property) {
         return this.name().equalsIgnoreCase(property);

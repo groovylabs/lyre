@@ -4,7 +4,8 @@ public enum Level {
 
     ENDPOINT,
     REQUEST(Property.VALUE, Property.METHOD, Property.CONSUMES, Property.RESPONSE),
-    RESPONSE(Property.STATUS, Property.HEADER, Property.DATA, Property.COOKIE),
+    RESPONSE(Property.STATUS, Property.HEADER, Property.PRODUCES, Property.DATA),
+    SETUP(Property.IDLE, Property.BUSY, Property.BROKEN, Property.FORBIDDEN),
     PARAMETER();
 
     private Property[] properties;

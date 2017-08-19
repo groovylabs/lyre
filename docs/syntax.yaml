@@ -9,5 +9,13 @@ GET /api/v{version}/search?data=1&q=2:
         status:
         header:
             varN:
+        produces:
         data:
-        cookie:
+    setup:
+        idle: in milisseconds (timeout)
+        busy: returns http 429 (number of busy calls)
+        forbidden: return http 403 (forbidden) (number of busy calls)
+        broken: return http 500 (number of busy calls)
+        custom:
+            status:
+            calls:

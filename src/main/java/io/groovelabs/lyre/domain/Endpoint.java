@@ -16,10 +16,13 @@ public class Endpoint {
 
     private Response response;
 
+    private Setup setup;
+
     private String fileName;
 
     public Endpoint() {
         this.setResponse(new Response());
+        this.setSetup(new Setup());
     }
 
     public void setMethod(String method) {
@@ -64,6 +67,14 @@ public class Endpoint {
 
     public void setResponse(Response response) {
         this.response = response;
+    }
+
+    public Setup getSetup() {
+        return setup;
+    }
+
+    public void setSetup(Setup setup) {
+        this.setup = setup;
     }
 
     public String getFileName() {

@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
+import io.groovelabs.lyre.domain.setups.Countdown;
 import io.groovelabs.lyre.engine.APIx.APIx;
 import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.engine.reader.Reader;
 import io.groovelabs.lyre.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 
 import java.util.Map;
 
@@ -65,6 +67,8 @@ public class Interpreter extends Overlay<APIx> {
         switch (level) {
             case ENDPOINT:
 
+                endpoint.setFileName(fileName);
+
                 String[] words = entry.getKey().split(" ", 4);
 
                 if (explicit(entry.getKey())) {
@@ -74,13 +78,10 @@ public class Interpreter extends Overlay<APIx> {
                     endpoint.setPath(words[1]);
                 }
 
-                endpoint.setFileName(fileName);
-
                 entry.getValue().fields().forEachRemaining(node ->
                     this.parse(endpoint, node, Level.REQUEST));
 
                 break;
-
             case REQUEST:
 
                 if (Property.VALUE.is(entry.getKey())) {
@@ -99,6 +100,11 @@ public class Interpreter extends Overlay<APIx> {
 
                     entry.getValue().fields().forEachRemaining(node ->
                         this.parse(endpoint, node, Level.RESPONSE));
+
+                } else if (Property.SETUP.is(entry.getKey())) {
+
+                    entry.getValue().fields().forEachRemaining(node ->
+                        this.parse(endpoint, node, Level.SETUP));
 
                 } else {
                     LOGGER.warn("Unrecognized element: [{}] on [{}] level, inside file: [{}]", entry.getKey(), level, fileName);
@@ -119,15 +125,35 @@ public class Interpreter extends Overlay<APIx> {
 
                     endpoint.getResponse().setData(entry.getValue().asText());
 
-                } else if (Property.COOKIE.is(entry.getKey())) {
-
-                    // TODO implement cookie parser
-
                 } else {
                     LOGGER.warn("Unrecognized element [{}] on [{}] level, inside file: [{}]", entry.getKey(), level, fileName);
                 }
 
                 break;
+            case SETUP:
+
+                if (Property.IDLE.is(entry.getKey())) {
+
+                    endpoint.getSetup().setIdle(entry.getValue().asLong(-1));
+
+                } else if (Property.BUSY.is(entry.getKey())) {
+
+                    // TODO factory to make Countdown
+                    endpoint.getSetup().setCountdown(new Countdown(HttpStatus.TOO_MANY_REQUESTS, entry.getValue().asLong(-1)));
+
+                } else if (Property.BROKEN.is(entry.getKey())) {
+
+                    // TODO factory to make Countdown
+                    endpoint.getSetup().setCountdown(new Countdown(HttpStatus.INTERNAL_SERVER_ERROR, entry.getValue().asLong(-1)));
+
+                } else if (Property.FORBIDDEN.is(entry.getKey())) {
+
+                    // TODO factory to make Countdown
+                    endpoint.getSetup().setCountdown(new Countdown(HttpStatus.FORBIDDEN, entry.getValue().asLong(-1)));
+
+                } else {
+                    LOGGER.warn("Unrecognized element [{}] on [{}] level, inside file: [{}]", entry.getKey(), level, fileName);
+                }
 
             case PARAMETER:
                 break;

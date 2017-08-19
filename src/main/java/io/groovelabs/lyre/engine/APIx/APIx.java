@@ -2,6 +2,7 @@ package io.groovelabs.lyre.engine.APIx;
 
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
+import io.groovelabs.lyre.domain.setups.Countdown;
 import io.groovelabs.lyre.engine.APIx.services.EndpointService;
 import io.groovelabs.lyre.engine.interpreter.Interpreter;
 import org.glassfish.hk2.api.Immediate;
@@ -83,9 +84,29 @@ public class APIx extends ResourceConfig {
                 .handledBy(new Inflector<ContainerRequestContext, Object>() {
                     @Override
                     public Response apply(ContainerRequestContext containerRequestContext) {
-                        return Response
-                            .status(endpoint.getResponse().getStatus().value())
-                            .entity(endpoint.getResponse().getData()).build();
+
+                        Countdown countdown = endpoint.getSetup().getCountdown();
+
+                        if (countdown != null && countdown.getCalls() > 0) {
+                            countdown.decrease();
+                            return Response.status(endpoint.getSetup().getCountdown().getStatus().value()).build();
+                        } else {
+
+
+                            if (endpoint.getSetup().getIdle() > 0) {
+
+                                try {
+                                    Thread.sleep(endpoint.getSetup().getIdle());
+                                } catch (InterruptedException e) {
+
+                                }
+
+                            }
+
+                            return Response
+                                .status(endpoint.getResponse().getStatus().value())
+                                .entity(endpoint.getResponse().getData()).build();
+                        }
                     }
                 });
 

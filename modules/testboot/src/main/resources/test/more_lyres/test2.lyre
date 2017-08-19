@@ -1,4 +1,0 @@
-GET /test/lyre2:
-  response:
-    data: Test lyre archive 2
-    status: 200
