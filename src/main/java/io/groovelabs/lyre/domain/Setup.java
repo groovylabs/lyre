@@ -1,6 +1,6 @@
 package io.groovelabs.lyre.domain;
 
-import io.groovelabs.lyre.domain.setups.Countdown;
+import io.groovelabs.lyre.domain.appliers.Countdown;
 
 public class Setup {
 

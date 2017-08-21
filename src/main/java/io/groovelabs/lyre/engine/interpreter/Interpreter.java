@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
-import io.groovelabs.lyre.domain.setups.Countdown;
+import io.groovelabs.lyre.domain.appliers.Countdown;
 import io.groovelabs.lyre.engine.APIx.APIx;
 import io.groovelabs.lyre.engine.Overlay;
 import io.groovelabs.lyre.engine.reader.Reader;
@@ -98,7 +98,7 @@ public class Interpreter extends Overlay<APIx> {
 
                 } else if (Property.IDLE.is(entry.getKey())) {
 
-                    endpoint.setIdle(entry.getValue().asLong(-1));
+                    endpoint.getTimer().setIdle(entry.getValue().asLong(-1));
 
                 } else if (Property.RESPONSE.is(entry.getKey())) {
 

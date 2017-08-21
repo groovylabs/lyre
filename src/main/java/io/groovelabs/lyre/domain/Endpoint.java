@@ -1,5 +1,6 @@
 package io.groovelabs.lyre.domain;
 
+import io.groovelabs.lyre.domain.appliers.Timer;
 import org.springframework.http.HttpMethod;
 
 import javax.ws.rs.core.Cookie;
@@ -14,7 +15,7 @@ public class Endpoint {
 
     private Cookie cookie;
 
-    private long idle = -1;
+    private Timer timer;
 
     private Response response;
 
@@ -25,6 +26,7 @@ public class Endpoint {
     public Endpoint() {
         this.setResponse(new Response());
         this.setSetup(new Setup());
+        this.setTimer(new Timer());
     }
 
     public void setMethod(String method) {
@@ -63,12 +65,12 @@ public class Endpoint {
         this.cookie = cookie;
     }
 
-    public long getIdle() {
-        return idle;
+    public Timer getTimer() {
+        return timer;
     }
 
-    public void setIdle(long idle) {
-        this.idle = idle;
+    public void setTimer(Timer timer) {
+        this.timer = timer;
     }
 
     public Response getResponse() {

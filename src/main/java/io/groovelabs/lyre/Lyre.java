@@ -16,6 +16,8 @@ import org.springframework.boot.web.servlet.RegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
 
 @SpringBootApplication
@@ -35,6 +37,16 @@ public class Lyre {
     public EmbeddedServletContainerCustomizer embeddedServletContainerCustomizer() {
         return (container -> {
             container.setContextPath(lyreProperties.getContextPath());
+
+            if (!lyreProperties.isEnableRemoteConnections()) {
+                try {
+                    InetAddress inetAddress = InetAddress.getByAddress(new byte[]{127, 0, 0, 1});
+                    container.setAddress(inetAddress);
+                } catch (UnknownHostException e) {
+                    //supressed exception
+                }
+            }
+
             container.setPort(lyreProperties.getPort());
         });
     }

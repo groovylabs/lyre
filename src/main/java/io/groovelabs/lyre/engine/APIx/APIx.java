@@ -2,7 +2,7 @@ package io.groovelabs.lyre.engine.APIx;
 
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
-import io.groovelabs.lyre.domain.setups.Countdown;
+import io.groovelabs.lyre.domain.appliers.Countdown;
 import io.groovelabs.lyre.engine.APIx.services.EndpointService;
 import io.groovelabs.lyre.engine.interpreter.Interpreter;
 import org.glassfish.hk2.api.Immediate;
@@ -94,10 +94,10 @@ public class APIx extends ResourceConfig {
                                 .entity(countdown.getStatus().getReasonPhrase()).build();
                         } else {
 
-                            if (endpoint.getIdle() > 0) {
+                            if (endpoint.getTimer().idle() > 0) {
 
                                 try {
-                                    Thread.sleep(endpoint.getIdle());
+                                    Thread.sleep(endpoint.getTimer().idle());
                                 } catch (InterruptedException e) {
 
                                 }
