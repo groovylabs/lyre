@@ -1,8 +1,10 @@
-GET /api/ping1:
+GET /api/ping:
     idle: 1000
     response:
         data: PING
         status: 200
+    setup:
+        busy: 2
 
 POST /api/ping:
     response:

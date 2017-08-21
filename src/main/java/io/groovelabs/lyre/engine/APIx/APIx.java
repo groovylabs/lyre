@@ -89,9 +89,10 @@ public class APIx extends ResourceConfig {
 
                         if (countdown != null && countdown.getCalls() > 0) {
                             countdown.decrease();
-                            return Response.serverError().status(endpoint.getSetup().getCountdown().getStatus().value()).build();
+                            return Response
+                                .status(countdown.getStatus().value())
+                                .entity(countdown.getStatus().getReasonPhrase()).build();
                         } else {
-
 
                             if (endpoint.getIdle() > 0) {
 
