@@ -1,6 +1,7 @@
 package io.groovelabs.lyre;
 
 import io.groovelabs.lyre.config.LyreProperties;
+import io.groovelabs.lyre.config.NotFoundExceptionMapper;
 import io.groovelabs.lyre.engine.APIx.APIx;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
@@ -54,6 +55,8 @@ public class Lyre {
     @Bean
     public ServletRegistrationBean jerseyServletRegistration(
         JerseyProperties jerseyProperties, ResourceConfig config) {
+
+        config.register(NotFoundExceptionMapper.class);
 
         ServletRegistrationBean registration = new ServletRegistrationBean(
             new ServletContainer(config));
