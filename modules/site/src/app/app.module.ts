@@ -11,6 +11,10 @@ import {LogsPage} from '../pages/logs/logs';
 import {ScenariosPage} from '../pages/scenarios/scenarios';
 import {SettingsPage} from '../pages/settings/settings';
 
+import {Searchbar} from "../components/searchbar/searchbar";
+import {Filter} from "../components/filter/filter";
+import {EndpointList} from "../components/endpoint-list/endpoint-list";
+
 @NgModule({
     declarations: [
         MyApp,
@@ -18,7 +22,10 @@ import {SettingsPage} from '../pages/settings/settings';
         EndpointsPage,
         LogsPage,
         ScenariosPage,
-        SettingsPage
+        SettingsPage,
+        Searchbar,
+        Filter,
+        EndpointList
     ],
     imports: [
         BrowserModule,

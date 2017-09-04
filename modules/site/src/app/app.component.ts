@@ -8,12 +8,11 @@ import {LogsPage} from '../pages/logs/logs';
 import {ScenariosPage} from '../pages/scenarios/scenarios';
 import {SettingsPage} from '../pages/settings/settings';
 
-
 @Component({
     templateUrl: 'app.html'
 })
 export class MyApp {
-    rootPage: any = DashboardPage;
+    rootPage: any = EndpointsPage;
 
     constructor(platform: Platform, statusBar: StatusBar) {
         platform.ready().then(() => {

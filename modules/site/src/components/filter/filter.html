@@ -1,0 +1,15 @@
+<ion-list>
+    <ion-item>
+        <ion-label class="filter-title">HTTP</ion-label>
+        <ion-select class="filter-select" [(ngModel)]="filter" multiple="true" interface="popover" cancelText="Clean"
+                    okText="Select">
+            <ion-option value="nes">GET</ion-option>
+            <ion-option value="n64">POST</ion-option>
+            <ion-option value="ps">PUT</ion-option>
+            <ion-option value="genesis">DELETE</ion-option>
+            <ion-option value="saturn">HEAD</ion-option>
+            <ion-option value="snes">CONNECT</ion-option>
+            <ion-option value="snes">OPTIONS</ion-option>
+        </ion-select>
+    </ion-item>
+</ion-list>
