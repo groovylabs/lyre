@@ -11,19 +11,19 @@ import {Modules} from '../modules/modules';
 import {DashboardComponent} from '../views/dashboard/dashboard';
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        DashboardComponent
-    ],
-    imports: [
-        BrowserModule,
-        FormsModule,
-        HttpModule,
-        BrowserAnimationsModule,
-        Modules
-    ],
-    providers: [],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    DashboardComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpModule,
+    BrowserAnimationsModule,
+    Modules
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

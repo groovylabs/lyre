@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('dashboard App', () => {
+describe('lyredeck App', () => {
   let page: AppPage;
 
   beforeEach(() => {
