@@ -1,0 +1,44 @@
+<md-sidenav-container fullscreen>
+
+    <md-toolbar color="primary">
+
+        <button md-icon-button (click)="sidenav.open()">
+            <md-icon>more_vert</md-icon>
+        </button>
+
+    </md-toolbar>
+
+    <md-sidenav #sidenav class="sidebar">
+
+        <md-toolbar color="primary">
+            <h1>Menu</h1>
+        </md-toolbar>
+
+        <md-list>
+            <md-list-item> Dashboard </md-list-item>
+            <md-list-item> Endpoints </md-list-item>
+            <md-list-item> Settings </md-list-item>
+        </md-list>
+
+    </md-sidenav>
+
+    <div>
+        <button type="button" md-button (click)="sidenav.open()">
+            Open sidenav
+        </button>
+
+        <!--        <md-card>
+            <button md-button>All</button>
+            <button md-raised-button>Of</button>
+            <button md-raised-button color="primary">The</button>
+            <button md-raised-button color="accent">Buttons</button>
+        </md-card>
+
+        <span class="done">
+                <button md-fab>
+                  <md-icon>check circle</md-icon>
+                </button>
+            </span>-->
+    </div>
+
+</md-sidenav-container>
