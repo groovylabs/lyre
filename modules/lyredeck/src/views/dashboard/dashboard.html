@@ -10,8 +10,13 @@
 
     <md-sidenav #sidenav class="sidebar">
 
-        <md-toolbar color="primary">
+        <md-toolbar color="primary" (click)="sidenav.close()">
             <h1>Menu</h1>
+
+          <button class="sidenav-close-button" md-icon-button>
+            <md-icon>close</md-icon>
+          </button>
+
         </md-toolbar>
 
         <md-list>

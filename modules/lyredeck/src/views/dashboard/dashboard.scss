@@ -1,8 +1,12 @@
-app-dashboard {
+:host {
 
-    .sidebar {
-        width: 20vw;
-        background-color: #000000;
-    }
+  md-sidenav {
+    width: 25vw;
+  }
+
+  .sidenav-close-button {
+    position: fixed;
+    right: 0;
+  }
 
 }
