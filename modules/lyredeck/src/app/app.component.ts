@@ -1,20 +1,20 @@
 import {Component, ViewChild} from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
 
-  @ViewChild('sidenav') sidenav;
+    @ViewChild('sidenav') sidenav;
 
-  title = 'app';
+    title = 'app';
 
-  context: String = 'dashboard';
+    context: String = 'endpoints';
 
-  route(context: String): void {
-    this.context = context;
-    this.sidenav.close()
-  }
+    route(context: String): void {
+        this.context = context;
+        this.sidenav.close()
+    }
 }

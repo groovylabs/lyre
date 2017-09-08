@@ -14,21 +14,21 @@ import {Settings} from '../views/settings/settings';
 
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    Dashboard,
-    Endpoints,
-    Settings
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpModule,
-    BrowserAnimationsModule,
-    Modules
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        Dashboard,
+        Endpoints,
+        Settings
+    ],
+    imports: [
+        BrowserModule,
+        FormsModule,
+        HttpModule,
+        BrowserAnimationsModule,
+        Modules
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
 }
