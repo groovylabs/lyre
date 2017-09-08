@@ -20,13 +20,21 @@
     </md-toolbar>
 
     <md-list>
-      <md-list-item> Dashboard </md-list-item>
-      <md-list-item> Endpoints </md-list-item>
-      <md-list-item> Settings </md-list-item>
+      <md-list-item (click)="route('dashboard')">
+        <a mdLine> Dashboard</a>
+      </md-list-item>
+      <md-list-item (click)="route('endpoints')"> Endpoints</md-list-item>
+      <md-list-item (click)="route('settings')"> Settings</md-list-item>
     </md-list>
 
   </md-sidenav>
 
-  <dashboard></dashboard>
+  <div [ngSwitch]="context">
+
+    <dashboard *ngSwitchCase="'dashboard'"></dashboard>
+    <endpoints *ngSwitchCase="'endpoints'"></endpoints>
+    <settings *ngSwitchCase="'settings'"></settings>
+
+  </div>
 
 </md-sidenav-container>
