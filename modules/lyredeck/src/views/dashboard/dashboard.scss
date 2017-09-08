@@ -1,7 +1,13 @@
+@import './src/styles/colors';
+
 :host {
 
   md-sidenav {
     width: 25vw;
+  }
+
+  md-list-item {
+    border-bottom: 1px solid  $light-grey;
   }
 
   .sidenav-close-button {

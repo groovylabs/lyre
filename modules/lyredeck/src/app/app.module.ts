@@ -8,12 +8,17 @@ import {AppComponent} from './app.component';
 
 import {Modules} from '../modules/modules';
 
-import {DashboardComponent} from '../views/dashboard/dashboard';
+import {Dashboard} from '../views/dashboard/dashboard';
+import {Endpoints} from '../views/endpoints/endpoints';
+import {Settings} from '../views/settings/settings';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent
+    Dashboard,
+    Endpoints,
+    Settings
   ],
   imports: [
     BrowserModule,
