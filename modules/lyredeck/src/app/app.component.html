@@ -1,6 +1,6 @@
 <md-sidenav-container fullscreen>
 
-    <md-toolbar color="primary">
+    <md-toolbar color="primary" class="mat-elevation-z6">
 
         <button md-icon-button (click)="sidenav.open()">
             <md-icon>more_vert</md-icon>
@@ -10,7 +10,7 @@
 
     <md-sidenav #sidenav class="sidebar">
 
-        <md-toolbar color="primary" (click)="sidenav.close()">
+        <md-toolbar color="primary" class="mat-elevation-z6" (click)="sidenav.close()">
             <h1>Menu</h1>
 
             <button class="sidenav-close-button" md-icon-button>
@@ -23,7 +23,7 @@
             <md-list-item (click)="route('dashboard')">
                 <a>Dashboard</a>
             </md-list-item>
-            <md-list-item (click)="route('endpsoints')">
+            <md-list-item (click)="route('endpoints')">
                 <a>Endpoints</a>
             </md-list-item>
             <md-list-item (click)="route('settings')">
@@ -33,7 +33,7 @@
 
     </md-sidenav>
 
-    <div [ngSwitch]="context">
+    <div context [ngSwitch]="context">
 
         <dashboard *ngSwitchCase="'dashboard'"></dashboard>
         <endpoints *ngSwitchCase="'endpoints'"></endpoints>

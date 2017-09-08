@@ -9,6 +9,7 @@ import {
     MdCardModule,
     MdSidenavModule,
     MdListModule,
+    MdInputModule,
     MdFormFieldModule
 } from '@angular/material';
 
@@ -22,6 +23,7 @@ import {
         MdCardModule,
         MdSidenavModule,
         MdListModule,
+        MdInputModule,
         MdFormFieldModule
     ],
     exports: [
@@ -33,6 +35,7 @@ import {
         MdCardModule,
         MdSidenavModule,
         MdListModule,
+        MdInputModule,
         MdFormFieldModule
     ],
 })
