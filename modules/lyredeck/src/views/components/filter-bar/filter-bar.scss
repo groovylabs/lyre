@@ -1,11 +1,21 @@
 :host {
 
-    .endpoint-form {
+    display: flex;
 
-        md-form-field {
-            width: 70%;
+    width: 25vw;
+    height: 88vh;
+
+    margin-left: 0;
+
+    md-card {
+
+        form {
+
+            md-form-field {
+                width: 100%;
+            }
+
         }
 
     }
-
 }

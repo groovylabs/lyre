@@ -10,7 +10,9 @@ import {
     MdSidenavModule,
     MdListModule,
     MdInputModule,
-    MdFormFieldModule
+    MdFormFieldModule,
+    MdTableModule,
+    MdPaginatorModule
 } from '@angular/material';
 
 @NgModule({
@@ -24,7 +26,9 @@ import {
         MdSidenavModule,
         MdListModule,
         MdInputModule,
-        MdFormFieldModule
+        MdFormFieldModule,
+        MdTableModule,
+        MdPaginatorModule
     ],
     exports: [
         MdButtonModule,
@@ -36,7 +40,9 @@ import {
         MdSidenavModule,
         MdListModule,
         MdInputModule,
-        MdFormFieldModule
+        MdFormFieldModule,
+        MdTableModule,
+        MdPaginatorModule
     ],
 })
 export class Modules {

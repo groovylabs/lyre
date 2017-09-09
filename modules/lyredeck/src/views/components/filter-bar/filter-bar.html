@@ -1,6 +1,58 @@
-<form class="endpoint-form">
-    <md-form-field>
-        <input mdInput placeholder="Search">
-    </md-form-field>
-</form>
+<md-card>
+
+    <form>
+
+        <md-card-subtitle>
+            <md-form-field>
+                <input mdInput placeholder="Filter">
+            </md-form-field>
+
+            //todo botao de limpar filtro
+
+        </md-card-subtitle>
+
+        //todo menu de escolha de tipos de requisiçao
+
+        <md-card-content>
+
+            <md-table #table [dataSource]="dataSource">
+
+                <!-- ID Column -->
+                <ng-container mdColumnDef="http">
+                    <md-header-cell *mdHeaderCellDef> HTTP</md-header-cell>
+                    <md-cell *mdCellDef="let row"> {{row.http}}</md-cell>
+                </ng-container>
+
+                <!-- Progress Column -->
+                <ng-container mdColumnDef="path">
+                    <md-header-cell *mdHeaderCellDef> Path</md-header-cell>
+                    <md-cell *mdCellDef="let row"> {{row.path}}</md-cell>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container mdColumnDef="status">
+                    <md-header-cell *mdHeaderCellDef> statue code</md-header-cell>
+                    <md-cell *mdCellDef="let row"> {{row.status}}</md-cell>
+                </ng-container>
+
+                <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+                <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
+            </md-table>
+
+        </md-card-content>
+
+        <md-card-footer>
+
+            <md-paginator #paginator
+                          [length]="exampleDatabase.data.length"
+                          [pageIndex]="0"
+                          [pageSize]="5"
+                          [pageSizeOptions]="[5, 10, 25, 100]">
+            </md-paginator>
+
+        </md-card-footer>
+
+    </form>
+
+</md-card>
 
