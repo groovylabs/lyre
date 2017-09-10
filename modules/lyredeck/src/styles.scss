@@ -7,3 +7,16 @@ body {
 [context] {
     padding: 8px;
 }
+
+.mat-paginator {
+    justify-content: space-around !important;
+}
+
+.mat-paginator-page-size-label, .mat-paginator-range-label {
+    display: none !important;
+}
+
+
+.mat-paginator-page-size-select .mat-select-trigger {
+    min-width: 100px !important;
+}

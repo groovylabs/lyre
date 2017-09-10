@@ -15,6 +15,31 @@
                 width: 100%;
             }
 
+            md-card-content {
+                height: 62vh;
+                overflow-x: auto;
+            }
+
+            md-card-footer {
+                display: block;
+                position: absolute;
+                width: 100%;
+                bottom: 50px;
+                margin: 0 -24px -24px -24px;
+            }
+
+            md-paginator {
+
+                .mat-paginator-page-size {
+                    color: #2ec95c;
+                    display: none !important;
+                }
+
+                .mat-paginator-page-size-label {
+                    display: none !important;
+                }
+
+            }
         }
 
     }
