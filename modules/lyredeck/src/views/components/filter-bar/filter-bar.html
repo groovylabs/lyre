@@ -9,7 +9,7 @@
             </button>
 
             <md-form-field>
-                <input mdInput placeholder="Filter">
+                <input mdInput #filter placeholder="Filter">
             </md-form-field>
 
         </md-card-subtitle>
@@ -28,12 +28,6 @@
                 <ng-container mdColumnDef="path">
                     <md-header-cell *mdHeaderCellDef> Path</md-header-cell>
                     <md-cell *mdCellDef="let row"> {{row.path}}</md-cell>
-                </ng-container>
-
-                <!-- Name Column -->
-                <ng-container mdColumnDef="status">
-                    <md-header-cell *mdHeaderCellDef> statue code</md-header-cell>
-                    <md-cell *mdCellDef="let row"> {{row.status}}</md-cell>
                 </ng-container>
 
                 <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>

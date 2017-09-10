@@ -18,8 +18,24 @@
             }
 
             md-card-content {
-                height: 62vh;
+
+                height: 64vh;
                 overflow-x: auto;
+                float: left;
+                width: 100%;
+
+                md-header-row {
+                    display: none;
+                }
+
+                md-cell:first-child {
+                    flex: 1;
+                }
+
+                md-cell {
+                    flex: 3;
+                }
+
             }
 
             md-card-footer {
@@ -27,7 +43,7 @@
                 position: absolute;
                 width: 90%;
                 bottom: 50px;
-                margin: 0 0 -24px -4px;
+                margin: 0 0 -48px -4px;
             }
 
             md-paginator {
