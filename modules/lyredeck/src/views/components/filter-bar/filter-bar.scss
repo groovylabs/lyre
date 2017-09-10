@@ -1,8 +1,6 @@
 :host {
 
     display: flex;
-
-    width: 25vw;
     height: 88vh;
 
     margin-left: 0;
@@ -12,7 +10,11 @@
         form {
 
             md-form-field {
-                width: 100%;
+                float: left;
+            }
+
+            button {
+                float: right;
             }
 
             md-card-content {
@@ -23,9 +25,9 @@
             md-card-footer {
                 display: block;
                 position: absolute;
-                width: 100%;
+                width: 90%;
                 bottom: 50px;
-                margin: 0 -24px -24px -24px;
+                margin: 0 0 -24px -4px;
             }
 
             md-paginator {
