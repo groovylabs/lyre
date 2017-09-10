@@ -39,6 +39,10 @@ export class FilterBar {
                 this.dataSource.filter = this.filter.nativeElement.value;
             });
     }
+
+    clear(): void {
+        this.dataSource.filter = this.filter.nativeElement.value = '';
+    }
 }
 
 export interface Endpoint {
