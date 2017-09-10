@@ -17,9 +17,9 @@
         <md-table #table [dataSource]="dataSource">
 
             <!-- ID Column -->
-            <ng-container mdColumnDef="http">
+            <ng-container mdColumnDef="method">
                 <md-header-cell *mdHeaderCellDef> HTTP</md-header-cell>
-                <md-cell *mdCellDef="let row"> {{row.http}}</md-cell>
+                <md-cell *mdCellDef="let row"> {{row.method}}</md-cell>
             </ng-container>
 
             <!-- Progress Column -->
@@ -37,7 +37,7 @@
     <md-card-footer>
 
         <md-paginator #paginator
-                      [length]="exampleDatabase.data.length"
+                      [length]="dataProvider.data.length"
                       [pageIndex]="0"
                       [pageSize]="5"
                       [pageSizeOptions]="[5, 10, 25, 100]">

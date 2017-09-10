@@ -46,7 +46,7 @@ public class Interpreter extends Overlay<APIx> {
                 try {
                     this.parse(endpoint, entry, Level.ENDPOINT);
 
-                    if (Validator.integrity(fileName, endpoint, bundle.getList(), update))
+                    if (Validator.integrity(fileName, endpoint, bundle.getEndpoints(), update))
                         bundle.add(endpoint);
 
                 } catch (Exception e) {

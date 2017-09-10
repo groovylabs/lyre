@@ -3,7 +3,8 @@ package io.groovelabs.lyre.engine.APIx;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
 import io.groovelabs.lyre.domain.appliers.Countdown;
-import io.groovelabs.lyre.engine.APIx.services.EndpointService;
+import io.groovelabs.lyre.engine.APIx.filters.CORSFilter;
+import io.groovelabs.lyre.engine.APIx.services.BundleService;
 import io.groovelabs.lyre.engine.interpreter.Interpreter;
 import org.glassfish.hk2.api.Immediate;
 import org.glassfish.jersey.process.Inflector;
@@ -73,7 +74,7 @@ public class APIx extends ResourceConfig {
         if (resourceConfig == null)
             resourceConfig = new ResourceConfig();
 
-        for (Endpoint endpoint : bundle.getList()) {
+        for (Endpoint endpoint : bundle.getEndpoints()) {
 
             Resource.Builder resourceBuilder =
                 Resource.builder().path(endpoint.getPath());
@@ -114,7 +115,8 @@ public class APIx extends ResourceConfig {
             resourceConfig.registerResources(resourceBuilder.build());
         }
 
-        resourceConfig.register(EndpointService.class);
+        resourceConfig.register(CORSFilter.class);
+        resourceConfig.register(BundleService.class);
 
         return resourceConfig;
     }

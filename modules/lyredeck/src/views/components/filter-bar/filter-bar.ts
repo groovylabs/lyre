@@ -1,9 +1,9 @@
 import {Component, ViewChild, ElementRef} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 
-import {DataSource} from '@angular/cdk/collections';
 import {MdPaginator} from '@angular/material';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {Observable} from 'rxjs/Observable';
+import {BundleDataSource, BundleService} from "../../../domain/BundleDataSource";
+
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
@@ -19,16 +19,21 @@ import 'rxjs/add/observable/fromEvent';
 
 export class FilterBar {
 
-    displayedColumns = ['http', 'path'];
-    exampleDatabase = new ExampleDatabase();
-    dataSource: ExampleDataSource | null;
+    displayedColumns = ['method', 'path'];
+    dataProvider;
+    dataSource: BundleDataSource | null;
 
     @ViewChild('filter') filter: ElementRef;
 
     @ViewChild(MdPaginator) paginator: MdPaginator;
 
+    constructor(private http: HttpClient) {
+        this.dataProvider = new BundleService(this.http);
+    }
+
     ngOnInit() {
-        this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator);
+        this.dataProvider.getBundle();
+        this.dataSource = new BundleDataSource(this.dataProvider, this.paginator);
     }
 
     search() {
@@ -43,85 +48,5 @@ export class FilterBar {
 
     clear(): void {
         this.dataSource.filter = this.filter.nativeElement.value = '';
-    }
-}
-
-export interface Endpoint {
-    http: string;
-    path: string;
-    status: string;
-}
-
-/** An example database that the data source uses to retrieve data for the table. */
-export class ExampleDatabase {
-    /** Stream that emits whenever the data has been modified. */
-    dataChange: BehaviorSubject<Endpoint[]> = new BehaviorSubject<Endpoint[]>([]);
-
-    get data(): Endpoint[] {
-        return this.dataChange.value;
-    }
-
-    constructor() {
-        for (let i = 0; i < 25; i++) {
-            this.addUser();
-        }
-    }
-
-    /** Adds a new user to the database. */
-    addUser() {
-        const copiedData = this.data.slice();
-        copiedData.push(this.createNewEndpoint());
-        this.dataChange.next(copiedData);
-    }
-
-    /** Builds and returns a new User. */
-    private createNewEndpoint() {
-        return {
-            http: 'GET',
-            path: '/path/lyre' + (200 + Math.round(Math.random() * 100)).toString(),
-            status: (200 + Math.round(Math.random() * 100)).toString()
-        };
-    }
-}
-
-export class ExampleDataSource extends DataSource<any> {
-
-    _filterChange = new BehaviorSubject('');
-
-    get filter(): string {
-        return this._filterChange.value;
-    }
-
-    set filter(filter: string) {
-        console.log(this.filter);
-        this._filterChange.next(filter);
-    }
-
-    constructor(private _exampleDatabase: ExampleDatabase, private _paginator: MdPaginator) {
-        super();
-    }
-
-    /** Connect function called by the table to retrieve one stream containing the data to render. */
-    connect(): Observable<Endpoint[]> {
-        const displayDataChanges = [
-            this._exampleDatabase.dataChange,
-            this._filterChange,
-            this._paginator.page
-        ];
-
-        return Observable.merge(...displayDataChanges).map(() => {
-            const data = this._exampleDatabase.data.slice().filter((item: Endpoint) => {
-
-                let searchStr = (item.path).toLowerCase();
-                return searchStr.indexOf(this.filter.toLowerCase()) != -1;
-            });
-
-            // Grab the page's slice of data.
-            const startIndex = this._paginator.pageIndex * this._paginator.pageSize;
-            return data.splice(startIndex, this._paginator.pageSize);
-        });
-    }
-
-    disconnect() {
     }
 }

@@ -10,8 +10,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Component
-@Path(value = "/lyre/io/endpoints")
-public class EndpointService {
+@Path(value = "/lyredeck/bundle")
+public class BundleService {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

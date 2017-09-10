@@ -5,19 +5,19 @@ import java.util.List;
 
 public class Bundle {
 
-    private List<Endpoint> list = new ArrayList<>();
+    private List<Endpoint> endpoints = new ArrayList<>();
 
     public Bundle() {
 
     }
 
-    public List<Endpoint> getList() {
-        return list;
+    public List<Endpoint> getEndpoints() {
+        return endpoints;
     }
 
     public void add(Endpoint endpoint) {
         if (endpoint != null)
-            list.add(endpoint);
+            endpoints.add(endpoint);
     }
 
 }
