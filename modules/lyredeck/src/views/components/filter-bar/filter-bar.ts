@@ -29,15 +29,16 @@ export class FilterBar {
 
     ngOnInit() {
         this.dataSource = new ExampleDataSource(this.exampleDatabase, this.paginator);
-        Observable.fromEvent(this.filter.nativeElement, 'keyup')
-            .debounceTime(150)
-            .distinctUntilChanged()
-            .subscribe(() => {
-                if (!this.dataSource) {
-                    return;
-                }
-                this.dataSource.filter = this.filter.nativeElement.value;
-            });
+    }
+
+    search() {
+
+        console.log(this.dataSource);
+
+        if (!this.dataSource) {
+            return;
+        }
+        this.dataSource.filter = this.filter.nativeElement.value;
     }
 
     clear(): void {
@@ -92,6 +93,7 @@ export class ExampleDataSource extends DataSource<any> {
     }
 
     set filter(filter: string) {
+        console.log(this.filter);
         this._filterChange.next(filter);
     }
 
@@ -111,9 +113,6 @@ export class ExampleDataSource extends DataSource<any> {
             const data = this._exampleDatabase.data.slice().filter((item: Endpoint) => {
 
                 let searchStr = (item.path).toLowerCase();
-
-                console.log(searchStr);
-
                 return searchStr.indexOf(this.filter.toLowerCase()) != -1;
             });
 
