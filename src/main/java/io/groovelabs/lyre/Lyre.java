@@ -59,9 +59,6 @@ public class Lyre {
     public ServletRegistrationBean jerseyServletRegistration(
         JerseyProperties jerseyProperties, ResourceConfig config) {
 
-        config.register(NotFoundExceptionMapper.class);
-        config.register(CORSFilter.class);
-
         ServletRegistrationBean registration = new ServletRegistrationBean(
             new ServletContainer(config));
 

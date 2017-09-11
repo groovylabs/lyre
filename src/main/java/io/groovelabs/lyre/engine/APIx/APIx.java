@@ -1,8 +1,10 @@
 package io.groovelabs.lyre.engine.APIx;
 
+import io.groovelabs.lyre.config.NotFoundExceptionMapper;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
 import io.groovelabs.lyre.domain.appliers.Countdown;
+import io.groovelabs.lyre.engine.APIx.filters.CORSFilter;
 import io.groovelabs.lyre.engine.APIx.services.BundleService;
 import io.groovelabs.lyre.engine.APIx.websocket.Dispatcher;
 import io.groovelabs.lyre.engine.interpreter.Interpreter;
@@ -121,7 +123,9 @@ public class APIx extends ResourceConfig {
             resourceConfig.registerResources(resourceBuilder.build());
         }
 
+        resourceConfig.register(CORSFilter.class);
         resourceConfig.register(BundleService.class);
+        resourceConfig.register(NotFoundExceptionMapper.class);
 
         dispatcher.publish();
 

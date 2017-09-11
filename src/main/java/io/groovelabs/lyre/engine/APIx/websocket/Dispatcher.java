@@ -14,7 +14,7 @@ public class Dispatcher {
 
     @MessageMapping("/bundle")
     public void publish() {
-        this.messagingTemplate.convertAndSend("/queue/bundle", APIx.bundle);
+        this.messagingTemplate.convertAndSend("/registry/bundle", APIx.bundle);
     }
 
 }
