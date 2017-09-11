@@ -12,7 +12,8 @@ import {
     MdInputModule,
     MdFormFieldModule,
     MdTableModule,
-    MdPaginatorModule
+    MdPaginatorModule,
+    MdGridListModule
 } from '@angular/material';
 
 @NgModule({
@@ -28,7 +29,8 @@ import {
         MdInputModule,
         MdFormFieldModule,
         MdTableModule,
-        MdPaginatorModule
+        MdPaginatorModule,
+        MdGridListModule
     ],
     exports: [
         MdButtonModule,
@@ -42,7 +44,8 @@ import {
         MdInputModule,
         MdFormFieldModule,
         MdTableModule,
-        MdPaginatorModule
+        MdPaginatorModule,
+        MdGridListModule
     ],
 })
 export class Modules {

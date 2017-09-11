@@ -1,4 +1,5 @@
 import {FilterBar} from "./components/filter-bar/filter-bar";
+import {EndpointContent} from "./components/endpoint-content/endpoint-content";
 
 import {Dashboard} from './contexts/dashboard/dashboard';
 import {Endpoints} from './contexts/endpoints/endpoints';
@@ -9,6 +10,7 @@ export function views() {
         Dashboard,
         Endpoints,
         Settings,
-        FilterBar
+        FilterBar,
+        EndpointContent
     ];
 }
