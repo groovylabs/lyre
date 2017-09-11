@@ -34,19 +34,15 @@ public class Watcher extends Overlay<Scanner> implements Runnable {
 
                     final Path changedPath = (Path) event.context();
                     File changedFile = new File(changedPath.getFileName().toString());
-                    System.out.println(changedFile);
 
                     if (changedFile.getName().endsWith(".lyre")) {
                         for (File file : files) {
                             if (file.getName().equals(changedFile.getName())) {
-                                System.out.println(" CHANGED ");
-                                overlay().overlay().read(file);
-
+                                overlay().getReader().read(file);
                                 break;
                             }
                         }
                     } else {
-                        System.out.println("not changed");
                     }
                 }
 

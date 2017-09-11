@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 
-
 @Component({
     selector: 'endpoints',
     templateUrl: './endpoints.html',
@@ -8,5 +7,4 @@ import {Component} from '@angular/core';
 })
 
 export class Endpoints {
-    title = 'app';
 }

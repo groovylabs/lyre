@@ -3,17 +3,24 @@ package groovylabs.lyre.engine.scanner;
 import groovylabs.lyre.config.ScannerProperties;
 import groovylabs.lyre.engine.Overlay;
 import groovylabs.lyre.engine.reader.Reader;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Scanner extends Overlay<Reader> {
+@Component
+public class Scanner {
 
     private List<File> files = new ArrayList<>();
 
-    public Scanner(Reader reader) {
-        super(reader);
+    @Autowired
+    private Reader reader;
+
+    @PostConstruct
+    public void Scanner() {
         scan();
     }
 
@@ -28,7 +35,7 @@ public class Scanner extends Overlay<Reader> {
         Thread checkLyreFiles = new Thread(new Watcher(this, files));
         checkLyreFiles.start();
 
-        overlay().read(files.toArray(new File[]{}));
+        reader.read(files.toArray(new File[]{}));
     }
 
     private void searchFiles(File[] listOfFiles) {
@@ -41,5 +48,13 @@ public class Scanner extends Overlay<Reader> {
                 searchFiles(fileOrFolder.listFiles());
 
         }
+    }
+
+    public Reader getReader() {
+        return reader;
+    }
+
+    public void setReader(Reader reader) {
+        this.reader = reader;
     }
 }

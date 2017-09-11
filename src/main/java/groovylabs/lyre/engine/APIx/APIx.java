@@ -27,20 +27,18 @@ public class APIx extends ResourceConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(APIx.class);
 
+    @Autowired
+    private Dispatcher dispatcher;
+
     // TODO need to be stored (memory, file, redis if configurable)
     public static Bundle bundle = null;
 
     private static Container container;
 
-    @Autowired
-    private Dispatcher dispatcher;
-
     @PostConstruct
     public void APIx() {
         config(this);
-        new Interpreter(this);
     }
-
 
     public void boot(Bundle bundle) {
 
@@ -60,13 +58,13 @@ public class APIx extends ResourceConfig {
 
             @Override
             public void onStartup(final Container container) {
-                System.out.println("Application has been started!");
+                LOGGER.info("Jersey Application started");
                 APIx.container = container;
             }
 
             @Override
             public void onReload(final Container container) {
-                System.out.println("Application has been reloaded!");
+                LOGGER.info("Jersey Application reloaded");
             }
 
             @Override

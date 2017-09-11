@@ -11,21 +11,22 @@ import groovylabs.lyre.engine.interpreter.Interpreter;
 import groovylabs.lyre.engine.scanner.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Reader extends Overlay<Interpreter> {
+@Component
+public class Reader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Reader.class);
 
-    public Reader(Interpreter interpreter) {
-        super(interpreter);
-
-        new Scanner(this);
-    }
+    @Autowired
+    private Interpreter interpreter;
 
     public void read(File... files) {
 
@@ -34,7 +35,7 @@ public class Reader extends Overlay<Interpreter> {
         for (File file : files)
             readFile(file, objectNodes);
 
-        overlay().interpret(objectNodes);
+        interpreter.interpret(objectNodes);
     }
 
     private void readFile(File lyreFile, Map<String, ObjectNode> objectNodes) {

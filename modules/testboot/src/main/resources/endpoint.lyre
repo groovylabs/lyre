@@ -1,4 +1,4 @@
-GET /api/ping2:
+GET /api/pingA:
     idle: 1000
     response:
         data: PING

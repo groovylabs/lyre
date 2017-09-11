@@ -12,25 +12,26 @@ import groovylabs.lyre.engine.reader.Reader;
 import groovylabs.lyre.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
 
-public class Interpreter extends Overlay<APIx> {
+@Component
+public class Interpreter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Interpreter.class);
+
+    @Autowired
+    private APIx apix;
 
     private String fileName;
 
     private boolean update = false;
 
     private Bundle bundle = new Bundle();
-
-    public Interpreter(APIx apix) {
-        super(apix);
-
-        new Reader(this);
-    }
 
     public void interpret(Map<String, ObjectNode> nodes) {
 
@@ -59,7 +60,7 @@ public class Interpreter extends Overlay<APIx> {
 
         update = true;
 
-        overlay().boot(bundle);
+        apix.boot(bundle);
     }
 
     private void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level level) {

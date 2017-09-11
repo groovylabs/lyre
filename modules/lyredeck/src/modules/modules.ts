@@ -12,7 +12,7 @@ import {
     MdInputModule,
     MdFormFieldModule,
     MdTableModule,
-    MdPaginatorModule
+    MdPaginatorModule, MdGridListModule
 } from '@angular/material';
 
 @NgModule({
