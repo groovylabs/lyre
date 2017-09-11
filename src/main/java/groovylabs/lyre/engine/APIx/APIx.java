@@ -35,11 +35,6 @@ public class APIx extends ResourceConfig {
 
     private static Container container;
 
-    @PostConstruct
-    public void APIx() {
-        config(this);
-    }
-
     public void boot(Bundle bundle) {
 
         APIx.bundle = bundle;
@@ -47,7 +42,6 @@ public class APIx extends ResourceConfig {
         if (APIx.container != null) {
             final ResourceConfig resourceConfig = this.createResources(bundle, null);
             APIx.container.reload(resourceConfig);
-
         } else {
             this.createResources(bundle, this);
         }
