@@ -18,20 +18,20 @@ export class BundleDataSource extends DataSource<any> {
         this._filterChange.next(filter);
     }
 
-    constructor(private _rest: BundleService, private _paginator: MdPaginator) {
+    constructor(private _service: BundleService, private _paginator: MdPaginator) {
         super();
     }
 
     connect(): Observable<Endpoint[]> {
         const displayDataChanges = [
-            this._rest.dataChange,
+            this._service.dataChange,
             this._filterChange,
             this._paginator.page
         ];
 
         return Observable.merge(...displayDataChanges).map(() => {
 
-            const data = this._rest.data.endpoints.slice().filter((item: Endpoint) => {
+            const data = this._service.data.endpoints.slice().filter((item: Endpoint) => {
 
                 let searchStr = (item.path).toLowerCase();
                 return searchStr.indexOf(this.filter.toLowerCase()) != -1;
@@ -59,7 +59,7 @@ export class BundleService {
     }
 
     getBundle() {
-        this.http.get('http://localhost:8234/resources/lyredeck/bundle').subscribe((data: Bundle) => {
+        this.http.get('http://localhost:8234/lyre/bundle').subscribe((data: Bundle) => {
             this.dataChange.next(data);
         });
     }

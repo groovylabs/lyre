@@ -1,4 +1,4 @@
-package io.groovelabs.lyre;
+package io.groovelabs.lyre.engine.APIx.websocket;
 
 
 import org.springframework.context.annotation.Configuration;
@@ -13,13 +13,13 @@ public class APIxSocket extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic/");
-        config.setApplicationDestinationPrefixes("/app");
+        config.enableSimpleBroker("/registry");
+        config.setApplicationDestinationPrefixes("/request");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/gs-guide-websocket").setAllowedOrigins("*").withSockJS().setWebSocketEnabled(true);
+        registry.addEndpoint("/apix").setAllowedOrigins("*").withSockJS().setWebSocketEnabled(true);
     }
 
 }

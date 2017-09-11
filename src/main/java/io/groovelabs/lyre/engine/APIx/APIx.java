@@ -3,10 +3,9 @@ package io.groovelabs.lyre.engine.APIx;
 import io.groovelabs.lyre.domain.Bundle;
 import io.groovelabs.lyre.domain.Endpoint;
 import io.groovelabs.lyre.domain.appliers.Countdown;
-import io.groovelabs.lyre.engine.APIx.filters.CORSFilter;
 import io.groovelabs.lyre.engine.APIx.services.BundleService;
+import io.groovelabs.lyre.engine.APIx.websocket.Dispatcher;
 import io.groovelabs.lyre.engine.interpreter.Interpreter;
-import org.glassfish.hk2.api.Immediate;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
@@ -14,12 +13,14 @@ import org.glassfish.jersey.server.spi.Container;
 import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Response;
 
-@Immediate
 @Component
 public class APIx extends ResourceConfig {
 
@@ -30,7 +31,11 @@ public class APIx extends ResourceConfig {
 
     private static Container container;
 
-    public APIx() {
+    @Autowired
+    private Dispatcher dispatcher;
+
+    @PostConstruct
+    public void APIx() {
         config(this);
         new Interpreter(this);
     }
@@ -51,6 +56,7 @@ public class APIx extends ResourceConfig {
 
     private void config(final ResourceConfig resourceConfig) {
         resourceConfig.registerInstances(new ContainerLifecycleListener() {
+
             @Override
             public void onStartup(final Container container) {
                 System.out.println("Application has been started!");
@@ -115,9 +121,11 @@ public class APIx extends ResourceConfig {
             resourceConfig.registerResources(resourceBuilder.build());
         }
 
-        resourceConfig.register(CORSFilter.class);
         resourceConfig.register(BundleService.class);
+
+        dispatcher.publish();
 
         return resourceConfig;
     }
+
 }

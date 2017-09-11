@@ -5,11 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = LyreConfiguration.LYRE_PROPERTIES_PREFIX)
 public class LyreProperties {
 
-    private int port = 9000;
+    private int port = 8234;
 
     private boolean enableRemoteConnections = false;
 
     private String contextPath = "";
+
+    private String lyrePath = "/lyre";
 
     public ScannerProperties scanner;
 
@@ -27,6 +29,14 @@ public class LyreProperties {
 
     public void setContextPath(String contextPath) {
         this.contextPath = contextPath;
+    }
+
+    public String getLyrePath() {
+        return lyrePath;
+    }
+
+    public void setLyrePath(String lyrePath) {
+        this.lyrePath = lyrePath;
     }
 
     public boolean isEnableRemoteConnections() {

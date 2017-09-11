@@ -3,6 +3,8 @@ package io.groovelabs.lyre;
 import io.groovelabs.lyre.config.LyreProperties;
 import io.groovelabs.lyre.config.NotFoundExceptionMapper;
 import io.groovelabs.lyre.engine.APIx.APIx;
+import io.groovelabs.lyre.engine.APIx.filters.CORSFilter;
+import io.groovelabs.lyre.engine.APIx.websocket.Dispatcher;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
@@ -37,6 +39,7 @@ public class Lyre {
     @Bean
     public EmbeddedServletContainerCustomizer embeddedServletContainerCustomizer() {
         return (container -> {
+
             container.setContextPath(lyreProperties.getContextPath());
 
             if (!lyreProperties.isEnableRemoteConnections()) {
@@ -57,6 +60,7 @@ public class Lyre {
         JerseyProperties jerseyProperties, ResourceConfig config) {
 
         config.register(NotFoundExceptionMapper.class);
+        config.register(CORSFilter.class);
 
         ServletRegistrationBean registration = new ServletRegistrationBean(
             new ServletContainer(config));
@@ -65,6 +69,7 @@ public class Lyre {
             registration.addInitParameter(entry.getKey(), entry.getValue());
         }
 
+        registration.addUrlMappings(lyreProperties.getLyrePath() + "/*");
         registration.setName(APIx.class.getName());
         registration.setLoadOnStartup(1);
         return registration;

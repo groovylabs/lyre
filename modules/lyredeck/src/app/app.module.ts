@@ -4,6 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {StompService} from 'ng2-stomp-service';
 
 import {AppComponent} from './app.component';
 
@@ -27,7 +28,7 @@ import {views} from "../views/views";
     entryComponents: [
         views()
     ],
-    providers: [],
+    providers: [StompService],
     bootstrap: [AppComponent]
 })
 export class AppModule {
