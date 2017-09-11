@@ -1,4 +1,4 @@
-package io.groovelabs.lyre.engine.APIx.websocket;
+package io.groovelabs.lyre;
 
 
 import org.springframework.context.annotation.Configuration;
@@ -12,18 +12,14 @@ import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 public class APIxSocket extends AbstractWebSocketMessageBrokerConfigurer {
 
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/apixsocket").withSockJS();
-    }
-
-    @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/registry");
+        config.enableSimpleBroker("/topic/");
         config.setApplicationDestinationPrefixes("/app");
     }
 
+    @Override
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        registry.addEndpoint("/gs-guide-websocket").setAllowedOrigins("*").withSockJS().setWebSocketEnabled(true);
+    }
+
 }
-
-// https://github.com/bijukunjummen/spring-websocket-chat-sample/blob/master/src/main/java/bk/chat/web/ChatController.java
-
-// https://spring.io/guides/gs/messaging-stomp-websocket/
