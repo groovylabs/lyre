@@ -1,28 +1,32 @@
-<div fxLayout="row" fxFill fxLayoutGap="10px">
+<div fxLayout="row" fxLayoutGap="10px">
 
-    <div fxFlex="20" fxLayoutAlign="center center">
+    <div fxFlex="250px" fxLayoutAlign="center center">
 
         <filter-bar></filter-bar>
 
     </div>
-    <div fxFlex="80" fxLayoutAlign="center center">
+    <div fxFlex fxLayoutAlign="center center">
 
-        <div fxLayout="column" fxFill>
+        <div fxLayout="column" fxFill fxLayoutGap="10px">
 
-            <div fxFlex="100" style="background-color: #4d4d4d">
+            <div fxFlex="50">
 
                 <div fxFlex="100">
                     <div fxLayout="row" fxLayoutGap="10px">
 
-                        <div fxFlex="50" fxLayoutAlign="center center">A</div>
-                        <div fxFlex="50" fxLayoutAlign="center center">B</div>
+                        <div fxFlex="50" fxLayoutAlign="center center">
+                            <requester></requester>
+                        </div>
+                        <div fxFlex="50" fxLayoutAlign="center center">
+                            <endpoint-info></endpoint-info>
+                        </div>
 
                     </div>
                 </div>
             </div>
 
-            <div fxFlex="100" style="background-color: #8e9093">
-                Util Deck
+            <div fxFlex="50">
+                <endpoint-log></endpoint-log>
             </div>
         </div>
     </div>
