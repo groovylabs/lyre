@@ -1,7 +1,7 @@
 import {Component, AfterViewChecked, OnInit, ElementRef, ViewChild} from '@angular/core';
 
-import {Endpoint} from "../../../domain/Endpoint";
-import {LogMessages} from "../../../domain/LogMessages";
+import {Endpoint} from "../../../../domain/Endpoint";
+import {LogMessages} from "../../../../domain/LogMessages";
 
 @Component({
     selector: 'endpoint-log',
