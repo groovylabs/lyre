@@ -12,6 +12,8 @@ import {Modules} from '../modules/modules';
 
 import {views} from "../views/views";
 
+const storage = localStorage;
+
 @NgModule({
     declarations: [
         AppComponent,

@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 
+import {FlexLayoutModule} from "@angular/flex-layout";
+
 import {
     MdButtonModule,
     MdCheckboxModule,
@@ -12,11 +14,13 @@ import {
     MdInputModule,
     MdFormFieldModule,
     MdTableModule,
-    MdPaginatorModule, MdGridListModule
+    MdPaginatorModule,
+    MdGridListModule
 } from '@angular/material';
 
 @NgModule({
     imports: [
+        FlexLayoutModule,
         MdButtonModule,
         MdCheckboxModule,
         MdToolbarModule,
@@ -28,9 +32,11 @@ import {
         MdInputModule,
         MdFormFieldModule,
         MdTableModule,
-        MdPaginatorModule
+        MdPaginatorModule,
+        MdGridListModule
     ],
     exports: [
+        FlexLayoutModule,
         MdButtonModule,
         MdCheckboxModule,
         MdToolbarModule,
@@ -42,7 +48,8 @@ import {
         MdInputModule,
         MdFormFieldModule,
         MdTableModule,
-        MdPaginatorModule
+        MdPaginatorModule,
+        MdGridListModule
     ],
 })
 export class Modules {
