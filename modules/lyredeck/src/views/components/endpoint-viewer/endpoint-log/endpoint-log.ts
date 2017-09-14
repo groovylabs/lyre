@@ -11,7 +11,7 @@ import {LogMessages} from "../../../../domain/LogMessages";
 
 export class EndpointLog implements OnInit, AfterViewChecked {
 
-    @ViewChild('scrollMe') public myScrollContainer: ElementRef;
+    @ViewChild('autoScroll') public myScrollContainer: ElementRef;
 
     endpoint: Endpoint;
 

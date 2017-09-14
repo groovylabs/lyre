@@ -2,17 +2,13 @@
 
     <md-card-subtitle>
 
-        <p>
-            {{endpoint.method}} - {{endpoint.path}}
-
-            <button md-icon-button (click)="addMessage()" style="float: right;">
-                <md-icon>note_add</md-icon>
-            </button>
-        </p>
+        <button md-icon-button (click)="addMessage()" style="float: right;">
+            <md-icon>note_add</md-icon>
+        </button>
 
     </md-card-subtitle>
 
-    <md-card-content #scrollMe>
+    <md-card-content #autoScroll>
 
         <div *ngFor="let message of endpoint.logs;">
             {{message.message}}

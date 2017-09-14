@@ -16,7 +16,7 @@
     md-card-content {
         height: 100%;
 
-        .request-type {
+        .request-type { 
             text-align: center;
             height: 100%;
             border-right: 2px solid $separator;
@@ -27,6 +27,12 @@
             border-right: 2px solid $separator;
             text-overflow: ellipsis;
             box-sizing: border-box;
+            width: 100%;
+
+            h3 {
+                width: 100%;
+                display: inline-block;
+            }
         }
 
         .send-button {

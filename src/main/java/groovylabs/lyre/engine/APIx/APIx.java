@@ -3,11 +3,13 @@ package groovylabs.lyre.engine.APIx;
 import groovylabs.lyre.config.NotFoundExceptionMapper;
 import groovylabs.lyre.domain.Bundle;
 import groovylabs.lyre.domain.Endpoint;
+import groovylabs.lyre.domain.Event;
 import groovylabs.lyre.domain.appliers.Countdown;
+import groovylabs.lyre.domain.enums.EventAction;
+import groovylabs.lyre.domain.enums.Queue;
 import groovylabs.lyre.engine.APIx.filters.CORSFilter;
 import groovylabs.lyre.engine.APIx.services.BundleService;
 import groovylabs.lyre.engine.APIx.websocket.Dispatcher;
-import groovylabs.lyre.engine.interpreter.Interpreter;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
@@ -18,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Response;
 
@@ -38,6 +39,8 @@ public class APIx extends ResourceConfig {
     public void boot(Bundle bundle) {
 
         APIx.bundle = bundle;
+
+        System.out.println("boooooooooooooooooooooooooooot");
 
         if (APIx.container != null) {
             final ResourceConfig resourceConfig = this.createResources(bundle, null);
@@ -118,7 +121,7 @@ public class APIx extends ResourceConfig {
         resourceConfig.register(BundleService.class);
         resourceConfig.register(NotFoundExceptionMapper.class);
 
-        dispatcher.publish();
+        dispatcher.publish(new Event(Queue.BUNDLE, EventAction.UPDATE));
 
         return resourceConfig;
     }
