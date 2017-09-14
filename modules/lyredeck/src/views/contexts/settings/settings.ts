@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import { Component, OnInit, AfterViewChecked } from '@angular/core';
+import { LocalStorageService } from "../../../services/local-storage-service";
 
 
 @Component({
@@ -7,6 +8,19 @@ import {Component} from '@angular/core';
     styleUrls: ['./settings.scss']
 })
 
-export class Settings {
-    title = 'app';
+export class Settings implements OnInit, AfterViewChecked {
+
+    private rememberMe : any;
+
+    constructor(public storageService : LocalStorageService) {}
+
+    ngOnInit(): void {
+        this.rememberMe = (this.storageService.getItem("rememberMe") == 'true');
+    }
+
+    // TODO: Checks if we want to check all page because one check-button
+    ngAfterViewChecked(): void {
+        this.storageService.setItem("rememberMe", this.rememberMe);
+    }
+
 }
