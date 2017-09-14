@@ -33,6 +33,8 @@ export class BundleDataSource extends DataSource<any> {
 
             const data = this._service.data.endpoints.slice().filter((item: Endpoint) => {
 
+                // TODO FILTER BY OTHER OPTIONS
+
                 let searchStr = (item.path).toLowerCase();
                 return searchStr.indexOf(this.filter.toLowerCase()) != -1;
             });
@@ -59,6 +61,7 @@ export class BundleService {
     }
 
     getBundle() {
+
         this.http.get('http://localhost:8234/lyre/bundle').subscribe((data: Bundle) => {
             this.dataChange.next(data);
         });

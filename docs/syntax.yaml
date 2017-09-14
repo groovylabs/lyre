@@ -3,6 +3,7 @@ Lyre - Endpoint mock tool
 
 GET /api/v{version}/search?data=1&q=2:
     value:
+    data:
     method:
     consumes:
     idle: in milisseconds (timeout)
@@ -11,7 +12,7 @@ GET /api/v{version}/search?data=1&q=2:
         header:
             varN:
         produces:
-        data:
+        data: $enpoint.response
     setup:
         busy: returns http 429 (number of busy calls)
         forbidden: return http 403 (forbidden) (number of busy calls)

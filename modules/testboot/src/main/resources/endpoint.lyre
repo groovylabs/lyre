@@ -1,7 +1,7 @@
 GET /api/pingA:
     idle: 1000
     response:
-        data: PING
+        data: $data
         status: 200
     setup:
         busy: 2

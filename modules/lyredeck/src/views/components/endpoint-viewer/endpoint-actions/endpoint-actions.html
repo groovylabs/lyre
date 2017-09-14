@@ -10,21 +10,29 @@
             <h3>/lyre/to/test/with/a/long/path/inside/this/div/with/some/styles/yeah</h3>
         </div>
 
-        <div fxFlex>
-            <button md-raised-button color="primary">Primary</button>
-
-            <button md-mini-fab >
-                <md-icon class="md-24" aria-label="Example icon-button with a heart icon">favorite</md-icon>
+        <div fxFlex fxLayoutAlign="center center">
+            <button md-mini-fab class="send-button" mdTooltip="Send" [mdTooltipPosition]="'below'">
+                <md-icon class="md-8" aria-label="Send">send</md-icon>
             </button>
-            <button md-mini-fab color="primary">
-                <md-icon class="md-24" aria-label="Example icon-button with a heart icon">favorite</md-icon>
-            </button>
-            <button md-mini-fab color="primary">
-                <md-icon class="md-24" aria-label="Example icon-button with a heart icon">favorite</md-icon>
-            </button>
-
         </div>
+        <div fxFlex fxLayoutAlign="center center">
 
+            <button md-mini-fab class="edit-button" mdTooltip="Edit" [mdTooltipPosition]="'below'">
+                <md-icon class="md-8" aria-label="Edit">edit</md-icon>
+            </button>
+        </div>
+        <div fxFlex fxLayoutAlign="center center">
+
+            <button md-mini-fab class="log-button" mdTooltip="See log" [mdTooltipPosition]="'below'">
+                <md-icon class="md-8" aria-label="See log">playlist_play</md-icon>
+            </button>
+        </div>
+        <div fxFlex fxLayoutAlign="center center">
+
+            <button md-mini-fab class="remove-button" mdTooltip="Remove" [mdTooltipPosition]="'below'">
+                <md-icon class="md-8" aria-label="Remove">delete</md-icon>
+            </button>
+        </div>
     </md-card-content>
 
 </md-card>
