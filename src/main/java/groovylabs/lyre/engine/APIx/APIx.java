@@ -10,6 +10,7 @@ import groovylabs.lyre.domain.enums.Queue;
 import groovylabs.lyre.engine.APIx.filters.CORSFilter;
 import groovylabs.lyre.engine.APIx.services.BundleService;
 import groovylabs.lyre.engine.APIx.websocket.Dispatcher;
+import groovylabs.lyre.engine.interpreter.Interpreter;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Response;
 
@@ -36,11 +38,14 @@ public class APIx extends ResourceConfig {
 
     private static Container container;
 
+    @PostConstruct
+    public void APIx() {
+        config(this);
+    }
+
     public void boot(Bundle bundle) {
 
         APIx.bundle = bundle;
-
-        System.out.println("boooooooooooooooooooooooooooot");
 
         if (APIx.container != null) {
             final ResourceConfig resourceConfig = this.createResources(bundle, null);
