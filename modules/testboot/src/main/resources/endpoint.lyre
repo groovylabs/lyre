@@ -1,4 +1,4 @@
-GET /api/pinga:
+GET /api/pingc:
     idle: 1000
     response:
         data: $data
