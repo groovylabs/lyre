@@ -1,5 +1,5 @@
 import {FilterBar} from "./components/filter-bar/filter-bar";
-import {Requester} from "./components/endpoint-viewer/requester/requester";
+import {EndpointActions} from "./components/endpoint-viewer/endpoint-actions/endpoint-actions";
 import {EndpointInfo} from "./components/endpoint-viewer/endpoint-info/endpoint-info";
 import {EndpointLog} from "./components/endpoint-viewer/endpoint-log/endpoint-log";
 import {EndpointViewer} from "./components/endpoint-viewer/endpoint-viewer";
@@ -15,7 +15,7 @@ export function views() {
         Settings,
         FilterBar,
         EndpointViewer,
-        Requester,
+        EndpointActions,
         EndpointInfo,
         EndpointLog
     ];
