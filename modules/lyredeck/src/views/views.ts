@@ -1,11 +1,13 @@
-import {FilterBar} from "./components/filter-bar/filter-bar";
-import {Requester} from "./components/requester/requester";
-import {EndpointInfo} from "./components/endpoint-info/endpoint-info";
-import {DialogServerConnect} from "./components/dialog-server-connect/dialog-server-connect";
+import { FilterBar } from "./components/filter-bar/filter-bar";
+import { EndpointActions } from "./components/endpoint-viewer/endpoint-actions/endpoint-actions";
+import { EndpointInfo } from "./components/endpoint-viewer/endpoint-info/endpoint-info";
+import { EndpointLog } from "./components/endpoint-viewer/endpoint-log/endpoint-log";
+import { EndpointViewer } from "./components/endpoint-viewer/endpoint-viewer";
+import { DialogServerConnect } from "./components/dialog-server-connect/dialog-server-connect";
 
-import {Dashboard} from './contexts/dashboard/dashboard';
-import {Endpoints} from './contexts/endpoints/endpoints';
-import {Settings} from './contexts/settings/settings';
+import { Dashboard } from './contexts/dashboard/dashboard';
+import { Endpoints } from './contexts/endpoints/endpoints';
+import { Settings } from './contexts/settings/settings';
 
 export function views() {
     return [
@@ -13,8 +15,10 @@ export function views() {
         Endpoints,
         Settings,
         FilterBar,
-        Requester,
+        EndpointViewer,
+        EndpointActions,
         EndpointInfo,
+        EndpointLog,
         DialogServerConnect
     ];
 }

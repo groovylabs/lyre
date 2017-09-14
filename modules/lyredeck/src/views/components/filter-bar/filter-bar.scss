@@ -1,13 +1,16 @@
 :host {
 
-    display: flex;
-    height: 88vh;
-    width: 25vw;
+    height: 100%;
+    width: 100%;
+    display: inline-flex;
     margin-left: 0;
 
     md-card {
 
+        width: 100%;
+
         md-form-field {
+            width: 86%;
             float: left;
         }
 

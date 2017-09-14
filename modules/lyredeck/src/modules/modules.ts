@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 
+import {FlexLayoutModule} from "@angular/flex-layout";
+
 import {
     MdButtonModule,
     MdCheckboxModule,
@@ -19,6 +21,7 @@ import {
 
 @NgModule({
     imports: [
+        FlexLayoutModule,
         MdButtonModule,
         MdCheckboxModule,
         MdToolbarModule,
@@ -31,9 +34,11 @@ import {
         MdFormFieldModule,
         MdTableModule,
         MdPaginatorModule,
+        MdGridListModule,
         MdDialogModule
     ],
     exports: [
+        FlexLayoutModule,
         MdButtonModule,
         MdCheckboxModule,
         MdToolbarModule,
@@ -46,6 +51,7 @@ import {
         MdFormFieldModule,
         MdTableModule,
         MdPaginatorModule,
+        MdGridListModule,
         MdDialogModule
     ],
 })
