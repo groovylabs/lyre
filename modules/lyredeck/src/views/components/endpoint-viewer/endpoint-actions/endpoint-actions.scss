@@ -25,6 +25,24 @@
         .request-path {
             padding: 3px 0 0 16px;
             border-right: 2px solid $separator;
+            text-overflow: ellipsis;
+            box-sizing: border-box;
+        }
+
+        .send-button {
+            background-color: $success;
+        }
+
+        .edit-button {
+            background-color: $grey;
+        }
+
+        .log-button {
+            background-color: $dark-grey;
+        }
+
+        .remove-button {
+            background-color: $warn;
         }
 
     }
