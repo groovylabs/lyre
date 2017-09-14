@@ -1,0 +1,27 @@
+<div>
+    <h1 md-dialog-title>
+        Connect to server
+    </h1>
+
+    <div md-dialog-content>
+
+        <p>What server host do you want to connect?</p>
+
+        <md-form-field>
+            <input mdInput tabindex="1" [(ngModel)]="data.host">
+        </md-form-field>
+
+    </div>
+
+    <div md-dialog-actions>
+        <div>
+            <md-checkbox class="example-margin" [(ngModel)]="data.rememberMe">
+                Remember me
+            </md-checkbox>
+        </div>
+    </div>
+
+    <div class="show-end">
+        <button md-button (click)="closeDialog()">Ok</button>
+    </div>
+</div>

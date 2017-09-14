@@ -16,6 +16,7 @@ import {
     MdTableModule,
     MdPaginatorModule,
     MdGridListModule,
+    MdDialogModule,
     MdTooltipModule
 } from '@angular/material';
 
@@ -35,6 +36,7 @@ import {
         MdTableModule,
         MdPaginatorModule,
         MdGridListModule,
+        MdDialogModule,
         MdTooltipModule
     ],
     exports: [
@@ -52,6 +54,7 @@ import {
         MdTableModule,
         MdPaginatorModule,
         MdGridListModule,
+        MdDialogModule,
         MdTooltipModule
     ],
 })
