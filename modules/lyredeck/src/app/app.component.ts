@@ -45,6 +45,11 @@ export class AppComponent {
             });
 
             dialogRef.afterClosed().subscribe(result => {
+                if (typeof result === 'undefined') {
+                    result = {};
+                    result.rememberMe = false;
+                }
+
                 console.log(result);
                 console.log('The dialog was closed and the result was printed above.');
 
