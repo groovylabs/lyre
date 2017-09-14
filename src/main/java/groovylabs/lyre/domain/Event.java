@@ -7,7 +7,7 @@ public class Event {
 
     private Queue queue;
 
-    private Enum<EventAction> action;
+    private EventAction action;
 
     public Event(Queue queue, EventAction action) {
         this.queue = queue;
@@ -22,18 +22,12 @@ public class Event {
         this.queue = queue;
     }
 
-    public Enum<EventAction> getAction() {
+    public EventAction getAction() {
         return action;
     }
 
-    public void setAction(Enum<EventAction> action) {
+    public void setAction(EventAction action) {
         this.action = action;
     }
 
-    @Override
-    public String toString() {
-        return "Event{" +
-            "action='" + action +
-            '}';
-    }
 }
