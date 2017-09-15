@@ -1,5 +1,6 @@
 package groovylabs.lyre.engine.APIx.websocket;
 
+import groovylabs.lyre.domain.Endpoint;
 import groovylabs.lyre.domain.Event;
 import groovylabs.lyre.domain.enums.Queue;
 import groovylabs.lyre.engine.APIx.APIx;
@@ -16,9 +17,25 @@ public class Dispatcher {
     @Autowired
     private MessageSendingOperations<String> messagingTemplate;
 
-    public void publish(Event event) {
+    public void publish(Event<?> event) {
         if (event != null && event.getQueue() != null && event.getAction() != null) {
-            this.messagingTemplate.convertAndSend(queuePrefix + event.getQueue(), event);
+
+            String queue = "";
+
+            switch (event.getQueue()) {
+                case BUNDLE:
+                    queue = queuePrefix + event.getQueue();
+                    break;
+                case LOG:
+
+                    if (event.getSource() instanceof Endpoint) {
+                        queue = queuePrefix + event.getQueue() + "/" + ((Endpoint) event.getSource()).getHash();
+                    }
+
+                    break;
+            }
+
+            this.messagingTemplate.convertAndSend(queue, event);
         }
     }
 

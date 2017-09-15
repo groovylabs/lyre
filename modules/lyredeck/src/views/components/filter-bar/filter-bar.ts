@@ -2,7 +2,7 @@ import {Component, ViewChild, ElementRef} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
 import {MdPaginator} from '@angular/material';
-import {BundleDataSource, BundleService} from "../../../domain/BundleDataSource";
+import {BundleDataSource, BundleService} from "../../../domain/datasources/bundle.data.source";
 
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';

@@ -1,10 +1,8 @@
 GET /api/pingc:
-    idle: 1000
     response:
-        data: $data
+        produces: 'application/json'
+        data: '{"ok":true}'
         status: 200
-    setup:
-        busy: 2
 
 POST /api/ping:
     response:
