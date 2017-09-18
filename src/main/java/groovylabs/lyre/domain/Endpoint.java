@@ -1,9 +1,11 @@
 package groovylabs.lyre.domain;
 
+import com.google.common.hash.Hashing;
 import groovylabs.lyre.domain.appliers.Timer;
 import org.springframework.http.HttpMethod;
 
 import javax.ws.rs.core.Cookie;
+import java.nio.charset.StandardCharsets;
 
 public class Endpoint {
 
@@ -22,6 +24,8 @@ public class Endpoint {
     private Setup setup;
 
     private String fileName;
+
+    private String hash;
 
     public Endpoint() {
         this.setResponse(new Response());
@@ -95,5 +99,19 @@ public class Endpoint {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    public final void createHash() {
+        this.setHash(Hashing.sha256()
+            .hashString(this.getMethod() + this.getPath(), StandardCharsets.UTF_8)
+            .toString());
     }
 }

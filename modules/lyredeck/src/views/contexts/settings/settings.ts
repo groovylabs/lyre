@@ -1,6 +1,5 @@
-import { Component, OnInit, AfterViewChecked } from '@angular/core';
-import { LocalStorageService } from "../../../services/local-storage-service";
-
+import {Component, OnInit, AfterViewChecked} from '@angular/core';
+import {StorageService} from "../../../domain/services/storage.service";
 
 @Component({
     selector: 'settings',
@@ -10,9 +9,10 @@ import { LocalStorageService } from "../../../services/local-storage-service";
 
 export class Settings implements OnInit, AfterViewChecked {
 
-    private rememberMe : any;
+    private rememberMe: any;
 
-    constructor(public storageService : LocalStorageService) {}
+    constructor(public storageService: StorageService) {
+    }
 
     ngOnInit(): void {
         this.rememberMe = (this.storageService.getItem("rememberMe") == 'true');

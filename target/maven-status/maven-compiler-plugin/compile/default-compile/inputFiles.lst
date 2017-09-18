@@ -6,6 +6,7 @@
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/LyreApplication.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/APIx/websocket/listeners/StompSubscribeEventListener.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/scanner/Scanner.java
+/home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/domain/enums/Level.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/interpreter/Level.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/Lyre.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/domain/enums/FileType.java
@@ -16,6 +17,7 @@
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/APIx/websocket/APIxSocket.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/domain/Setup.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/APIx/services/HealthService.java
+/home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/APIx/logger/LogFactory.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/domain/Response.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/APIx/services/SettingService.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/domain/appliers/Timer.java
@@ -31,4 +33,6 @@
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/Overlay.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/interpreter/Interpreter.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/APIx/APIx.java
+/home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/engine/APIx/logger/LogFactoryConfig.java
+/home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/domain/Log.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/groovylabs/lyre/domain/enums/EventAction.java

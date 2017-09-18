@@ -1,10 +1,8 @@
-import { Component, ViewChild } from '@angular/core';
-
-import { StompService } from 'ng2-stomp-service';
-import { Registry } from "../domain/Registry";
-import { DialogServerConnect } from "../views/components/dialog-server-connect/dialog-server-connect";
-import { MdDialog } from "@angular/material";
-import { LocalStorageService } from "../services/local-storage-service";
+import {Component, ViewChild} from '@angular/core';
+import {RegistryService} from "../domain/services/registry.service";
+import {DialogServerConnect} from "../views/components/dialog-server-connect/dialog-server-connect";
+import {MdDialog, MdDialogConfig} from "@angular/material";
+import {StorageService} from "../domain/services/storage.service";
 
 @Component({
     selector: 'app-root',
@@ -15,13 +13,9 @@ export class AppComponent {
 
     @ViewChild('sidenav') sidenav;
 
-    registry: Registry;
-
     context: String = 'endpoints';
 
-    constructor(public dialog: MdDialog, public storageService: LocalStorageService,
-        stomp: StompService) {
-        this.registry = new Registry(stomp);
+    constructor(public dialog: MdDialog, public registryService: RegistryService, public storageService: StorageService) {
         this.connectToServer();
     }
 
@@ -30,19 +24,22 @@ export class AppComponent {
         this.sidenav.close();
     }
 
-    connectToServer(): void{
+    connectToServer(): void {
         console.log("inside on method connectToServer");
         console.log("this.storageService = " + this.storageService.getItem("rememberMe"));
 
-        if(this.storageService.getItem("rememberMe") == 'false') {
-            let dialogRef = this.dialog.open(DialogServerConnect, {
-              width: '320px',
-              height: '320px',
-              data: {
-                  host: 'http://localhost:8234/lyre',
-                  rememberMe: false
-              }
-            });
+        if (this.storageService.getItem("rememberMe") == 'false') {
+
+            let dialogConfig = new MdDialogConfig();
+            dialogConfig.width = '320px';
+            dialogConfig.height = '320px';
+            dialogConfig.data = {
+                host: 'http://localhost:8234/lyre',
+                rememberMe:
+                    false
+            };
+
+            let dialogRef = this.dialog.open(DialogServerConnect, dialogConfig);
 
             dialogRef.afterClosed().subscribe(result => {
                 if (typeof result === 'undefined') {

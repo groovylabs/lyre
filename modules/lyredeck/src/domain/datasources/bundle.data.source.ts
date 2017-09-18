@@ -1,10 +1,10 @@
 import {DataSource} from "@angular/cdk/collections";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
 import {MdPaginator} from "@angular/material";
-import {Endpoint} from "./Endpoint";
+import {Endpoint} from "../Endpoint";
 import {Observable} from "rxjs/Observable";
 import {HttpClient} from "@angular/common/http";
-import {Bundle} from "./Bundle";
+import {Bundle} from "../Bundle";
 
 export class BundleDataSource extends DataSource<any> {
 
@@ -63,6 +63,7 @@ export class BundleService {
     getBundle() {
 
         this.http.get('http://localhost:8234/lyre/bundle').subscribe((data: Bundle) => {
+            console.log(data);
             this.dataChange.next(data);
         });
     }

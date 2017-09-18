@@ -1,17 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StompService } from 'ng2-stomp-service';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {HttpModule} from '@angular/http';
+import {HttpClientModule} from '@angular/common/http';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-import { AppComponent } from './app.component';
+import {StompService} from 'ng2-stomp-service';
+import {RegistryService} from "../domain/services/registry.service";
+import {StorageService} from "../domain/services/storage.service";
 
-import { Modules } from '../modules/modules';
+import {AppComponent} from './app.component';
 
-import { views } from "../views/views";
-import { LocalStorageService } from "../services/local-storage-service";
+import {Modules} from '../modules/modules';
+
+import {views} from "../views/views";
 
 @NgModule({
     declarations: [
@@ -31,7 +33,8 @@ import { LocalStorageService } from "../services/local-storage-service";
     ],
     providers: [
         StompService,
-        LocalStorageService
+        RegistryService,
+        StorageService
     ],
     bootstrap: [AppComponent]
 })

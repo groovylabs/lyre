@@ -3,15 +3,22 @@ package groovylabs.lyre.domain;
 import groovylabs.lyre.domain.enums.EventAction;
 import groovylabs.lyre.domain.enums.Queue;
 
-public class Event {
+public class Event<T> {
 
     private Queue queue;
 
     private EventAction action;
 
+    private T source;
+
     public Event(Queue queue, EventAction action) {
+        this(queue, action, null);
+    }
+
+    public Event(Queue queue, EventAction action, T source) {
         this.queue = queue;
         this.action = action;
+        this.source = source;
     }
 
     public Queue getQueue() {
@@ -30,10 +37,11 @@ public class Event {
         this.action = action;
     }
 
-    @Override
-    public String toString() {
-        return "Event{" +
-            "action=" + action +
-            '}';
+    public T getSource() {
+        return source;
+    }
+
+    public void setSource(T source) {
+        this.source = source;
     }
 }

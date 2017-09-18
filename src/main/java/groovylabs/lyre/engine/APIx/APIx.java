@@ -8,9 +8,9 @@ import groovylabs.lyre.domain.appliers.Countdown;
 import groovylabs.lyre.domain.enums.EventAction;
 import groovylabs.lyre.domain.enums.Queue;
 import groovylabs.lyre.engine.APIx.filters.CORSFilter;
+import groovylabs.lyre.engine.APIx.logger.LogFactory;
 import groovylabs.lyre.engine.APIx.services.BundleService;
 import groovylabs.lyre.engine.APIx.websocket.Dispatcher;
-import groovylabs.lyre.engine.interpreter.Interpreter;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
@@ -29,6 +29,9 @@ import javax.ws.rs.core.Response;
 public class APIx extends ResourceConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(APIx.class);
+
+    @javax.annotation.Resource(name = "&log")
+    private LogFactory logFactory;
 
     @Autowired
     private Dispatcher dispatcher;
@@ -78,8 +81,12 @@ public class APIx extends ResourceConfig {
 
     private ResourceConfig createResources(Bundle bundle, ResourceConfig resourceConfig) {
 
-        if (resourceConfig == null)
+        Event bundleEvent = new Event(Queue.BUNDLE, EventAction.UPDATE);
+
+        if (resourceConfig == null) {
             resourceConfig = new ResourceConfig();
+            bundleEvent.setAction(EventAction.NEW);
+        }
 
         for (Endpoint endpoint : bundle.getEndpoints()) {
 
@@ -88,10 +95,12 @@ public class APIx extends ResourceConfig {
 
             resourceBuilder.addMethod(endpoint.getMethod().name())
                 .consumes(endpoint.getConsumes())
-                .produces(endpoint.getResponse().getProduces())
+                //.produces(endpoint.getResponse().getProduces())
                 .handledBy(new Inflector<ContainerRequestContext, Object>() {
                     @Override
                     public Response apply(ContainerRequestContext containerRequestContext) {
+
+                        dispatcher.publish(logFactory.logger(Endpoint.class, endpoint).info("Endpoint called").event());
 
                         Countdown countdown = endpoint.getSetup().getCountdown();
 
@@ -114,7 +123,7 @@ public class APIx extends ResourceConfig {
 
                             return Response
                                 .status(endpoint.getResponse().getStatus().value())
-                                .entity(endpoint.getResponse().getData()).build();
+                                .entity(endpoint.getResponse().getData()).type(endpoint.getResponse().getProduces()).build();
                         }
                     }
                 });
@@ -126,7 +135,7 @@ public class APIx extends ResourceConfig {
         resourceConfig.register(BundleService.class);
         resourceConfig.register(NotFoundExceptionMapper.class);
 
-        dispatcher.publish(new Event(Queue.BUNDLE, EventAction.UPDATE));
+        dispatcher.publish(bundleEvent);
 
         return resourceConfig;
     }

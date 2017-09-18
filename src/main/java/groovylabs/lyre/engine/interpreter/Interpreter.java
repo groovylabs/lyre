@@ -47,8 +47,10 @@ public class Interpreter {
                 try {
                     this.parse(endpoint, entry, Level.ENDPOINT);
 
-                    if (Validator.integrity(fileName, endpoint, bundle.getEndpoints(), update))
+                    if (Validator.integrity(fileName, endpoint, bundle.getEndpoints(), update)) {
+                        endpoint.createHash();
                         bundle.add(endpoint);
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();

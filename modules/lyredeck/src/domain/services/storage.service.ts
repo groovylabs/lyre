@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
+import {Injectable} from "@angular/core";
 
 const storage = localStorage;
 
 @Injectable()
-export class LocalStorageService {
+export class StorageService {
 
     getItem(key: string) {
         return storage.getItem(key);
