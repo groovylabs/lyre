@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Endpoint } from "../../../domain/Endpoint";
 
 @Component({
     selector: 'endpoint-viewer',
@@ -7,4 +8,7 @@ import {Component} from '@angular/core';
 })
 
 export class EndpointViewer {
+
+    @Input() endpoint : Endpoint;
+
 }

@@ -39,19 +39,23 @@ export class AppComponent {
               width: '320px',
               height: '320px',
               data: {
-                  host: 'http://localhost:8243/lyre',
+                  host: 'http://localhost:8234/lyre',
                   rememberMe: false
               }
             });
 
             dialogRef.afterClosed().subscribe(result => {
                 if (typeof result === 'undefined') {
-                    result = {};
-                    result.rememberMe = false;
+                    result = {
+                        host: "http://localhost:8234/lyre",
+                        rememberMe: false
+                    };
                 }
 
                 console.log(result);
                 console.log('The dialog was closed and the result was printed above.');
+
+                this.storageService.setItem("host", result.host);
 
                 if (result.rememberMe) {
                     this.storageService.setItem("rememberMe", result.rememberMe);

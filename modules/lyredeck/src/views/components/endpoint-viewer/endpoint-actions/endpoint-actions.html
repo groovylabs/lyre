@@ -1,17 +1,17 @@
 <md-card>
 
-    <md-card-content fxLayout="row">
+    <md-card-content fxLayout="row" *ngIf="endpoint">
 
         <div fxFlex="120px" class="request-type">
-            <h2>GET</h2>
+            <h2>{{endpoint.method}}</h2>
         </div>
 
         <div fxFlex="60%" class="request-path">
-            <h3>/lyre/to/test/with/a/long/path/inside/this/div/with/some/styles/yeah</h3>
+            <h3>{{endpoint.path}}</h3>
         </div>
 
         <div fxFlex fxLayoutAlign="center center">
-            <button md-mini-fab class="send-button" mdTooltip="Send" [mdTooltipPosition]="'below'">
+            <button md-mini-fab class="send-button" mdTooltip="Send" [mdTooltipPosition]="'below'" (click)="doRequest()">
                 <md-icon class="md-8" aria-label="Send">send</md-icon>
             </button>
         </div>
