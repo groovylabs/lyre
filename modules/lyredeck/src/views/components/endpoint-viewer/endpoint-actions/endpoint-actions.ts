@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 import { Endpoint } from "../../../../domain/Endpoint";
-import { LocalStorageService } from "../../../../services/local-storage-service";
+import { StorageService } from "../../../../domain/services/storage.service";
 
 @Component({
     selector: 'endpoint-actions',
@@ -14,7 +14,7 @@ export class EndpointActions {
 
     @Input() endpoint : Endpoint;
 
-    constructor(private http: HttpClient, public storageService : LocalStorageService) {
+    constructor(private http: HttpClient, public storageService : StorageService) {
     }
 
     doRequest() {

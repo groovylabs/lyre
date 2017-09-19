@@ -1,6 +1,7 @@
 GET /api/ping:
   response:
-    data: GET PONG
+    produces: application/json
+    data: '{"teste":"bla", "teste1": 1}'
     status: 200
 
 GET /test/livereload:
