@@ -113,5 +113,6 @@ public class Endpoint {
         this.setHash(Hashing.sha256()
             .hashString(this.getMethod() + this.getPath(), StandardCharsets.UTF_8)
             .toString());
+        System.out.println(this.getHash());
     }
 }

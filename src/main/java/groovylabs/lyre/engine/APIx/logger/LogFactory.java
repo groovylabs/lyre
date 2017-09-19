@@ -5,9 +5,12 @@ import org.springframework.beans.factory.FactoryBean;
 
 public class LogFactory implements FactoryBean<Log> {
 
-    public Log logger(Class clz, Object target) {
+    @SuppressWarnings("unchecked")
+    public Log logger(Class[] clz, Object... parameters) {
         Log logInstance = this.getObject();
-        logInstance.setTarget(clz.cast(target));
+        logInstance.setTarget(clz[0].cast(parameters[0]));
+        logInstance.setParameters(parameters);
+        logInstance.build();
         return logInstance;
     }
 

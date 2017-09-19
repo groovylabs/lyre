@@ -18,13 +18,17 @@ export class RegistryService {
         //start connection
         stomp.startConnect().then(() => {
             stomp.done('topic');
-            console.log('connected');
+        });
+
+        stomp.after('topic').then(() => {
 
             //subscribe
             this.subscription = stomp.subscribe('/registry/bundle', this.getBundle);
 
             stomp.subscribe('/registry/log/2c5ae7def9b71ddb2de8ca896a340b9648a75184948fd343ad6d4713b324dd6b', this.getLog);
 
+            console.log('after');
+            
         });
 
     }
