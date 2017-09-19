@@ -25,7 +25,6 @@ import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
 @Component
@@ -39,7 +38,6 @@ public class APIx extends ResourceConfig {
     @Autowired
     private Dispatcher dispatcher;
 
-    // TODO need to be stored (memory, file, redis if configurable)
     public static Bundle bundle = null;
 
     private static Container container;
@@ -77,7 +75,6 @@ public class APIx extends ResourceConfig {
 
             @Override
             public void onShutdown(final Container container) {
-                // ignore
             }
         });
     }
@@ -106,7 +103,7 @@ public class APIx extends ResourceConfig {
                     @Override
                     public Response apply(ContainerRequestContext containerRequestContext) {
 
-                        dispatcher.publish(logFactory.logger(new Class[]{Endpoint.class, HttpServletRequest.class}, endpoint, request).info("Endpoint called.").event());
+                        dispatcher.publish(logFactory.logger(endpoint, request).info("Endpoint called.").event());
 
                         Countdown countdown = endpoint.getSetup().getCountdown();
 

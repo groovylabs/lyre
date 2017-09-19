@@ -3,11 +3,8 @@ package groovylabs.lyre.engine.APIx.websocket;
 import groovylabs.lyre.domain.Endpoint;
 import groovylabs.lyre.domain.Event;
 import groovylabs.lyre.domain.Log;
-import groovylabs.lyre.domain.enums.Queue;
-import groovylabs.lyre.engine.APIx.APIx;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.core.MessageSendingOperations;
-import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.stereotype.Component;
 
 @Component

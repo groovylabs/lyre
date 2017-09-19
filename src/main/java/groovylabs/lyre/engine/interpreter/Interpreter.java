@@ -7,8 +7,6 @@ import groovylabs.lyre.domain.Bundle;
 import groovylabs.lyre.domain.Endpoint;
 import groovylabs.lyre.domain.appliers.Countdown;
 import groovylabs.lyre.engine.APIx.APIx;
-import groovylabs.lyre.engine.Overlay;
-import groovylabs.lyre.engine.reader.Reader;
 import groovylabs.lyre.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.util.Map;
 
 @Component

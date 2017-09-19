@@ -2,7 +2,6 @@ package groovylabs.lyre;
 
 import groovylabs.lyre.config.LyreProperties;
 import groovylabs.lyre.engine.APIx.APIx;
-import groovylabs.lyre.engine.APIx.logger.LogFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;

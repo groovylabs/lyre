@@ -17,7 +17,6 @@ public class BundleService {
     @Produces(MediaType.APPLICATION_JSON)
     public Response message() {
         return Response.ok().entity(APIx.bundle).build();
-
     }
 
 }
