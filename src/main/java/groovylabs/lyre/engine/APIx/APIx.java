@@ -22,7 +22,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 
 @Component
@@ -95,12 +98,15 @@ public class APIx extends ResourceConfig {
 
             resourceBuilder.addMethod(endpoint.getMethod().name())
                 .consumes(endpoint.getConsumes())
-                //.produces(endpoint.getResponse().getProduces())
                 .handledBy(new Inflector<ContainerRequestContext, Object>() {
+
+                    @Context
+                    private HttpServletRequest request;
+
                     @Override
                     public Response apply(ContainerRequestContext containerRequestContext) {
 
-                        dispatcher.publish(logFactory.logger(Endpoint.class, endpoint).info("Endpoint called").event());
+                        dispatcher.publish(logFactory.logger(new Class[]{Endpoint.class, HttpServletRequest.class}, endpoint, request).info("Endpoint called.").event());
 
                         Countdown countdown = endpoint.getSetup().getCountdown();
 

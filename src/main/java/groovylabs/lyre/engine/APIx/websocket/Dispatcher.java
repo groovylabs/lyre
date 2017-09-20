@@ -2,6 +2,7 @@ package groovylabs.lyre.engine.APIx.websocket;
 
 import groovylabs.lyre.domain.Endpoint;
 import groovylabs.lyre.domain.Event;
+import groovylabs.lyre.domain.Log;
 import groovylabs.lyre.domain.enums.Queue;
 import groovylabs.lyre.engine.APIx.APIx;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,8 @@ public class Dispatcher {
                     queue = queuePrefix + event.getQueue();
                     break;
                 case LOG:
-
-                    if (event.getSource() instanceof Endpoint) {
-                        queue = queuePrefix + event.getQueue() + "/" + ((Endpoint) event.getSource()).getHash();
+                    if (((Log) event.getSource()).getTarget() instanceof Endpoint) {
+                        queue = queuePrefix + event.getQueue() + "/" + ((Endpoint) ((Log) event.getSource()).getTarget()).getHash();
                     }
 
                     break;
