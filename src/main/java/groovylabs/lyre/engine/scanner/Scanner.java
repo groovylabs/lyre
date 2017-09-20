@@ -43,6 +43,9 @@ public class Scanner {
         if (lyreProperties.isEnableLivereload()) {
             Thread watcher = new Thread(new Watcher(this, files, lyreProperties));
             watcher.start();
+        } else {
+            LOGGER.info("Watcher disabled, " +
+                "to enable live-reload feature set 'lyre.enable-livereload=true' on properties");
         }
 
         reader.read(files.toArray(new File[]{}));

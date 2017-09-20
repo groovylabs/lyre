@@ -1,5 +1,6 @@
 package groovylabs.lyre.engine.APIx;
 
+import groovylabs.lyre.config.LyreProperties;
 import groovylabs.lyre.config.NotFoundExceptionMapper;
 import groovylabs.lyre.domain.Bundle;
 import groovylabs.lyre.domain.Endpoint;
@@ -8,7 +9,7 @@ import groovylabs.lyre.domain.appliers.Countdown;
 import groovylabs.lyre.domain.enums.EventAction;
 import groovylabs.lyre.domain.enums.Queue;
 import groovylabs.lyre.engine.APIx.filters.CORSFilter;
-import groovylabs.lyre.engine.APIx.logger.LogFactory;
+import groovylabs.lyre.domain.factories.LogFactory;
 import groovylabs.lyre.engine.APIx.services.BundleService;
 import groovylabs.lyre.engine.APIx.websocket.Dispatcher;
 import org.glassfish.jersey.process.Inflector;
@@ -20,17 +21,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 @Component
 public class APIx extends ResourceConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(APIx.class);
+
+    @Autowired
+    private LyreProperties lyreProperties;
 
     @javax.annotation.Resource(name = "&log")
     private LogFactory logFactory;
@@ -38,7 +45,8 @@ public class APIx extends ResourceConfig {
     @Autowired
     private Dispatcher dispatcher;
 
-    public static Bundle bundle = null;
+    @Autowired
+    private Bundle bundle;
 
     private static Container container;
 
@@ -47,9 +55,9 @@ public class APIx extends ResourceConfig {
         config(this);
     }
 
-    public void boot(Bundle bundle) {
+    public void boot() {
 
-        APIx.bundle = bundle;
+        LOGGER.info("Booting endpoint bundle into APIx engine...");
 
         if (APIx.container != null) {
             final ResourceConfig resourceConfig = this.createResources(bundle, null);
@@ -57,6 +65,7 @@ public class APIx extends ResourceConfig {
         } else {
             this.createResources(bundle, this);
         }
+
     }
 
     private void config(final ResourceConfig resourceConfig) {
@@ -64,13 +73,27 @@ public class APIx extends ResourceConfig {
 
             @Override
             public void onStartup(final Container container) {
-                LOGGER.info("Jersey Application started");
+                LOGGER.info("Lyre Mock Application [STARTED]");
+
+                try {
+                    InetAddress ip = InetAddress.getLocalHost();
+
+                    LOGGER.info("\u21B3 " + "Endpoints are available at: http://{}:{}/{}{}",
+                        ip.getHostAddress(),
+                        lyreProperties.getPort(),
+                        (!StringUtils.isEmpty(lyreProperties.getContextPath()) ? lyreProperties.getContextPath() + "/" : ""),
+                        lyreProperties.getLyrePath());
+
+                } catch (UnknownHostException e) {
+
+                }
+
                 APIx.container = container;
             }
 
             @Override
             public void onReload(final Container container) {
-                LOGGER.info("Jersey Application reloaded");
+                LOGGER.info("Lyre Mock Application [RELOADED]");
             }
 
             @Override

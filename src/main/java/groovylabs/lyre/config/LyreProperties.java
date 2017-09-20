@@ -13,14 +13,14 @@ public class LyreProperties {
 
     private String contextPath = "";
 
-    private String lyrePath = "/lyre";
+    private String lyrePath = "lyre";
 
     private String scanPath = System.getProperty("user.dir") + "/src/main/resources";
 
     private String fileFormat = ".lyre";
 
     private boolean debug = false;
-    
+
     public boolean isEnableRemoteConnections() {
         return enableRemoteConnections;
     }

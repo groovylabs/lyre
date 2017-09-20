@@ -67,7 +67,7 @@ public class Watcher extends Overlay<Scanner> implements Runnable {
             if (lyreProperties.isDebug()) {
                 e.printStackTrace();
             } else
-                LOGGER.warn("Enable debug mode to see stacktrace log");
+                LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
 
         }
     }

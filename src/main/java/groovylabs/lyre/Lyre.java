@@ -14,6 +14,7 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.StringUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -62,7 +63,9 @@ public class Lyre {
             registration.addInitParameter(entry.getKey(), entry.getValue());
         }
 
-        registration.addUrlMappings(lyreProperties.getLyrePath() + "/*");
+        registration.addUrlMappings("/" +
+            (StringUtils.isEmpty(lyreProperties.getLyrePath()) ? "lyre" : lyreProperties.getLyrePath())
+            + "/*");
         registration.setName(APIx.class.getName());
         registration.setLoadOnStartup(1);
         return registration;

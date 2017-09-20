@@ -1,4 +1,4 @@
-package groovylabs.lyre.engine.interpreter;
+package groovylabs.lyre.domain.enums;
 
 public enum Property {
 

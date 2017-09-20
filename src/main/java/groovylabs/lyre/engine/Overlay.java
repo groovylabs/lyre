@@ -19,4 +19,5 @@ public abstract class Overlay<T> {
     public void setLayer(T layer) {
         this.layer = layer;
     }
+
 }

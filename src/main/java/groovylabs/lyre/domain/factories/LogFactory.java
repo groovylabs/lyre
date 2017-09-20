@@ -1,4 +1,4 @@
-package groovylabs.lyre.engine.APIx.logger;
+package groovylabs.lyre.domain.factories;
 
 import groovylabs.lyre.domain.Log;
 import org.springframework.beans.factory.FactoryBean;
