@@ -82,7 +82,7 @@ public class APIx extends ResourceConfig {
                         ip.getHostAddress(),
                         lyreProperties.getPort(),
                         (!StringUtils.isEmpty(lyreProperties.getContextPath()) ? lyreProperties.getContextPath() + "/" : ""),
-                        lyreProperties.getLyrePath());
+                        lyreProperties.getApiPath());
 
                 } catch (UnknownHostException e) {
 

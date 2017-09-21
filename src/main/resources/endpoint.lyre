@@ -1,4 +1,4 @@
-GET /api/ping:
+GET /ping:
   response:
     data: GET PONG
     status: 200

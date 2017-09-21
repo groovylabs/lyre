@@ -13,7 +13,7 @@ public class LyreProperties {
 
     private String contextPath = "";
 
-    private String lyrePath = "lyre";
+    private String apiPath = "api";
 
     private String scanPath = System.getProperty("user.dir") + "/src/main/resources";
 
@@ -53,12 +53,12 @@ public class LyreProperties {
         this.contextPath = contextPath;
     }
 
-    public String getLyrePath() {
-        return lyrePath;
+    public String getApiPath() {
+        return apiPath;
     }
 
-    public void setLyrePath(String lyrePath) {
-        this.lyrePath = lyrePath;
+    public void setApiPath(String apiPath) {
+        this.apiPath = apiPath;
     }
 
     public String getScanPath() {
