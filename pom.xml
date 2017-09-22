@@ -66,11 +66,6 @@
             <version>23.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.6</version>
-        </dependency>
     </dependencies>
 
     <repositories>
@@ -89,6 +84,7 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
+                    <proc>none</proc>
                 </configuration>
             </plugin>
 

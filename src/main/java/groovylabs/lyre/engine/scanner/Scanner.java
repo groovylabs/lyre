@@ -1,8 +1,9 @@
 package groovylabs.lyre.engine.scanner;
 
-import groovylabs.lyre.config.ScannerProperties;
-import groovylabs.lyre.engine.Overlay;
+import groovylabs.lyre.config.LyreProperties;
 import groovylabs.lyre.engine.reader.Reader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,10 +15,15 @@ import java.util.List;
 @Component
 public class Scanner {
 
-    private List<File> files = new ArrayList<>();
+    private static final Logger LOGGER = LoggerFactory.getLogger(Scanner.class);
 
     @Autowired
     private Reader reader;
+
+    @Autowired
+    private LyreProperties lyreProperties;
+
+    private List<File> files = new ArrayList<>();
 
     @PostConstruct
     public void Scanner() {
@@ -25,27 +31,34 @@ public class Scanner {
     }
 
     public void scan() {
-        System.out.println("resources path = " + ScannerProperties.path);
 
-        File folder = new File(ScannerProperties.path);
+        LOGGER.info("Scanning [*{}] files on path: [{}]",
+            lyreProperties.getFileFormat(), lyreProperties.getScanPath());
+
+        File folder = new File(lyreProperties.getScanPath());
         File[] fileList = folder.listFiles();
 
         searchFiles(fileList);
 
-        Thread checkLyreFiles = new Thread(new Watcher(this, files));
-        checkLyreFiles.start();
+        if (lyreProperties.isEnableLivereload()) {
+            Thread watcher = new Thread(new Watcher(this, files, lyreProperties));
+            watcher.start();
+        } else {
+            LOGGER.info("Watcher disabled, " +
+                "to enable live-reload feature set 'lyre.enable-livereload=true' on properties");
+        }
 
         reader.read(files.toArray(new File[]{}));
     }
 
-    private void searchFiles(File[] listOfFiles) {
+    private void searchFiles(File[] fileList) {
 
-        for (File fileOrFolder : listOfFiles) {
+        for (File file : fileList) {
 
-            if (fileOrFolder.isFile() && fileOrFolder.getName().endsWith(".lyre"))
-                files.add(fileOrFolder);
-            else if (fileOrFolder.isDirectory())
-                searchFiles(fileOrFolder.listFiles());
+            if (file.isFile() && file.getName().endsWith(lyreProperties.getFileFormat()))
+                files.add(file);
+            else if (file.isDirectory())
+                searchFiles(file.listFiles());
 
         }
     }

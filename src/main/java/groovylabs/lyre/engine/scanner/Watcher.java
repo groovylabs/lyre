@@ -1,7 +1,9 @@
 package groovylabs.lyre.engine.scanner;
 
-import groovylabs.lyre.config.ScannerProperties;
+import groovylabs.lyre.config.LyreProperties;
 import groovylabs.lyre.engine.Overlay;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,14 +12,23 @@ import java.util.List;
 
 public class Watcher extends Overlay<Scanner> implements Runnable {
 
-    private final Path path = FileSystems.getDefault().getPath(ScannerProperties.path);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Watcher.class);
+
+    private LyreProperties lyreProperties;
+
+    private final Path path;
 
     private List<File> files;
 
-    public Watcher(Scanner scanner, List<File> files) {
+    public Watcher(Scanner scanner, List<File> files, LyreProperties lyreProperties) {
         super(scanner);
 
+        LOGGER.info("Watching [*{}] files on path: [{}]",
+            lyreProperties.getFileFormat(), lyreProperties.getScanPath());
+
+        this.path = FileSystems.getDefault().getPath(lyreProperties.getScanPath());
         this.files = files;
+        this.lyreProperties = lyreProperties;
     }
 
     @Override
@@ -35,21 +46,29 @@ public class Watcher extends Overlay<Scanner> implements Runnable {
                     final Path changedPath = (Path) event.context();
                     File changedFile = new File(changedPath.getFileName().toString());
 
-                    if (changedFile.getName().endsWith(".lyre")) {
+                    if (changedFile.getName().endsWith(lyreProperties.getFileFormat())) {
                         for (File file : files) {
                             if (file.getName().equals(changedFile.getName())) {
+
+                                LOGGER.info("Loading new file [{}] on path [{}]", file.getName(), changedPath);
                                 overlay().getReader().read(file);
                                 break;
                             }
                         }
-                    } else {
                     }
                 }
 
                 wk.reset();
             }
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+
+            LOGGER.error("Error during watch files");
+
+            if (lyreProperties.isDebug()) {
+                e.printStackTrace();
+            } else
+                LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
+
         }
     }
 

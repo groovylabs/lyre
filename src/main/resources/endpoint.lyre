@@ -1,4 +1,4 @@
-GET /api/ping:
+GET /ping:
   response:
     produces: application/json
     data: '{"teste":"bla", "teste1": 1}'

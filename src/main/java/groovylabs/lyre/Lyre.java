@@ -2,7 +2,6 @@ package groovylabs.lyre;
 
 import groovylabs.lyre.config.LyreProperties;
 import groovylabs.lyre.engine.APIx.APIx;
-import groovylabs.lyre.engine.APIx.logger.LogFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
@@ -15,6 +14,7 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.util.StringUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -63,7 +63,9 @@ public class Lyre {
             registration.addInitParameter(entry.getKey(), entry.getValue());
         }
 
-        registration.addUrlMappings(lyreProperties.getLyrePath() + "/*");
+        registration.addUrlMappings("/" +
+            (StringUtils.isEmpty(lyreProperties.getApiPath()) ? "lyre" : lyreProperties.getApiPath())
+            + "/*");
         registration.setName(APIx.class.getName());
         registration.setLoadOnStartup(1);
         return registration;

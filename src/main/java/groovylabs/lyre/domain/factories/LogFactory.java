@@ -1,4 +1,4 @@
-package groovylabs.lyre.engine.APIx.logger;
+package groovylabs.lyre.domain.factories;
 
 import groovylabs.lyre.domain.Log;
 import org.springframework.beans.factory.FactoryBean;
@@ -6,10 +6,10 @@ import org.springframework.beans.factory.FactoryBean;
 public class LogFactory implements FactoryBean<Log> {
 
     @SuppressWarnings("unchecked")
-    public Log logger(Class[] clz, Object... parameters) {
+    public Log logger(Object... objects) {
         Log logInstance = this.getObject();
-        logInstance.setTarget(clz[0].cast(parameters[0]));
-        logInstance.setParameters(parameters);
+        logInstance.setTarget(objects[0]);
+        logInstance.setParameters(objects);
         logInstance.build();
         return logInstance;
     }
