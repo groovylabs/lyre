@@ -72,7 +72,7 @@ public class APIx extends ResourceConfig {
 
             @Override
             public void onStartup(final Container container) {
-                LOGGER.info("Lyre Mock Application [STARTED]");
+                LOGGER.info("Lyre REST API Mock tool started");
 
                 LOGGER.info("\u21B3 " + "Endpoints are available at: http://{}:{}/{}{}",
                     InetAddress.getLoopbackAddress().getHostAddress(),

@@ -1,10 +1,10 @@
 package boot;
 
-import com.github.groovylabs.lyre.LyreApplication;
+import com.github.groovylabs.lyre.EnableLyre;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@LyreApplication
+@EnableLyre
 @SpringBootApplication
 public class TestBoot {
 

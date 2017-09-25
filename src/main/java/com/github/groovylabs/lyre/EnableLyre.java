@@ -9,6 +9,6 @@ import java.lang.annotation.*;
 @Target(value = ElementType.TYPE)
 @Documented
 @Import(LyreConfiguration.class)
-public @interface LyreApplication {
+public @interface EnableLyre {
 
 }

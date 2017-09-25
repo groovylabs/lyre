@@ -32,8 +32,8 @@
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/com/github/groovylabs/lyre/domain/Event.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/com/github/groovylabs/lyre/engine/APIx/websocket/Dispatcher.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/com/github/groovylabs/lyre/config/LyreProperties.java
+/home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/com/github/groovylabs/lyre/EnableLyre.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/com/github/groovylabs/lyre/domain/enums/LogLevel.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/com/github/groovylabs/lyre/engine/reader/Reader.java
-/home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/com/github/groovylabs/lyre/LyreApplication.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/com/github/groovylabs/lyre/domain/enums/FileType.java
 /home/CIT/kaiocb/workspace/groovelabs/lyre/src/main/java/com/github/groovylabs/lyre/engine/APIx/services/HealthService.java
