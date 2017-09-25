@@ -4,6 +4,7 @@ import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.engine.reader.Reader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class Scanner {
+public class Scanner implements InitializingBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Scanner.class);
 
@@ -25,7 +26,11 @@ public class Scanner {
 
     private List<File> files = new ArrayList<>();
 
-    @PostConstruct
+    public void afterPropertiesSet() throws Exception {
+        scan();
+    }
+
+    //@PostConstruct
     public void Scanner() {
         scan();
     }
@@ -36,19 +41,27 @@ public class Scanner {
             lyreProperties.getFileFormat(), lyreProperties.getScanPath());
 
         File folder = new File(lyreProperties.getScanPath());
-        File[] fileList = folder.listFiles();
 
-        searchFiles(fileList);
+        if (folder.isDirectory()) {
 
-        if (lyreProperties.isEnableLivereload()) {
-            Thread watcher = new Thread(new Watcher(this, files, lyreProperties));
-            watcher.start();
+            File[] fileList = folder.listFiles();
+
+            searchFiles(fileList);
+
+            if (lyreProperties.isEnableLivereload()) {
+                Thread watcher = new Thread(new Watcher(this, files, lyreProperties));
+                watcher.start();
+            } else {
+                LOGGER.info("Watcher disabled, " +
+                    "to enable live-reload feature set 'lyre.enable-livereload=true' on properties");
+            }
+
+            reader.read(files.toArray(new File[]{}));
+
         } else {
-            LOGGER.info("Watcher disabled, " +
-                "to enable live-reload feature set 'lyre.enable-livereload=true' on properties");
+            LOGGER.error("Error while scanning, scan-path property must point to a valid directory.");
         }
 
-        reader.read(files.toArray(new File[]{}));
     }
 
     private void searchFiles(File[] fileList) {
@@ -69,5 +82,21 @@ public class Scanner {
 
     public void setReader(Reader reader) {
         this.reader = reader;
+    }
+
+    public LyreProperties getLyreProperties() {
+        return lyreProperties;
+    }
+
+    public void setLyreProperties(LyreProperties lyreProperties) {
+        this.lyreProperties = lyreProperties;
+    }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<File> files) {
+        this.files = files;
     }
 }
