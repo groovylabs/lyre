@@ -87,4 +87,12 @@ public class Reader {
 
         }
     }
+
+    public LyreProperties getLyreProperties() {
+        return lyreProperties;
+    }
+
+    public void setLyreProperties(LyreProperties lyreProperties) {
+        this.lyreProperties = lyreProperties;
+    }
 }

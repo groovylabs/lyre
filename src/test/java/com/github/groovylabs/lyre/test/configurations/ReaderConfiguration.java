@@ -1,6 +1,7 @@
 package com.github.groovylabs.lyre.test.configurations;
 
 import com.github.groovylabs.lyre.config.LyreProperties;
+import com.github.groovylabs.lyre.engine.interpreter.Interpreter;
 import com.github.groovylabs.lyre.engine.reader.Reader;
 import com.github.groovylabs.lyre.engine.scanner.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +14,19 @@ import org.springframework.context.annotation.*;
     LyrePropertiesConfiguration.class,
     ResourcesConfiguration.class
 })
-public class ScannerConfiguration {
+public class ReaderConfiguration {
 
     @Autowired
     private LyreProperties lyreProperties;
 
     @MockBean
-    private Reader reader;
+    private Interpreter interpreter;
 
     @Bean
     @Primary
-    public Scanner scanner() {
-        Scanner scanner = new Scanner();
-        return scanner;
+    public Reader reader() {
+        Reader reader = new Reader();
+        return reader;
     }
 
 }

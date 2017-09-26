@@ -5,9 +5,9 @@ import com.github.groovylabs.lyre.engine.scanner.Scanner;
 import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguration;
 import com.github.groovylabs.lyre.test.configurations.ResourcesConfiguration;
 import com.github.groovylabs.lyre.test.configurations.ScannerConfiguration;
+import com.github.groovylabs.lyre.test.initializations.InitializingResourceBean;
 import com.github.groovylabs.lyre.test.tools.Resources;
 import com.github.groovylabs.lyre.test.tools.TempIO;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +29,13 @@ import static org.assertj.core.api.Assertions.assertThat;
     ScannerConfiguration.class
 })
 @TestPropertySource("classpath:application.properties")
-public class ScannerTest {
+public class ScannerTest extends InitializingResourceBean {
 
     @Autowired
     private Resources resources;
 
     @Autowired
     private Scanner scanner;
-
-    @Before
-    public void init() {
-        //changing default test path to temp directory
-        scanner.getLyreProperties().setScanPath(resources.getDirectory(0).getAbsolutePath());
-    }
 
     /**
      * Test Scanner method: scan()
@@ -108,4 +102,13 @@ public class ScannerTest {
                 tempFiles.get("test-third-wrong-extension.ext").getName());
     }
 
+    @Override
+    public Resources getResources() {
+        return resources;
+    }
+
+    @Override
+    public Scanner getScanner() {
+        return scanner;
+    }
 }
