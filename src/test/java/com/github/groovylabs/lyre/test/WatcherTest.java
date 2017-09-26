@@ -45,9 +45,6 @@ public class WatcherTest extends InitializingResourceBean {
 
     @Before
     public void init() {
-        //changing default test path to temp directory
-        scanner.getLyreProperties().setScanPath(resources.getDirectory(0).getAbsolutePath());
-
         //changing live-reload property to true.
         scanner.getLyreProperties().setEnableLivereload(true);
     }

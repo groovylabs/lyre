@@ -5,6 +5,7 @@ import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguratio
 import com.github.groovylabs.lyre.test.configurations.ReaderConfiguration;
 import com.github.groovylabs.lyre.test.configurations.ResourcesConfiguration;
 import com.github.groovylabs.lyre.test.tools.Resources;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
@@ -28,5 +29,14 @@ public class ReaderTest {
     @Autowired
     private Reader reader;
 
+    @Test
+    public void readJSONFile() {
+
+    }
+
+    @Test
+    public void readYAMLFile() {
+
+    }
 
 }
