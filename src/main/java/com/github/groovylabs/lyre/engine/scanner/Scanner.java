@@ -26,12 +26,11 @@ public class Scanner implements InitializingBean {
 
     private List<File> files = new ArrayList<>();
 
-    public void afterPropertiesSet() throws Exception {
-        scan();
-    }
+    private Thread watcherInstance = null;
 
-    //@PostConstruct
-    public void Scanner() {
+    private Watcher watcher = null;
+
+    public void afterPropertiesSet() throws Exception {
         scan();
     }
 
@@ -48,13 +47,7 @@ public class Scanner implements InitializingBean {
 
             searchFiles(fileList);
 
-            if (lyreProperties.isEnableLivereload()) {
-                Thread watcher = new Thread(new Watcher(this, files, lyreProperties));
-                watcher.start();
-            } else {
-                LOGGER.info("Watcher disabled, " +
-                    "to enable live-reload feature set 'lyre.enable-livereload=true' on properties");
-            }
+            startWatcher(files);
 
             reader.read(files.toArray(new File[]{}));
 
@@ -64,7 +57,20 @@ public class Scanner implements InitializingBean {
 
     }
 
-    private void searchFiles(File[] fileList) {
+    public final void startWatcher(List<File> files) {
+        if (watcherInstance == null) {
+            if (lyreProperties.isEnableLivereload()) {
+                watcher = new Watcher(this, files, lyreProperties);
+                watcherInstance = new Thread(watcher);
+                watcherInstance.start();
+            } else {
+                LOGGER.info("Watcher disabled, " +
+                    "to enable live-reload feature set 'lyre.enable-livereload=true' on properties");
+            }
+        }
+    }
+
+    private List<File> searchFiles(File[] fileList) {
 
         for (File file : fileList) {
 
@@ -74,6 +80,8 @@ public class Scanner implements InitializingBean {
                 searchFiles(file.listFiles());
 
         }
+
+        return files;
     }
 
     public Reader getReader() {
@@ -98,5 +106,13 @@ public class Scanner implements InitializingBean {
 
     public void setFiles(List<File> files) {
         this.files = files;
+    }
+
+    public final Thread getWatcherInstance() {
+        return watcherInstance;
+    }
+
+    public final Watcher getWatcher() {
+        return watcher;
     }
 }

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class Watcher extends Overlay<Scanner> implements Runnable {
 
@@ -72,4 +73,7 @@ public class Watcher extends Overlay<Scanner> implements Runnable {
         }
     }
 
+    public final List<File> getFiles() {
+        return files;
+    }
 }
