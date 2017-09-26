@@ -3,7 +3,11 @@ package com.github.groovylabs.lyre.test;
 import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.engine.reader.Reader;
 import com.github.groovylabs.lyre.engine.scanner.Scanner;
-import com.github.groovylabs.lyre.test.utils.TempIO;
+import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguration;
+import com.github.groovylabs.lyre.test.configurations.ResourcesConfiguration;
+import com.github.groovylabs.lyre.test.configurations.ScannerConfiguration;
+import com.github.groovylabs.lyre.test.tools.Resources;
+import com.github.groovylabs.lyre.test.tools.TempIO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,11 +20,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
@@ -32,23 +33,26 @@ import static org.mockito.Mockito.verify;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @Import({
-    LyreTestConfiguration.class
+    LyrePropertiesConfiguration.class,
+    ResourcesConfiguration.class,
+    ScannerConfiguration.class
 })
 @TestPropertySource("classpath:application.properties")
 public class WatcherTest {
 
-    @MockBean
-    private Reader reader;
+    @Autowired
+    private Resources resources;
 
     @Autowired
-    private LyreProperties lyreProperties;
-
     private Scanner scanner;
 
     @Before
     public void init() {
-        scanner = new Scanner();
-        scanner.setReader(reader);
+        //changing default test path to temp directory
+        scanner.getLyreProperties().setScanPath(resources.getDirectory(0).getAbsolutePath());
+
+        //changing live-reload property to true.
+        scanner.getLyreProperties().setEnableLivereload(true);
     }
 
     /**
@@ -57,32 +61,12 @@ public class WatcherTest {
     @Test
     public void watcherTest() {
 
-        File[] directories = null;
-
-        try {
-            // creating temp directory to create temporary files on it.
-            directories = TempIO.createTempDirectories();
-        } catch (IOException e) {
-            fail("Couldn't create temporary directories: " + e.getMessage());
-        }
-
-        assertThat(directories).isNotNull();
-        Arrays.stream(directories).forEach(dir -> assertThat(dir).isNotNull());
-
-        //changing default test path to temp directory
-        lyreProperties.setScanPath(directories[0].getAbsolutePath());
-
-        //changing live-reload property to true.
-        lyreProperties.setEnableLivereload(true);
-
-        scanner.setLyreProperties(lyreProperties);
-
         //creating files to test - on root
         HashMap<String, String> rootEntries = new HashMap<>();
         rootEntries.put("test-watch-intact", ".lyre");
         rootEntries.put("test-watch-modified", ".lyre");
 
-        HashMap<String, File> rootFiles = TempIO.buildFiles(directories[0], rootEntries);
+        HashMap<String, File> rootFiles = TempIO.buildFiles(resources.getDirectory(0), rootEntries);
 
         //call scanner method
         scanner.startWatcher(new ArrayList<>(rootFiles.values()));
@@ -98,7 +82,7 @@ public class WatcherTest {
         //should have a watcher thread instance
         assertThat(scanner.getWatcherInstance()).isNotNull();
         assertThat(scanner.getWatcher()).isNotNull();
-        verify(reader, times(1)).read(any());
+        verify(scanner.getReader(), times(1)).read(any());
         assertThat(scanner.getWatcher().getFiles()).extracting("name")
             .contains(
                 rootFiles.get("test-watch-modified.lyre").getName());

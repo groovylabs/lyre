@@ -1,12 +1,13 @@
-package com.github.groovylabs.lyre.test.utils;
+package com.github.groovylabs.lyre.test.tools;
 
 import com.google.common.io.Files;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class TempIO {
@@ -65,13 +66,7 @@ public class TempIO {
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
         writer.write(message);
-
         writer.close();
-
-//        Path path = Paths.get(file.getAbsolutePath());
-//        byte[] strToBytes = message.getBytes();
-//
-//        java.nio.file.Files.write(path, strToBytes);
 
     }
 }

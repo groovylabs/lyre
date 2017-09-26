@@ -1,4 +1,4 @@
-package com.github.groovylabs.lyre.test;
+package com.github.groovylabs.lyre.test.configurations;
 
 import com.github.groovylabs.lyre.config.LyreProperties;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Profile;
 
 @Profile("test")
 @Configuration
-public class LyreTestConfiguration {
+public class LyrePropertiesConfiguration {
 
     @Bean
     @Primary

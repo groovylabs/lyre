@@ -1,7 +1,6 @@
-package com.github.groovylabs.lyre.test.mocks;
+package com.github.groovylabs.lyre.test.configurations;
 
-import com.github.groovylabs.lyre.engine.APIx.APIx;
-import org.mockito.Mockito;
+import com.github.groovylabs.lyre.test.tools.Resources;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -9,12 +8,12 @@ import org.springframework.context.annotation.Profile;
 
 @Profile("test")
 @Configuration
-public class APIxMockConfiguration {
+public class ResourcesConfiguration {
 
     @Bean
     @Primary
-    public APIx apix() {
-        return Mockito.mock(APIx.class);
+    public Resources resources() {
+        return new Resources();
     }
 
 }
