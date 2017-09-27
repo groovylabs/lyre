@@ -1,4 +1,5 @@
 GET /ping:
+  data: '{"teste":"bla", "teste1": 1}'
   response:
     produces: application/json
     data: '{"teste":"bla", "teste1": 1}'

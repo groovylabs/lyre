@@ -10,4 +10,29 @@
         padding: 0;
     }
 
+    .full-height {
+        height: 100%;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .half-width {
+        width: 50%;
+    }
+
+    .margin-spacer {
+        margin: 15px;
+    }
+
+    /deep/ div .mat-tab-label {
+        height: 30px;
+        width: 50%;
+    }
+
+    .split-div {
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
 }

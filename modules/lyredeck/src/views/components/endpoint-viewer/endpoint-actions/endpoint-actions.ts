@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 import { Endpoint } from "../../../../domain/Endpoint";
@@ -12,7 +12,13 @@ import { StorageService } from "../../../../domain/services/storage.service";
 
 export class EndpointActions {
 
+    private openLog = false;
+
     @Input() endpoint : Endpoint;
+
+    @Output('buttonLog') showLogEvent = new EventEmitter();
+
+    @Output('endpointResponse') endpointResponseEvent = new EventEmitter();
 
     constructor(private http: HttpClient, public storageService : StorageService) {
     }
@@ -22,16 +28,24 @@ export class EndpointActions {
         switch(this.endpoint.method) {
 
             case 'GET':
-                this.http.get(this.storageService.getItem("host") + this.endpoint.path).subscribe(data => {
-                    //TODO: Set data to de endpoint-action view.
-                    console.log(data);
-                    console.log('data retrieved by the host = ' + this.storageService.getItem("host") + this.endpoint.path);
+                this.http.get(this.storageService.getItem("host") + this.endpoint.path,
+                        {observe : "response"}).subscribe(resp => {
+                    this.endpointResponse(resp);
                 });
                 break;
             default:
                 console.log('the requisition cant be applied.');
 
         }
+    }
+
+    logAction(openLog : boolean) {
+        this.openLog = openLog;
+        this.showLogEvent.emit(openLog);
+    }
+
+    endpointResponse(endpointResponse) {
+        this.endpointResponseEvent.emit(endpointResponse);
     }
 
 }

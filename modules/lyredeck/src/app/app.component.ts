@@ -34,7 +34,7 @@ export class AppComponent {
             dialogConfig.width = '320px';
             dialogConfig.height = '320px';
             dialogConfig.data = {
-                host: 'http://localhost:8234/lyre',
+                host: 'http://localhost:8234/api',
                 rememberMe:
                     false
             };
@@ -44,7 +44,7 @@ export class AppComponent {
             dialogRef.afterClosed().subscribe(result => {
                 if (typeof result === 'undefined') {
                     result = {
-                        host: "http://localhost:8234/lyre",
+                        host: "http://localhost:8234/api",
                         rememberMe: false
                     };
                 }

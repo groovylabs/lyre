@@ -8,7 +8,8 @@
 
     <div fxFlex="60px">
 
-        <endpoint-actions [endpoint]="endpoint"></endpoint-actions>
+        <endpoint-actions [endpoint]="endpoint"
+            (buttonLog)="logAction($event)" (endpointResponse)="endpointResponse($event)"></endpoint-actions>
 
         <!--<div fxFlex="100">-->
             <!--<div fxLayout="row" fxLayoutGap="10px">-->
@@ -24,7 +25,11 @@
         <!--</div>-->
     </div>
 
-    <div fxFlex>
+    <div fxLayout="column" fxFlex *ngIf="!openLog">
+        <endpoint-info [endpoint]="endpoint" [endpointResponse]="response"></endpoint-info>
+    </div>
+
+    <div fxLayout="column" fxFlex *ngIf="openLog">
         <endpoint-log></endpoint-log>
     </div>
 </div>

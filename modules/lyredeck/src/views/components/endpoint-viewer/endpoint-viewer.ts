@@ -9,6 +9,19 @@ import { Endpoint } from "../../../domain/Endpoint";
 
 export class EndpointViewer {
 
+    private openLog = false;
+
+    private response : any;
+
     @Input() endpoint : Endpoint;
+
+    logAction(openLog : boolean) {
+        console.log('inside of endpoint-viewer, the value of openLog is : ' + openLog);
+        this.openLog = openLog;
+    }
+
+    endpointResponse(endpointResponse) {
+        this.response = endpointResponse;
+    }
 
 }

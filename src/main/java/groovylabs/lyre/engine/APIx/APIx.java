@@ -115,7 +115,6 @@ public class APIx extends ResourceConfig {
 
             Resource.Builder resourceBuilder =
                 Resource.builder().path(endpoint.getPath());
-
             resourceBuilder.addMethod(endpoint.getMethod().name())
                 .consumes(endpoint.getConsumes())
                 .handledBy(new Inflector<ContainerRequestContext, Object>() {

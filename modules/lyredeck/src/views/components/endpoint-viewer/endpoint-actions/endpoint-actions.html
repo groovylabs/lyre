@@ -23,7 +23,7 @@
         </div>
         <div fxFlex fxLayoutAlign="center center">
 
-            <button md-mini-fab class="log-button" mdTooltip="See log" [mdTooltipPosition]="'below'">
+            <button md-mini-fab class="log-button" mdTooltip="See log" [mdTooltipPosition]="'below'" (click)="logAction(!openLog)">
                 <md-icon class="md-8" aria-label="See log">playlist_play</md-icon>
             </button>
         </div>
