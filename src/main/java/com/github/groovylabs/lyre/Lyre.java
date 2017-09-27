@@ -68,7 +68,7 @@ public class Lyre {
         }
 
         registration.addUrlMappings("/" +
-            (StringUtils.isEmpty(lyreProperties.getApiPath()) ? "lyre" : lyreProperties.getApiPath())
+            (StringUtils.isEmpty(lyreProperties.getApiPath()) ? "api" : lyreProperties.getApiPath())
             + "/*");
         registration.setName(APIx.class.getName());
         registration.setLoadOnStartup(1);

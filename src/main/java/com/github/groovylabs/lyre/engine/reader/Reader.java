@@ -29,9 +29,11 @@ public class Reader {
     @Autowired
     private Interpreter interpreter;
 
+    private Map<String, ObjectNode> objectNodes;
+
     public void read(File... files) {
 
-        Map<String, ObjectNode> objectNodes = new HashMap<>();
+        objectNodes = new HashMap<>();
 
         LOGGER.info("Reading files, supported syntax: [.yml] or [.json]");
 
@@ -94,5 +96,13 @@ public class Reader {
 
     public void setLyreProperties(LyreProperties lyreProperties) {
         this.lyreProperties = lyreProperties;
+    }
+
+    public Map<String, ObjectNode> getObjectNodes() {
+        return objectNodes;
+    }
+
+    public void setObjectNodes(Map<String, ObjectNode> objectNodes) {
+        this.objectNodes = objectNodes;
     }
 }

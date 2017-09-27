@@ -48,18 +48,26 @@ public class TempIO {
 
         HashMap<String, File> files = new HashMap<>();
 
-        entries.entrySet().forEach(entry -> {
-            try {
-                File file = File.createTempFile(entry.getKey(), entry.getValue(), directory);
-                file.deleteOnExit();
-                files.put(entry.getKey() + entry.getValue(), file);
-            } catch (IOException e) {
-                LOGGER.error("Unable to create temporary file: {} on path: {}", entry.getKey() + entry.getValue(), directory.getAbsolutePath());
-                e.printStackTrace();
-            }
-        });
+        entries.entrySet().forEach(entry ->
+            files.put(entry.getKey() + entry.getValue(), TempIO.buildFile(entry.getKey(), entry.getValue(), directory))
+        );
 
         return files;
+    }
+
+    public static File buildFile(String name, String extension, File directory) {
+
+        File file = null;
+
+        try {
+            file = File.createTempFile(name, extension, directory);
+            file.deleteOnExit();
+        } catch (IOException e) {
+            LOGGER.error("Unable to create temporary file: {} on path: {}", name + extension, directory.getAbsolutePath());
+            e.printStackTrace();
+        }
+
+        return file;
     }
 
     public static void writeOnTempFile(File file, String message) throws IOException {

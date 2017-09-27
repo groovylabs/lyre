@@ -1,5 +1,7 @@
 package com.github.groovylabs.lyre.test.tools;
 
+import com.github.groovylabs.lyre.domain.Endpoint;
+import com.github.groovylabs.lyre.domain.Response;
 import org.springframework.boot.test.context.TestComponent;
 
 import java.io.File;
@@ -27,6 +29,18 @@ public class Resources {
         }
 
 
+    }
+
+    public Endpoint createEndpoint(String method, String path, String status) {
+
+        // new error-free endpoint
+        Endpoint endpoint = new Endpoint();
+        endpoint.setMethod(method);
+        endpoint.setPath(path);
+        endpoint.setResponse(new Response());
+        endpoint.getResponse().setStatus(status);
+
+        return endpoint;
     }
 
     public File getDirectory(int level) {

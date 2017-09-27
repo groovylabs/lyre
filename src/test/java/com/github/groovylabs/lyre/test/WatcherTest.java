@@ -66,7 +66,7 @@ public class WatcherTest extends InitializingResourceBean {
         scanner.startWatcher(new ArrayList<>(rootFiles.values()));
 
         try {
-            // Given time to watcher thread startup (TODO it can be implement event driven flow).
+            // Given time to watcher thread startup - TODO it can be implement event driven flow.
             Thread.sleep(250);
             TempIO.writeOnTempFile(rootFiles.get("test-watch-modified.lyre"), "watching");
         } catch (IOException | InterruptedException e) {
