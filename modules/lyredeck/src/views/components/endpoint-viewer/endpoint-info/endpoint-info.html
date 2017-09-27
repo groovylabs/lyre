@@ -1,17 +1,48 @@
 <md-card>
 
-    <md-card-subtitle>
+        <md-tab-group class="full-width">
+            <md-tab label="Header" class="half-width">
+                <div class="margin-spacer">
+                    <p>Header content</p>
+                </div>
+            </md-tab>
+            <md-tab label="Body" class="half-width" [disabled]="showBody()">
+            <div class="margin-spacer">
+                <md-form-field class="full-width">
+                    <textarea mdInput placeholder="Body" [(ngModel)]="endpoint.data"></textarea>
+                </md-form-field>
+            </div>
+            </md-tab>
+        </md-tab-group>
 
         <p>
             info
         </p>
 
-    </md-card-subtitle>
-
-    <md-card-content>
-
-        info
-
-    </md-card-content>
-
-</md-card>
+    <md-card fxFlex>
+        <md-tab-group class="full-width">
+            <md-tab label="Response Status" class="half-width">
+                <div *ngIf="ResponseIsNotNull(); else responseNull" class="margin-spacer">
+                    <p>Response from server</p>
+                    <p>HTTP code: {{dataResponse.status}}</p>
+                    <p>HTTP code name: {{dataResponse.statusText}}</p>
+                </div>
+            </md-tab>
+            <md-tab label="Response Body" class="half-width">
+                <div *ngIf="dataResponse.body != null; else bodyNull" class="margin-spacer">
+                    <p>{{dataResponse.body}}</p>
+                </div>
+            </md-tab>
+            <ng-template #responseNull>
+                <div class="margin-spacer">
+                    <p>No one response returned.</p>
+                </div>
+            </ng-template>
+            <ng-template #bodyNull>
+                <div class="margin-spacer">
+                    <p>No body content.</p>
+                </div>
+            </ng-template>
+        </md-tab-group>
+    </md-card>
+</div>
