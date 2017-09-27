@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef} from '@angular/core';
+import {Component, ViewChild, ElementRef, EventEmitter, Output} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 
 import {MdPaginator} from '@angular/material';
@@ -10,6 +10,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
+import { Endpoint } from "../../../domain/Endpoint";
 
 @Component({
     selector: 'filter-bar',
@@ -26,6 +27,8 @@ export class FilterBar {
     @ViewChild('filter') filter: ElementRef;
 
     @ViewChild(MdPaginator) paginator: MdPaginator;
+
+    @Output('selectedEndpoint') event = new EventEmitter();
 
     constructor(private http: HttpClient) {
         this.dataProvider = new BundleService(this.http);
@@ -49,4 +52,9 @@ export class FilterBar {
     clear(): void {
         this.dataSource.filter = this.filter.nativeElement.value = '';
     }
+
+    selectedEndpoint(endpoint: Endpoint) {
+        this.event.emit(endpoint);
+    }
+
 }

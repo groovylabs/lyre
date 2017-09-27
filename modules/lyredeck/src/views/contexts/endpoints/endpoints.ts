@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
+import { Endpoint } from "../../../domain/Endpoint";
 
 @Component({
     selector: 'endpoints',
@@ -7,4 +8,11 @@ import {Component} from '@angular/core';
 })
 
 export class Endpoints {
+
+    private endpoint : Endpoint;
+
+    selectedEndpoint(endpoint : Endpoint) {
+        this.endpoint = endpoint;
+    }
+
 }

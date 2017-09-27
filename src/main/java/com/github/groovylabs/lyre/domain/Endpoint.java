@@ -15,6 +15,8 @@ public class Endpoint {
 
     private String consumes = "*/*";
 
+    private String data;
+
     private Cookie cookie;
 
     private Timer timer;
@@ -59,6 +61,14 @@ public class Endpoint {
 
     public void setConsumes(String consumes) {
         this.consumes = consumes;
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public Cookie getCookie() {
