@@ -62,7 +62,7 @@ export class BundleService {
 
     getBundle() {
 
-        this.http.get('http://localhost:8234/lyre/bundle').subscribe((data: Bundle) => {
+        this.http.get('http://localhost:8234/api/bundle').subscribe((data: Bundle) => {
             console.log(data);
             this.dataChange.next(data);
         });

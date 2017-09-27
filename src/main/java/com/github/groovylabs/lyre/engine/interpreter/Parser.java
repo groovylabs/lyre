@@ -55,6 +55,10 @@ public abstract class Parser {
 
                     endpoint.getTimer().setIdle(entry.getValue().asLong(-1));
 
+                } else if (Property.DATA.is(entry.getKey())) {
+
+                    endpoint.setData(entry.getValue().asText());
+
                 } else if (Property.RESPONSE.is(entry.getKey())) {
 
                     entry.getValue().fields().forEachRemaining(node ->

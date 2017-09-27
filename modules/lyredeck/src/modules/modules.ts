@@ -17,7 +17,8 @@ import {
     MdPaginatorModule,
     MdGridListModule,
     MdDialogModule,
-    MdTooltipModule
+    MdTooltipModule,
+    MdTabsModule
 } from '@angular/material';
 
 @NgModule({
@@ -37,7 +38,8 @@ import {
         MdPaginatorModule,
         MdGridListModule,
         MdDialogModule,
-        MdTooltipModule
+        MdTooltipModule,
+        MdTabsModule
     ],
     exports: [
         FlexLayoutModule,
@@ -55,7 +57,8 @@ import {
         MdPaginatorModule,
         MdGridListModule,
         MdDialogModule,
-        MdTooltipModule
+        MdTooltipModule,
+        MdTabsModule
     ],
 })
 export class Modules {

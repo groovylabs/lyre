@@ -1,8 +1,15 @@
-<div fxLayout="column" fxFill fxLayoutGap="10px">
+<div fxLayout="row" *ngIf="!endpoint">
+    <div fxFlex fxLayoutAlign="center center">
+        <h2>No one endpoint selected. Please choose one to make the request! =]</h2>
+    </div>
+</div>
+
+<div fxLayout="column" fxFill fxLayoutGap="10px" *ngIf="endpoint">
 
     <div fxFlex="60px">
 
-        <endpoint-actions></endpoint-actions>
+        <endpoint-actions [endpoint]="endpoint"
+            (buttonLog)="logAction($event)" (endpointResponse)="endpointResponse($event)"></endpoint-actions>
 
         <!--<div fxFlex="100">-->
             <!--<div fxLayout="row" fxLayoutGap="10px">-->
@@ -18,7 +25,11 @@
         <!--</div>-->
     </div>
 
-    <div fxFlex>
+    <div fxLayout="column" fxFlex *ngIf="!openLog">
+        <endpoint-info [endpoint]="endpoint" [endpointResponse]="response"></endpoint-info>
+    </div>
+
+    <div fxLayout="column" fxFlex *ngIf="openLog">
         <endpoint-log></endpoint-log>
     </div>
 </div>
