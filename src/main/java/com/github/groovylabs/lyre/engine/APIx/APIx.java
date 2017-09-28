@@ -11,6 +11,7 @@ import com.github.groovylabs.lyre.domain.enums.Queue;
 import com.github.groovylabs.lyre.domain.factories.LogFactory;
 import com.github.groovylabs.lyre.engine.APIx.filters.CORSFilter;
 import com.github.groovylabs.lyre.engine.APIx.services.BundleService;
+import com.github.groovylabs.lyre.engine.APIx.services.LandingPageService;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -150,6 +151,7 @@ public class APIx extends ResourceConfig {
 
         resourceConfig.register(CORSFilter.class);
         resourceConfig.register(BundleService.class);
+        resourceConfig.register(LandingPageService.class);
         resourceConfig.register(NotFoundExceptionMapper.class);
 
         dispatcher.publish(bundleEvent);

@@ -1,5 +1,6 @@
-<md-card>
+<div fxLayout="row" fxLayoutGap="10px" class="full-height">
 
+    <md-card fxFlex>
         <md-tab-group class="full-width">
             <md-tab label="Header" class="half-width">
                 <div class="margin-spacer">
@@ -7,17 +8,14 @@
                 </div>
             </md-tab>
             <md-tab label="Body" class="half-width" [disabled]="showBody()">
-            <div class="margin-spacer">
-                <md-form-field class="full-width">
-                    <textarea mdInput placeholder="Body" [(ngModel)]="endpoint.data"></textarea>
-                </md-form-field>
-            </div>
+                <div class="margin-spacer">
+                    <md-form-field class="full-width">
+                        <textarea mdInput placeholder="Body" [(ngModel)]="endpoint.data"></textarea>
+                    </md-form-field>
+                </div>
             </md-tab>
         </md-tab-group>
-
-        <p>
-            info
-        </p>
+    </md-card>
 
     <md-card fxFlex>
         <md-tab-group class="full-width">
