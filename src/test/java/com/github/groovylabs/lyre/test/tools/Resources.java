@@ -43,6 +43,38 @@ public class Resources {
         return endpoint;
     }
 
+    public String createEndpointAsYAML(
+        String key, String value, String method, String consumes, String idle,
+        String data, String[] response, String[] setup) {
+
+        String endpoint = "";
+        endpoint += key + ":\n";
+        endpoint += "    value: " + value + "\n";
+        endpoint += "    method: " + method + "\n";
+        endpoint += "    consumes: " + consumes + "\n";
+        endpoint += "    idle: " + idle + "\n";
+        endpoint += "    data: " + data + "\n";
+
+        if (response.length == 3) {
+            endpoint += "    response:\n";
+
+            endpoint += "        status: " + response[0] + "\n";
+            endpoint += "        produces: " + response[1] + "\n";
+            endpoint += "        data: " + response[2] + "\n";
+        }
+
+        if (setup.length == 3) {
+            endpoint += "    setup:\n";
+
+            endpoint += "        busy: " + setup[0] + "\n";
+            endpoint += "        broken: " + setup[1] + "\n";
+            endpoint += "        forbidden: " + setup[2] + "\n";
+        }
+
+
+        return endpoint;
+    }
+
     public File getDirectory(int level) {
         return (level >= 0 && level < directories.length) ? this.getDirectories()[level] : null;
     }

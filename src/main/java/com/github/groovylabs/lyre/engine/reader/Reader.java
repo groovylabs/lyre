@@ -98,6 +98,14 @@ public class Reader {
         this.lyreProperties = lyreProperties;
     }
 
+    public Interpreter getInterpreter() {
+        return interpreter;
+    }
+
+    public void setInterpreter(Interpreter interpreter) {
+        this.interpreter = interpreter;
+    }
+
     public Map<String, ObjectNode> getObjectNodes() {
         return objectNodes;
     }

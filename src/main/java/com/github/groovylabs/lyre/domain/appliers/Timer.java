@@ -4,6 +4,10 @@ public class Timer {
 
     private long idle;
 
+    public Timer(long idle) {
+        this.idle = idle;
+    }
+
     public Timer() {
         setIdle(0L);
     }

@@ -46,6 +46,7 @@ public class Interpreter extends Parser {
                 Endpoint endpoint = new Endpoint();
 
                 try {
+
                     this.parse(endpoint, entry, Level.ENDPOINT);
 
                     if (validator.integrity(fileName, endpoint, bundle.getEndpoints(), update)) {
@@ -73,4 +74,11 @@ public class Interpreter extends Parser {
         apix.boot();
     }
 
+    public Bundle getBundle() {
+        return bundle;
+    }
+
+    public void setBundle(Bundle bundle) {
+        this.bundle = bundle;
+    }
 }
