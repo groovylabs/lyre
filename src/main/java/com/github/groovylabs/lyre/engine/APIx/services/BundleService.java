@@ -3,8 +3,7 @@ package com.github.groovylabs.lyre.engine.APIx.services;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.exceptions.DuplicatedEndpointException;
-import com.github.groovylabs.lyre.domain.exceptions.EndpointNotFoundException;
-import com.github.groovylabs.lyre.engine.APIx.APIx;
+import com.github.groovylabs.lyre.engine.APIx.providers.APIxBoot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class BundleService {
     private Bundle bundle;
 
     @Autowired
-    private APIx apix;
+    private APIxBoot apix;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -42,14 +41,13 @@ public class BundleService {
     public Response add(Endpoint endpoint) {
         LOGGER.info("Adding endpoint in bundle list...");
 
-        if (bundle.exists(endpoint)) {
-            LOGGER.info("Endpoint already exists in bundle list.");
-            throw new DuplicatedEndpointException("Endpoint [" + endpoint.getMethod() + " - " + endpoint.getPath() + "] already exists!");
-        }
-        else {
+        if (!bundle.exists(endpoint)) {
             bundle.add(endpoint);
             LOGGER.info("Endpoint added. Creating the endpoint in Jersey.");
-            apix.boot();
+            apix.boot(2000);
+        } else {
+            LOGGER.info("Endpoint already exists in bundle list.");
+            throw new DuplicatedEndpointException("Endpoint [" + endpoint.getMethod() + " - " + endpoint.getPath() + "] already exists!");
         }
 
         return Response.status(Response.Status.CREATED).build();
@@ -61,7 +59,7 @@ public class BundleService {
         LOGGER.info("Updating endpoint...");
 
         bundle.change(endpoint);
-        apix.boot();
+        apix.boot(2000);
 
         return Response.ok().entity(bundle).build();
     }

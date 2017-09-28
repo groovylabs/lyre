@@ -10,6 +10,7 @@ import com.github.groovylabs.lyre.domain.enums.EventAction;
 import com.github.groovylabs.lyre.domain.enums.Queue;
 import com.github.groovylabs.lyre.domain.factories.LogFactory;
 import com.github.groovylabs.lyre.engine.APIx.filters.CORSFilter;
+import com.github.groovylabs.lyre.engine.APIx.providers.APIxBoot;
 import com.github.groovylabs.lyre.engine.APIx.services.BundleService;
 import com.github.groovylabs.lyre.engine.APIx.services.LandingPageService;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
@@ -30,9 +31,11 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.net.InetAddress;
+import java.util.Timer;
+import java.util.TimerTask;
 
 @Component
-public class APIx extends ResourceConfig {
+public class APIx extends ResourceConfig implements APIxBoot {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(APIx.class);
 
@@ -50,8 +53,11 @@ public class APIx extends ResourceConfig {
 
     private static Container container;
 
+    private Timer controller;
+
     @PostConstruct
     public void APIx() {
+        controller = new Timer();
         config(this);
     }
 
@@ -59,13 +65,27 @@ public class APIx extends ResourceConfig {
 
         LOGGER.info("Booting endpoint bundle into APIx engine...");
 
-        if (APIx.container != null) {
+        if (com.github.groovylabs.lyre.engine.APIx.APIx.container != null) {
             final ResourceConfig resourceConfig = this.createResources(bundle, null);
-            APIx.container.reload(resourceConfig);
+            com.github.groovylabs.lyre.engine.APIx.APIx.container.reload(resourceConfig);
         } else {
             this.createResources(bundle, this);
         }
 
+    }
+
+    public void boot(long delay) {
+
+        this.controller.cancel();
+        controller = new Timer();
+
+        TimerTask delayedAPIxBoot = new TimerTask() {
+            public void run() {
+                boot();
+            }
+        };
+
+        controller.schedule(delayedAPIxBoot, delay);
     }
 
     private void config(final ResourceConfig resourceConfig) {
@@ -81,7 +101,7 @@ public class APIx extends ResourceConfig {
                     (!StringUtils.isEmpty(lyreProperties.getContextPath()) ? lyreProperties.getContextPath() + "/" : ""),
                     lyreProperties.getApiPath());
 
-                APIx.container = container;
+                com.github.groovylabs.lyre.engine.APIx.APIx.container = container;
             }
 
             @Override
