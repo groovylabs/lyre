@@ -6,7 +6,7 @@ import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.enums.Level;
-import com.github.groovylabs.lyre.engine.APIx.APIx;
+import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
 import com.github.groovylabs.lyre.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,7 @@ public class Interpreter extends Parser {
     private LyreProperties lyreProperties;
 
     @Autowired
-    private APIx apix;
+    private APIxController apixController;
 
     @Autowired
     private Validator validator;
@@ -71,7 +71,7 @@ public class Interpreter extends Parser {
 
         update = true;
 
-        apix.boot();
+        apixController.bootAttempt(nodes.entrySet().size() + " file resource(s)");
     }
 
     public Bundle getBundle() {

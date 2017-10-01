@@ -9,8 +9,8 @@ import com.github.groovylabs.lyre.domain.appliers.Countdown;
 import com.github.groovylabs.lyre.domain.enums.EventAction;
 import com.github.groovylabs.lyre.domain.enums.Queue;
 import com.github.groovylabs.lyre.domain.factories.LogFactory;
+import com.github.groovylabs.lyre.engine.APIx.controller.APIxListener;
 import com.github.groovylabs.lyre.engine.APIx.filters.CORSFilter;
-import com.github.groovylabs.lyre.engine.APIx.providers.APIxBoot;
 import com.github.groovylabs.lyre.engine.APIx.services.BundleService;
 import com.github.groovylabs.lyre.engine.APIx.services.LandingPageService;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
@@ -31,11 +31,9 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.net.InetAddress;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @Component
-public class APIx extends ResourceConfig implements APIxBoot {
+public class APIx extends ResourceConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(APIx.class);
 
@@ -53,17 +51,14 @@ public class APIx extends ResourceConfig implements APIxBoot {
 
     private static Container container;
 
-    private Timer controller;
-
     @PostConstruct
     public void APIx() {
-        controller = new Timer();
         config(this);
     }
 
     public void boot() {
 
-        LOGGER.info("Booting endpoint bundle into APIx engine...");
+        LOGGER.info("Boot [STATUS]: Started");
 
         if (com.github.groovylabs.lyre.engine.APIx.APIx.container != null) {
             final ResourceConfig resourceConfig = this.createResources(bundle, null);
@@ -72,20 +67,6 @@ public class APIx extends ResourceConfig implements APIxBoot {
             this.createResources(bundle, this);
         }
 
-    }
-
-    public void boot(long delay) {
-
-        this.controller.cancel();
-        controller = new Timer();
-
-        TimerTask delayedAPIxBoot = new TimerTask() {
-            public void run() {
-                boot();
-            }
-        };
-
-        controller.schedule(delayedAPIxBoot, delay);
     }
 
     private void config(final ResourceConfig resourceConfig) {
@@ -123,6 +104,8 @@ public class APIx extends ResourceConfig implements APIxBoot {
             resourceConfig = new ResourceConfig();
             bundleEvent.setAction(EventAction.NEW);
         }
+
+        LOGGER.info("Boot [STATUS]: Creating endpoints into APIx engine");
 
         for (Endpoint endpoint : bundle.getEndpoints()) {
 
@@ -169,12 +152,15 @@ public class APIx extends ResourceConfig implements APIxBoot {
             resourceConfig.registerResources(resourceBuilder.build());
         }
 
+        resourceConfig.register(APIxListener.class);
         resourceConfig.register(CORSFilter.class);
         resourceConfig.register(BundleService.class);
         resourceConfig.register(LandingPageService.class);
         resourceConfig.register(NotFoundExceptionMapper.class);
 
         dispatcher.publish(bundleEvent);
+
+        LOGGER.info("Boot [STATUS]: Completed");
 
         return resourceConfig;
     }

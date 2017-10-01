@@ -3,7 +3,7 @@ package com.github.groovylabs.lyre.engine.APIx.services;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.exceptions.DuplicatedEndpointException;
-import com.github.groovylabs.lyre.engine.APIx.providers.APIxBoot;
+import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import javax.ws.rs.core.Response;
 
 @Component
 @Path(value = "/bundle")
+@Produces(MediaType.APPLICATION_JSON)
 public class BundleService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BundleService.class);
@@ -23,10 +24,9 @@ public class BundleService {
     private Bundle bundle;
 
     @Autowired
-    private APIxBoot apix;
+    private APIxController apixController;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
     public Response message() {
         return Response.ok().entity(bundle).build();
     }
@@ -39,27 +39,27 @@ public class BundleService {
      */
     @PUT
     public Response add(Endpoint endpoint) {
-        LOGGER.info("Adding endpoint in bundle list...");
 
         if (!bundle.exists(endpoint)) {
             bundle.add(endpoint);
-            LOGGER.info("Endpoint added. Creating the endpoint in Jersey.");
-            apix.boot(2000);
+            apixController.bootAttempt(this.getClass().getSimpleName() +
+                " PUT {Endpoint: " + endpoint.getMethod() + " " + endpoint.getPath() + "}");
         } else {
-            LOGGER.info("Endpoint already exists in bundle list.");
-            throw new DuplicatedEndpointException("Endpoint [" + endpoint.getMethod() + " - " + endpoint.getPath() + "] already exists!");
+            LOGGER.info("Endpoint already exists");
+            throw new DuplicatedEndpointException("Endpoint [" + endpoint.getMethod() + " - " + endpoint.getPath() + "] already exists");
         }
+
 
         return Response.status(Response.Status.CREATED).build();
     }
 
     @POST
-    @Produces(MediaType.APPLICATION_JSON)
     public Response update(Endpoint endpoint) {
-        LOGGER.info("Updating endpoint...");
 
         bundle.change(endpoint);
-        apix.boot(2000);
+
+        apixController.bootAttempt(this.getClass().getSimpleName() +
+            " POST {Endpoint: " + endpoint.getMethod() + " " + endpoint.getPath() + "}");
 
         return Response.ok().entity(bundle).build();
     }

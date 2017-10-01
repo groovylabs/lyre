@@ -1,4 +1,5 @@
 GET /pingc:
+    idle: 10000
     response:
         produces: 'application/json'
         data: '{"ok":true}'
