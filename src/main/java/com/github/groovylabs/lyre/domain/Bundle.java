@@ -3,9 +3,7 @@ package com.github.groovylabs.lyre.domain;
 import com.github.groovylabs.lyre.domain.exceptions.EndpointNotFoundException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class Bundle {
 

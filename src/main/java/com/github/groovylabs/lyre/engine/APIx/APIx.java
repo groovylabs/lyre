@@ -13,7 +13,10 @@ import com.github.groovylabs.lyre.engine.APIx.controller.APIxListener;
 import com.github.groovylabs.lyre.engine.APIx.filters.CORSFilter;
 import com.github.groovylabs.lyre.engine.APIx.services.BundleService;
 import com.github.groovylabs.lyre.engine.APIx.services.LandingPageService;
+import com.github.groovylabs.lyre.engine.APIx.swagger.SwaggerIntegration;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
+import io.swagger.jaxrs.listing.SwaggerSerializers;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
@@ -45,6 +48,9 @@ public class APIx extends ResourceConfig {
 
     @Autowired
     private Dispatcher dispatcher;
+
+    @Autowired
+    private SwaggerIntegration swaggerIntegration;
 
     @Autowired
     private Bundle bundle;
@@ -111,6 +117,7 @@ public class APIx extends ResourceConfig {
 
             Resource.Builder resourceBuilder =
                 Resource.builder().path(endpoint.getPath());
+
             resourceBuilder.addMethod(endpoint.getMethod().name())
                 .consumes(endpoint.getConsumes())
                 .handledBy(new Inflector<ContainerRequestContext, Object>() {
@@ -152,6 +159,12 @@ public class APIx extends ResourceConfig {
             resourceConfig.registerResources(resourceBuilder.build());
         }
 
+        if (lyreProperties.isEnableSwaggerDoc()) {
+            swaggerIntegration.enableSwagger(bundle, this);
+            resourceConfig.register(SwaggerSerializers.class);
+        }
+
+        register(new MultiPartFeature());
         resourceConfig.register(APIxListener.class);
         resourceConfig.register(CORSFilter.class);
         resourceConfig.register(BundleService.class);

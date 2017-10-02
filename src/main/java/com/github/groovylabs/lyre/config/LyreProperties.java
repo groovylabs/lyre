@@ -19,6 +19,8 @@ public class LyreProperties {
 
     private String fileFormat = ".lyre";
 
+    private boolean enableSwaggerDoc = true;
+
     private boolean debug = false;
 
     public boolean isEnableRemoteConnections() {
@@ -75,6 +77,14 @@ public class LyreProperties {
 
     public void setFileFormat(String fileFormat) {
         this.fileFormat = fileFormat;
+    }
+
+    public boolean isEnableSwaggerDoc() {
+        return enableSwaggerDoc;
+    }
+
+    public void setEnableSwaggerDoc(boolean enableSwaggerDoc) {
+        this.enableSwaggerDoc = enableSwaggerDoc;
     }
 
     public boolean isDebug() {
