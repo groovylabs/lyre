@@ -4,6 +4,7 @@ import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.exceptions.DuplicatedEndpointException;
 import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

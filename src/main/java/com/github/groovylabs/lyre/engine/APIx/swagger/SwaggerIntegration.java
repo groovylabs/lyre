@@ -36,7 +36,7 @@ public class SwaggerIntegration {
     public Swagger buildSwagger(Bundle bundle) {
 
         // ref https://github.com/OAI/OpenAPI-Specification/tree/master/examples/v2.0/json
-        
+
         Swagger swagger = new Swagger();
         swagger.setInfo(swaggerInfo());
         swagger.setBasePath(lyreProperties.getApiPath());
