@@ -1,5 +1,5 @@
 GET /ping:
-  data: '{"teste":"bla", "teste1": 1}'
+  data: '{"teste":"ble", "teste1": 1}'
   response:
     produces: application/json
     data: '{"teste":"bla", "teste1": 1}'
@@ -20,3 +20,13 @@ POST /test/post:
   response:
     data: Created
     status: 200
+
+GET /2:
+    response:
+        status: 200
+
+endpoint 1:
+    method: GET
+    path: /go
+    response:
+        status: 200

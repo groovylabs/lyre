@@ -57,14 +57,13 @@ public class SwaggerIntegration {
 
         Swagger swagger = buildSwagger(bundle);
 
-        final Resource.Builder json = Resource.builder();
-        json.path("/docs")
+        Resource.Builder resource = Resource.builder();
+        resource.path("/docs")
             .addMethod(HttpMethod.GET)
             .produces(MediaType.APPLICATION_JSON)
-            .handledBy(new SwaggerResourceController(swagger))
-            .build();
+            .handledBy(new SwaggerResourceController(swagger));
 
-        resourceConfig.registerResources(json.build());
+        resourceConfig.registerResources(resource.build());
     }
 
     private class SwaggerResourceController implements Inflector<ContainerRequestContext, Response> {
@@ -100,7 +99,7 @@ public class SwaggerIntegration {
 
     }
 
-    private final Info swaggerInfo() {
+    private Info swaggerInfo() {
 
         Info info = new Info();
 
@@ -122,7 +121,7 @@ public class SwaggerIntegration {
     private void buildSwaggerPath(Swagger swagger, Endpoint endpoint) {
 
         try {
-            LOGGER.info("[SwaggerIntegration] Creating swaggerEndpoint object...");
+//            LOGGER.info("[SwaggerIntegration] Creating swaggerEndpoint object...");
 
             Operation operation = new Operation();
             operation.consumes(endpoint.getConsumes());
@@ -134,9 +133,9 @@ public class SwaggerIntegration {
 
             swagger.path(endpoint.getPath(), new Path().set(endpoint.getMethod().toString().toLowerCase(), operation));
 
-            LOGGER.info("[SwaggerIntegration] swaggerEndpoint created successfully! PATH=[{}] / METHOD=[{}]",
-                endpoint.getPath(), endpoint.getMethod());
-        } catch(Exception e) {
+//            LOGGER.info("[SwaggerIntegration] swaggerEndpoint created successfully! PATH=[{}] / METHOD=[{}]",
+//                endpoint.getPath(), endpoint.getMethod());
+        } catch (Exception e) {
             LOGGER.error("[SwaggerIntegration] Error during build swaggerEndpoint object! PATH=[{}] / METHOD=[{}]",
                 endpoint.getPath(), endpoint.getMethod());
         }

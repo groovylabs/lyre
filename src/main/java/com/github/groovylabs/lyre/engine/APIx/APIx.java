@@ -17,9 +17,6 @@ import com.github.groovylabs.lyre.engine.APIx.swagger.SwaggerIntegration;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
 import com.github.groovylabs.lyre.validator.Validator;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
-import org.assertj.core.util.Preconditions;
 import org.assertj.core.util.Strings;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.process.Inflector;
@@ -38,8 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetAddress;
 
 @Component
@@ -125,10 +120,10 @@ public class APIx extends ResourceConfig {
 
         for (Endpoint endpoint : bundle.getEndpoints()) {
 
-            Resource.Builder resourceBuilder =
+            Resource.Builder resource =
                 Resource.builder().path(endpoint.getPath());
 
-            resourceBuilder.addMethod(endpoint.getMethod().name())
+            resource.addMethod(endpoint.getMethod().name())
                 .consumes(endpoint.getConsumes())
                 .handledBy(new Inflector<ContainerRequestContext, Object>() {
 
@@ -175,15 +170,15 @@ public class APIx extends ResourceConfig {
                     }
                 });
 
-            resourceConfig.registerResources(resourceBuilder.build());
+            resourceConfig.registerResources(resource.build());
         }
 
         if (lyreProperties.isEnableSwaggerDoc()) {
-            swaggerIntegration.enableSwagger(bundle, this);
+            swaggerIntegration.enableSwagger(bundle, resourceConfig);
             resourceConfig.register(SwaggerSerializers.class);
         }
 
-        register(new MultiPartFeature());
+        resourceConfig.register(new MultiPartFeature());
         resourceConfig.register(APIxListener.class);
         resourceConfig.register(CORSFilter.class);
         resourceConfig.register(BundleService.class);
