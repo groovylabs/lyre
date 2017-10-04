@@ -14,3 +14,13 @@ GET /test/livereload1:
   response:
     data: GET LIVERELOAD 1111123
     status: 200
+
+GET /2:
+    response:
+        status: 200
+
+endpoint 1:
+    method: GET
+    path: /go
+    response:
+        status: 200
