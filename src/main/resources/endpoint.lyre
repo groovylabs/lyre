@@ -15,6 +15,12 @@ GET /test/livereload1:
     data: GET LIVERELOAD 1111123
     status: 200
 
+POST /test/post:
+  data: '{"teste":"?"}'
+  response:
+    data: Created
+    status: 200
+
 GET /2:
     response:
         status: 200
