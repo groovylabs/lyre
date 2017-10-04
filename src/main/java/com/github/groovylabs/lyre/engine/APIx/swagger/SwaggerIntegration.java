@@ -3,16 +3,17 @@ package com.github.groovylabs.lyre.engine.APIx.swagger;
 import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
+import com.github.groovylabs.lyre.engine.APIx.swagger.implementations.ParameterInterfaceImpl;
 import io.swagger.config.FilterFactory;
 import io.swagger.core.filter.SwaggerSpecFilter;
 import io.swagger.inflector.utils.VendorSpecFilter;
-import io.swagger.models.Info;
-import io.swagger.models.License;
-import io.swagger.models.Scheme;
-import io.swagger.models.Swagger;
+import io.swagger.models.*;
+import org.assertj.core.util.Strings;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,26 +31,24 @@ import java.util.stream.Stream;
 @Component
 public class SwaggerIntegration {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerIntegration.class);
+
     @Autowired
     private LyreProperties lyreProperties;
 
-    public Swagger buildSwagger(Bundle bundle) {
+    private Swagger buildSwagger(Bundle bundle) {
 
         // ref https://github.com/OAI/OpenAPI-Specification/tree/master/examples/v2.0/json
 
         Swagger swagger = new Swagger();
         swagger.setInfo(swaggerInfo());
-        swagger.setBasePath(lyreProperties.getApiPath());
+        swagger.setBasePath("/" + lyreProperties.getApiPath());
         swagger.setSchemes(Stream.of(Scheme.HTTP).collect(Collectors.toList()));
         swagger.setConsumes(Stream.of("application/json").collect(Collectors.toList()));
         swagger.setProduces(Stream.of("application/json").collect(Collectors.toList()));
 
-        //TODO add paths
-
-        for (Endpoint endpoint : bundle.getEndpoints()) {
-
-
-        }
+        for (Endpoint endpoint : bundle.getEndpoints())
+            buildSwaggerPath(swagger, endpoint);
 
         return swagger;
     }
@@ -118,6 +117,44 @@ public class SwaggerIntegration {
         info.license(new License());
 
         return info;
+    }
+
+    private void buildSwaggerPath(Swagger swagger, Endpoint endpoint) {
+
+        try {
+            LOGGER.info("[SwaggerIntegration] Creating swaggerEndpoint object...");
+
+            Operation operation = new Operation();
+            operation.consumes(endpoint.getConsumes());
+
+            if (!Strings.isNullOrEmpty(endpoint.getData()))
+                buildSwaggerBodyParam(operation);
+
+            operation.addResponse(endpoint.getResponse().getStatus().toString(), new io.swagger.models.Response());
+
+            swagger.path(endpoint.getPath(), new Path().set(endpoint.getMethod().toString().toLowerCase(), operation));
+
+            LOGGER.info("[SwaggerIntegration] swaggerEndpoint created successfully! PATH=[{}] / METHOD=[{}]",
+                endpoint.getPath(), endpoint.getMethod());
+        } catch(Exception e) {
+            LOGGER.error("[SwaggerIntegration] Error during build swaggerEndpoint object! PATH=[{}] / METHOD=[{}]",
+                endpoint.getPath(), endpoint.getMethod());
+        }
+    }
+
+    private void buildSwaggerBodyParam(Operation operation) {
+        io.swagger.models.Response response = new io.swagger.models.Response();
+        ParameterInterfaceImpl param = new ParameterInterfaceImpl();
+
+        param.setName("Body");
+        param.setIn("body");
+        param.setRequired(true);
+        param.setDescription("Expected declared object in lyre file by the endpoint");
+
+        response.setDescription(Response.Status.NOT_ACCEPTABLE.toString());
+
+        operation.addParameter(param);
+        operation.addResponse(String.valueOf(Response.Status.NOT_ACCEPTABLE.getStatusCode()), response);
     }
 
 }

@@ -15,7 +15,12 @@ import com.github.groovylabs.lyre.engine.APIx.services.BundleService;
 import com.github.groovylabs.lyre.engine.APIx.services.LandingPageService;
 import com.github.groovylabs.lyre.engine.APIx.swagger.SwaggerIntegration;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
+import com.github.groovylabs.lyre.validator.Validator;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
+import org.assertj.core.util.Preconditions;
+import org.assertj.core.util.Strings;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -33,6 +38,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 
 @Component
@@ -54,6 +61,9 @@ public class APIx extends ResourceConfig {
 
     @Autowired
     private Bundle bundle;
+
+    @Autowired
+    private Validator validator;
 
     private static Container container;
 
@@ -131,6 +141,15 @@ public class APIx extends ResourceConfig {
                         dispatcher.publish(logFactory.logger(endpoint, request).info("Endpoint called.").event());
 
                         Countdown countdown = endpoint.getSetup().getCountdown();
+
+                        if (!Strings.isNullOrEmpty(endpoint.getData())) {
+                            //TODO: Make a method that will be looking for the attributes of the object, not the of object as string.
+                            String requestObject = validator.getEntityBody(containerRequestContext);
+
+                            if (!endpoint.getData().equals(requestObject))
+                                return Response.status(Response.Status.NOT_ACCEPTABLE).build();
+
+                        }
 
                         if (countdown != null && countdown.getCalls() > 0) {
                             countdown.decrease();
