@@ -45,7 +45,7 @@ public class InterpreterTest {
 
         // new error-free endpoint
         String endpoint = resources.createEndpointAsYAML(
-            "GET /path", "/endpoint", "POST",
+            "GET", "/path/endpoint", "POST",
             "application/json", "1000", "data_request",
             new String[]{"200", "application/xml", "data_response"}, new String[]{"1", "2", "3"});
 
