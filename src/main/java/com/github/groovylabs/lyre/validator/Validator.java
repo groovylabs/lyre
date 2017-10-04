@@ -31,8 +31,10 @@ public class Validator {
 
     public boolean integrity(String fileName, Endpoint endpoint, List<Endpoint> savedEndpoints, boolean updatable) {
 
-        if (!endpoint.getMethod().equals(HttpMethod.POST) && !endpoint.getMethod().equals(HttpMethod.PUT))
+        if (!endpoint.getMethod().equals(HttpMethod.POST) && !endpoint.getMethod().equals(HttpMethod.PUT)) {
+            LOGGER.info("Method [{}] does not support request body. Lyre will ignore this property.", endpoint.getMethod());
             endpoint.setData(null);
+        }
 
         if (updatable)
             savedEndpoints.removeIf(itEndpoint -> itEndpoint.getMethod().equals(endpoint.getMethod()) &&
