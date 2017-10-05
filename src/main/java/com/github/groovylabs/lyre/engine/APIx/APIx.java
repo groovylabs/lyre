@@ -15,9 +15,8 @@ import com.github.groovylabs.lyre.engine.APIx.services.BundleService;
 import com.github.groovylabs.lyre.engine.APIx.services.LandingPageService;
 import com.github.groovylabs.lyre.engine.APIx.swagger.SwaggerIntegration;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
-import com.github.groovylabs.lyre.validator.Validator;
+import com.github.groovylabs.lyre.utils.EndpointUtils;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
-import org.assertj.core.util.Strings;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
@@ -58,7 +57,7 @@ public class APIx extends ResourceConfig {
     private Bundle bundle;
 
     @Autowired
-    private Validator validator;
+    private EndpointUtils endpointUtils;
 
     private static Container container;
 
@@ -137,10 +136,10 @@ public class APIx extends ResourceConfig {
 
                         Countdown countdown = endpoint.getSetup().getCountdown();
 
-                        if (!Strings.isNullOrEmpty(endpoint.getData())) {
-                            //TODO: Make a method that will be looking for the attributes of the object, not the of object as string.
-                            String requestObject = validator.getEntityBody(containerRequestContext);
+                        if (!StringUtils.isEmpty(endpoint.getData())) {
+                            String requestObject = endpointUtils.getEntityBody(containerRequestContext);
 
+                            //TODO: Make a method that will be looking for the attributes of the object, not the of object as string.
                             if (!endpoint.getData().equals(requestObject))
                                 return Response.status(Response.Status.NOT_ACCEPTABLE).build();
 

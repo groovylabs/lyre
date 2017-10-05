@@ -8,7 +8,6 @@ import io.swagger.config.FilterFactory;
 import io.swagger.core.filter.SwaggerSpecFilter;
 import io.swagger.inflector.utils.VendorSpecFilter;
 import io.swagger.models.*;
-import org.assertj.core.util.Strings;
 import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
@@ -16,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -47,8 +47,12 @@ public class SwaggerIntegration {
         swagger.setConsumes(Stream.of("application/json").collect(Collectors.toList()));
         swagger.setProduces(Stream.of("application/json").collect(Collectors.toList()));
 
+        LOGGER.info("Boot [STATUS]: Creating Swagger endpoints");
+
         for (Endpoint endpoint : bundle.getEndpoints())
             buildSwaggerPath(swagger, endpoint);
+
+        LOGGER.info("Boot [STATUS]: Swagger endpoint created successfully");
 
         return swagger;
     }
@@ -121,20 +125,16 @@ public class SwaggerIntegration {
     private void buildSwaggerPath(Swagger swagger, Endpoint endpoint) {
 
         try {
-//            LOGGER.info("[SwaggerIntegration] Creating swaggerEndpoint object...");
-
             Operation operation = new Operation();
             operation.consumes(endpoint.getConsumes());
 
-            if (!Strings.isNullOrEmpty(endpoint.getData()))
+            if (!StringUtils.isEmpty(endpoint.getData()))
                 buildSwaggerBodyParam(operation);
 
             operation.addResponse(endpoint.getResponse().getStatus().toString(), new io.swagger.models.Response());
 
             swagger.path(endpoint.getPath(), new Path().set(endpoint.getMethod().toString().toLowerCase(), operation));
 
-//            LOGGER.info("[SwaggerIntegration] swaggerEndpoint created successfully! PATH=[{}] / METHOD=[{}]",
-//                endpoint.getPath(), endpoint.getMethod());
         } catch (Exception e) {
             LOGGER.error("[SwaggerIntegration] Error during build swaggerEndpoint object! PATH=[{}] / METHOD=[{}]",
                 endpoint.getPath(), endpoint.getMethod());
