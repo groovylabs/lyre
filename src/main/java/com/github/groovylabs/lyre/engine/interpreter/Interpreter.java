@@ -7,9 +7,6 @@ import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.enums.Level;
 import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
-import com.github.groovylabs.lyre.validator.Validator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

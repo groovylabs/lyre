@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Configuration
-@ConditionalOnProperty(prefix = "lyre.ui.swagger", name = "enabled", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "lyre", name = "enable.swagger.doc", havingValue = "true", matchIfMissing = true)
 @Import({Swagger2DocumentationConfiguration.class})
 public class SwaggerConfiguration {
 

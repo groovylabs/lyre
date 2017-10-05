@@ -45,7 +45,7 @@ public class InterpreterTest {
 
         // new error-free endpoint
         String endpoint = resources.createEndpointAsYAML(
-            "GET", "/path/endpoint", "POST",
+            "GET", "/path/endpoint", "POST", "endpoint test",
             "application/json", "1000", "data_request",
             new String[]{"200", "application/xml", "data_response"}, new String[]{"1", "2", "3"});
 
@@ -75,6 +75,10 @@ public class InterpreterTest {
         //should have path
         assertThat(bundledEndpoint.getPath())
             .isEqualTo("/path/endpoint");
+
+        //should have alias/name
+        assertThat(bundledEndpoint.getAlias())
+            .isEqualTo("endpoint test");
 
         //should have consumes
         assertThat(bundledEndpoint.getConsumes())
@@ -109,7 +113,7 @@ public class InterpreterTest {
         assertThat(bundledEndpoint.getResponse().getProduces())
             .isEqualTo("application/xml");
 
-         //TODO configuration / setups
+        //TODO configuration / setups
 
     }
 }

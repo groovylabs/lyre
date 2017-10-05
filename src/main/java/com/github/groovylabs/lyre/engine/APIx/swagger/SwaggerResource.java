@@ -3,12 +3,10 @@ package com.github.groovylabs.lyre.engine.APIx.swagger;
 import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
+import com.github.groovylabs.lyre.engine.APIx.inflectors.SwaggerInflector;
 import com.github.groovylabs.lyre.engine.APIx.swagger.implementations.ParameterInterfaceImpl;
-import io.swagger.config.FilterFactory;
-import io.swagger.core.filter.SwaggerSpecFilter;
-import io.swagger.inflector.utils.VendorSpecFilter;
+import io.swagger.jaxrs.listing.SwaggerSerializers;
 import io.swagger.models.*;
-import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
 import org.slf4j.Logger;
@@ -18,20 +16,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.ws.rs.HttpMethod;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.core.Cookie;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Component
-public class SwaggerIntegration {
+public class SwaggerResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerIntegration.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerResource.class);
 
     @Autowired
     private LyreProperties lyreProperties;
@@ -57,50 +50,21 @@ public class SwaggerIntegration {
         return swagger;
     }
 
-    public void enableSwagger(Bundle bundle, ResourceConfig resourceConfig) {
+    public void register(Bundle bundle, ResourceConfig resourceConfig) {
 
-        Swagger swagger = buildSwagger(bundle);
+        if (lyreProperties.isEnableSwaggerDoc()) {
 
-        Resource.Builder resource = Resource.builder();
-        resource.path("/docs")
-            .addMethod(HttpMethod.GET)
-            .produces(MediaType.APPLICATION_JSON)
-            .handledBy(new SwaggerResourceController(swagger));
+            Swagger swagger = buildSwagger(bundle);
 
-        resourceConfig.registerResources(resource.build());
-    }
+            Resource.Builder resource = Resource.builder();
+            resource.path("/docs")
+                .addMethod(HttpMethod.GET)
+                .produces(MediaType.APPLICATION_JSON)
+                .handledBy(new SwaggerInflector(swagger));
 
-    private class SwaggerResourceController implements Inflector<ContainerRequestContext, Response> {
-
-        private Swagger swagger;
-
-        public SwaggerResourceController(Swagger swagger) {
-            this.swagger = swagger;
+            resourceConfig.registerResources(resource.build());
+            resourceConfig.register(SwaggerSerializers.class);
         }
-
-        @Override
-        public Response apply(ContainerRequestContext arg0) {
-            SwaggerSpecFilter filter = FilterFactory.getFilter();
-            if (filter != null) {
-
-                Map<String, Cookie> cookiesvalue = arg0.getCookies();
-                Map<String, String> cookies = new HashMap<>();
-                if (cookiesvalue != null) {
-                    for (String key : cookiesvalue.keySet()) {
-                        cookies.put(key, cookiesvalue.get(key).getValue());
-                    }
-                }
-
-                MultivaluedMap<String, String> headers = arg0.getHeaders();
-                return Response.ok().entity(new VendorSpecFilter().filter(getSwagger(), filter, null, cookies, headers)).build();
-            }
-            return Response.ok().entity(getSwagger()).build();
-        }
-
-        private Swagger getSwagger() {
-            return swagger;
-        }
-
     }
 
     private Info swaggerInfo() {

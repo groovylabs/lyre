@@ -29,7 +29,7 @@ public class Validator {
         if (StringUtils.isEmpty(endpoint.getMethod()) || StringUtils.isEmpty(endpoint.getPath())
             || StringUtils.isEmpty(endpoint.getResponse().getStatus())) {
 
-            LOGGER.error("Dropping endpoint: [method:{}, path:{} found in file: [{}]]. " +
+            LOGGER.warn("Dropping endpoint: [method:{}, path:{} found in file: [{}]]. " +
                     "Reason: This endpoint does not have minimum required information (method, path, response)",
                 endpoint.getMethod(), endpoint.getPath(), fileName);
 
@@ -38,7 +38,7 @@ public class Validator {
 
         if (!StringUtils.isEmpty(endpoint.getData()) &&
             (!endpoint.getMethod().equals(HttpMethod.POST) && !endpoint.getMethod().equals(HttpMethod.PUT))) {
-            LOGGER.error("Method [{} - {}] does not support request body. Lyre will ignore this property.",
+            LOGGER.warn("Method [{} - {}] does not support request body. Lyre will ignore this property.",
                 endpoint.getMethod(), endpoint.getPath());
             endpoint.setData(null);
         }
@@ -54,7 +54,7 @@ public class Validator {
             if (savedEndpoint.getMethod().equals(endpoint.getMethod()) &&
                 savedEndpoint.getPath().equals(endpoint.getPath())) {
 
-                LOGGER.error("Skipping endpoint: [{} {} found in file: [{}]]. " +
+                LOGGER.warn("Skipping endpoint: [{} {} found in file: [{}]]. " +
                         "Reason: This endpoint already exists in file [{}]",
                     endpoint.getMethod(), endpoint.getPath(), fileName, savedEndpoint.getFileName());
 

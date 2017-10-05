@@ -5,20 +5,16 @@ import com.github.groovylabs.lyre.config.NotFoundExceptionMapper;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.Event;
-import com.github.groovylabs.lyre.domain.appliers.Countdown;
 import com.github.groovylabs.lyre.domain.enums.EventAction;
 import com.github.groovylabs.lyre.domain.enums.Queue;
-import com.github.groovylabs.lyre.domain.factories.LogFactory;
 import com.github.groovylabs.lyre.engine.APIx.controller.APIxListener;
 import com.github.groovylabs.lyre.engine.APIx.filters.CORSFilter;
+import com.github.groovylabs.lyre.engine.APIx.inflectors.APIxInflector;
 import com.github.groovylabs.lyre.engine.APIx.services.BundleService;
 import com.github.groovylabs.lyre.engine.APIx.services.LandingPageService;
-import com.github.groovylabs.lyre.engine.APIx.swagger.SwaggerIntegration;
+import com.github.groovylabs.lyre.engine.APIx.swagger.SwaggerResource;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
-import com.github.groovylabs.lyre.utils.EndpointUtils;
-import io.swagger.jaxrs.listing.SwaggerSerializers;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.process.Inflector;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
 import org.glassfish.jersey.server.spi.Container;
@@ -30,10 +26,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
 import java.net.InetAddress;
 
 @Component
@@ -44,20 +36,14 @@ public class APIx extends ResourceConfig {
     @Autowired
     private LyreProperties lyreProperties;
 
-    @javax.annotation.Resource(name = "&log")
-    private LogFactory logFactory;
-
     @Autowired
     private Dispatcher dispatcher;
 
     @Autowired
-    private SwaggerIntegration swaggerIntegration;
+    private SwaggerResource swaggerResource;
 
     @Autowired
     private Bundle bundle;
-
-    @Autowired
-    private EndpointUtils endpointUtils;
 
     private static Container container;
 
@@ -124,59 +110,12 @@ public class APIx extends ResourceConfig {
 
             resource.addMethod(endpoint.getMethod().name())
                 .consumes(endpoint.getConsumes())
-                .handledBy(new Inflector<ContainerRequestContext, Object>() {
-
-                    @Context
-                    private HttpServletRequest request;
-
-                    @Override
-                    public Response apply(ContainerRequestContext containerRequestContext) {
-
-                        dispatcher.publish(logFactory.logger(endpoint, request).info("Endpoint called.").event());
-
-                        Countdown countdown = endpoint.getSetup().getCountdown();
-
-                        if (!StringUtils.isEmpty(endpoint.getData())) {
-                            String requestObject = endpointUtils.getEntityBody(containerRequestContext);
-
-                            //TODO: Make a method that will be looking for the attributes of the object, not the of object as string.
-                            if (!endpoint.getData().equals(requestObject))
-                                return Response.status(Response.Status.NOT_ACCEPTABLE).build();
-
-                        }
-
-                        if (countdown != null && countdown.getCalls() > 0) {
-                            countdown.decrease();
-                            return Response
-                                .status(countdown.getStatus().value())
-                                .entity(countdown.getStatus().getReasonPhrase()).build();
-                        } else {
-
-                            if (endpoint.getTimer().idle() > 0) {
-
-                                try {
-                                    Thread.sleep(endpoint.getTimer().idle());
-                                } catch (InterruptedException e) {
-
-                                }
-
-                            }
-
-                            return Response
-                                .status(endpoint.getResponse().getStatus().value())
-                                .entity(endpoint.getResponse().getData()).type(endpoint.getResponse().getProduces()).build();
-                        }
-                    }
-                });
+                .handledBy(new APIxInflector(endpoint));
 
             resourceConfig.registerResources(resource.build());
         }
 
-        if (lyreProperties.isEnableSwaggerDoc()) {
-            swaggerIntegration.enableSwagger(bundle, resourceConfig);
-            resourceConfig.register(SwaggerSerializers.class);
-        }
-
+        swaggerResource.register(bundle, resourceConfig);
         resourceConfig.register(new MultiPartFeature());
         resourceConfig.register(APIxListener.class);
         resourceConfig.register(CORSFilter.class);
