@@ -42,11 +42,6 @@ public class Validator {
             endpoint.setData(null);
         }
 
-        if (!endpoint.getMethod().equals(HttpMethod.POST) && !endpoint.getMethod().equals(HttpMethod.PUT)) {
-            LOGGER.info("Method [{}] does not support request body. Lyre will ignore this property.", endpoint.getMethod());
-            endpoint.setData(null);
-        }
-
         if (updatable)
             savedEndpoints.removeIf(itEndpoint -> itEndpoint.getMethod().equals(endpoint.getMethod()) &&
                 itEndpoint.getPath().equals(endpoint.getPath()));
