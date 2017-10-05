@@ -9,6 +9,8 @@ import java.nio.charset.StandardCharsets;
 
 public class Endpoint {
 
+    private String alias = "";
+
     private HttpMethod method;
 
     private String path;
@@ -33,6 +35,14 @@ public class Endpoint {
         this.setResponse(new Response());
         this.setSetup(new Setup());
         this.setTimer(new Timer());
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public void setAlias(String alias) {
+        this.alias = alias;
     }
 
     public void setMethod(String method) {

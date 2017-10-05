@@ -18,16 +18,11 @@ import java.util.Map;
 @Component
 public class Interpreter extends Parser {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Interpreter.class);
-
     @Autowired
     private LyreProperties lyreProperties;
 
     @Autowired
     private APIxController apixController;
-
-    @Autowired
-    private Validator validator;
 
     @Autowired
     private Bundle bundle;

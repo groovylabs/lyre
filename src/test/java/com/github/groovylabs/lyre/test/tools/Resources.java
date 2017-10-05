@@ -44,12 +44,12 @@ public class Resources {
     }
 
     public String createEndpointAsYAML(
-        String key, String value, String method, String consumes, String idle,
+        String key, String path, String method, String consumes, String idle,
         String data, String[] response, String[] setup) {
 
         String endpoint = "";
         endpoint += key + ":\n";
-        endpoint += "    value: " + value + "\n";
+        endpoint += "    path: " + path + "\n";
         endpoint += "    method: " + method + "\n";
         endpoint += "    consumes: " + consumes + "\n";
         endpoint += "    idle: " + idle + "\n";

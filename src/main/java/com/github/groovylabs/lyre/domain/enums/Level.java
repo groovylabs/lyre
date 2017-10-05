@@ -3,7 +3,7 @@ package com.github.groovylabs.lyre.domain.enums;
 public enum Level {
 
     ENDPOINT,
-    REQUEST(Property.VALUE, Property.METHOD, Property.CONSUMES, Property.RESPONSE, Property.DATA),
+    REQUEST(Property.PATH, Property.METHOD, Property.CONSUMES, Property.RESPONSE, Property.DATA),
     RESPONSE(Property.STATUS, Property.HEADER, Property.PRODUCES, Property.DATA),
     SETUP(Property.IDLE, Property.BUSY, Property.BROKEN, Property.FORBIDDEN),
     PARAMETER();

@@ -26,11 +26,25 @@ public class Validator {
 
     public boolean integrity(String fileName, Endpoint endpoint, List<Endpoint> savedEndpoints, boolean updatable) {
 
+        if (StringUtils.isEmpty(endpoint.getMethod()) || StringUtils.isEmpty(endpoint.getPath())
+            || StringUtils.isEmpty(endpoint.getResponse().getStatus())) {
+
+            LOGGER.error("Dropping endpoint: [method:{}, path:{} found in file: [{}]]. " +
+                    "Reason: This endpoint does not have minimum required information (method, path, response)",
+                endpoint.getMethod(), endpoint.getPath(), fileName);
+
+            return false;
+        }
         if (!StringUtils.isEmpty(endpoint.getData()))
             if (!endpoint.getMethod().equals(HttpMethod.POST) && !endpoint.getMethod().equals(HttpMethod.PUT)) {
                 LOGGER.info("Method [{}] does not support request body. Lyre will ignore this property.", endpoint.getMethod());
                 endpoint.setData(null);
             }
+
+        if (!endpoint.getMethod().equals(HttpMethod.POST) && !endpoint.getMethod().equals(HttpMethod.PUT)) {
+            LOGGER.info("Method [{}] does not support request body. Lyre will ignore this property.", endpoint.getMethod());
+            endpoint.setData(null);
+        }
 
         if (updatable)
             savedEndpoints.removeIf(itEndpoint -> itEndpoint.getMethod().equals(endpoint.getMethod()) &&
@@ -52,5 +66,15 @@ public class Validator {
         }
 
         return true;
+    }
+
+    public boolean check(String value, Object reference) {
+
+        if (reference.equals("path"))
+            return !StringUtils.isEmpty(value) && value.startsWith("/");
+        else if (reference.equals("method"))
+            return HttpMethod.resolve(value) != null;
+
+        return false;
     }
 }
