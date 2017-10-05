@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @Import({
     LyrePropertiesConfiguration.class
 })
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 public class APIxTest {
 
     @Test
