@@ -35,11 +35,12 @@ public class Validator {
 
             return false;
         }
-        if (!StringUtils.isEmpty(endpoint.getData()))
-            if (!endpoint.getMethod().equals(HttpMethod.POST) && !endpoint.getMethod().equals(HttpMethod.PUT)) {
-                LOGGER.info("Method [{}] does not support request body. Lyre will ignore this property.", endpoint.getMethod());
-                endpoint.setData(null);
-            }
+
+        if (!StringUtils.isEmpty(endpoint.getData()) &&
+            (!endpoint.getMethod().equals(HttpMethod.POST) && !endpoint.getMethod().equals(HttpMethod.PUT))) {
+            LOGGER.info("Method [{}] does not support request body. Lyre will ignore this property.", endpoint.getMethod());
+            endpoint.setData(null);
+        }
 
         if (!endpoint.getMethod().equals(HttpMethod.POST) && !endpoint.getMethod().equals(HttpMethod.PUT)) {
             LOGGER.info("Method [{}] does not support request body. Lyre will ignore this property.", endpoint.getMethod());
