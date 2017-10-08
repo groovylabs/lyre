@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
@@ -27,14 +26,13 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@ActiveProfiles("test")
+@ActiveProfiles("unit-test")
 @RunWith(SpringRunner.class)
 @Import({
     LyrePropertiesConfiguration.class,
     ResourcesConfiguration.class,
     ScannerConfiguration.class
 })
-@TestPropertySource("classpath:application.properties")
 public class WatcherTest extends InitializingResourceBean {
 
     @Autowired
@@ -76,7 +74,7 @@ public class WatcherTest extends InitializingResourceBean {
         //should have a watcher thread instance
         assertThat(scanner.getWatcherInstance()).isNotNull();
         assertThat(scanner.getWatcher()).isNotNull();
-        verify(scanner.getReader(), times(1)).read(any());
+        verify(scanner.getReader(), times(2)).read(any());
         assertThat(scanner.getWatcher().getFiles()).extracting("name")
             .contains(
                 rootFiles.get("test-watch-modified.lyre").getName());

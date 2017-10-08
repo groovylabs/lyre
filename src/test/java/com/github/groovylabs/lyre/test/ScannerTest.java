@@ -13,7 +13,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
@@ -21,14 +20,13 @@ import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("test")
+@ActiveProfiles("unit-test")
 @RunWith(SpringRunner.class)
 @Import({
     LyrePropertiesConfiguration.class,
     ResourcesConfiguration.class,
     ScannerConfiguration.class
 })
-@TestPropertySource("classpath:application.properties")
 public class ScannerTest extends InitializingResourceBean {
 
     @Autowired

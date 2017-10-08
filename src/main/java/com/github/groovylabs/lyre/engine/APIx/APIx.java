@@ -56,9 +56,9 @@ public class APIx extends ResourceConfig {
 
         LOGGER.info("Boot [STATUS]: Started");
 
-        if (com.github.groovylabs.lyre.engine.APIx.APIx.container != null) {
+        if (container != null) {
             final ResourceConfig resourceConfig = this.createResources(bundle, null);
-            com.github.groovylabs.lyre.engine.APIx.APIx.container.reload(resourceConfig);
+            container.reload(resourceConfig);
         } else {
             this.createResources(bundle, this);
         }

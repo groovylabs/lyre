@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
@@ -24,14 +23,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 
 
-@ActiveProfiles("test")
+@ActiveProfiles("unit-test")
 @RunWith(SpringRunner.class)
 @Import({
     LyrePropertiesConfiguration.class,
     ResourcesConfiguration.class,
     InterpreterConfiguration.class
 })
-@TestPropertySource("classpath:application.properties")
 public class InterpreterTest {
 
     @Autowired

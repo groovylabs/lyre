@@ -3,7 +3,6 @@ package com.github.groovylabs.lyre;
 import com.github.groovylabs.lyre.config.LyreBanner;
 import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.engine.APIx.APIx;
-import com.github.groovylabs.lyre.engine.APIx.swagger.SwaggerConfiguration;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.slf4j.Logger;
@@ -16,7 +15,6 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Import;
 import org.springframework.util.StringUtils;
 
 import java.net.InetAddress;
@@ -24,7 +22,6 @@ import java.net.UnknownHostException;
 import java.util.Map;
 
 @SpringBootApplication
-@Import(SwaggerConfiguration.class)
 @EnableConfigurationProperties(LyreProperties.class)
 public class Lyre {
 

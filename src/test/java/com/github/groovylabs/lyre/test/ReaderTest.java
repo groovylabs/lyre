@@ -15,7 +15,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.File;
@@ -24,14 +23,13 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 
-@ActiveProfiles("test")
+@ActiveProfiles("unit-test")
 @RunWith(SpringRunner.class)
 @Import({
     LyrePropertiesConfiguration.class,
     ResourcesConfiguration.class,
     ReaderConfiguration.class
 })
-@TestPropertySource("classpath:application.properties")
 public class ReaderTest {
 
     @Autowired

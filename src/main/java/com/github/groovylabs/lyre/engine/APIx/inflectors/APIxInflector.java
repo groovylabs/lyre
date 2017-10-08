@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 
 public class APIxInflector implements Inflector<ContainerRequestContext, Object> {
 
-    @javax.annotation.Resource(name = "&log")
+    @Autowired
     private LogFactory logFactory;
 
     @Autowired
