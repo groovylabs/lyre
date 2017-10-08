@@ -74,7 +74,7 @@ public class WatcherTest extends InitializingResourceBean {
         //should have a watcher thread instance
         assertThat(scanner.getWatcherInstance()).isNotNull();
         assertThat(scanner.getWatcher()).isNotNull();
-        verify(scanner.getReader(), times(2)).read(any());
+        verify(scanner.getReader(), times(1)).read(any());
         assertThat(scanner.getWatcher().getFiles()).extracting("name")
             .contains(
                 rootFiles.get("test-watch-modified.lyre").getName());

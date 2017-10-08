@@ -16,7 +16,7 @@ public class EnableLyreApplication {
     public static void main(String[] args) {
 
         SpringApplication application = new SpringApplication(EnableLyreApplication.class);
-        application.run(args);
+        application.run();
 
     }
 }

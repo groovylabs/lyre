@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.TestPropertySource;
 
 @TestConfiguration
-@TestPropertySource("classpath:application.properties")
 public class LyrePropertiesConfiguration {
 
     @Bean
