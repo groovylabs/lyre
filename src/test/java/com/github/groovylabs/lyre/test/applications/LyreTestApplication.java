@@ -7,15 +7,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 
-@Profile("application-test")
+@Profile("integration-test")
 @EnableLyre
 @Import({LyrePropertiesConfiguration.class})
 @SpringBootApplication
-public class EnableLyreApplication {
+public class LyreTestApplication {
 
     public static void main(String[] args) {
 
-        SpringApplication application = new SpringApplication(EnableLyreApplication.class);
+        SpringApplication application = new SpringApplication(LyreTestApplication.class);
         application.run();
 
     }

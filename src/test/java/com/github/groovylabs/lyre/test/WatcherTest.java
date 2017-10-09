@@ -26,11 +26,8 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@ActiveProfiles("unit-test")
 @RunWith(SpringRunner.class)
 @Import({
-    LyrePropertiesConfiguration.class,
-    ResourcesConfiguration.class,
     ScannerConfiguration.class
 })
 public class WatcherTest extends InitializingResourceBean {

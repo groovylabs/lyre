@@ -22,12 +22,8 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 
-
-@ActiveProfiles("unit-test")
 @RunWith(SpringRunner.class)
 @Import({
-    LyrePropertiesConfiguration.class,
-    ResourcesConfiguration.class,
     InterpreterConfiguration.class
 })
 public class InterpreterTest {

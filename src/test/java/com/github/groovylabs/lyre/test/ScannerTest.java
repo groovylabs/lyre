@@ -20,11 +20,8 @@ import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("unit-test")
 @RunWith(SpringRunner.class)
 @Import({
-    LyrePropertiesConfiguration.class,
-    ResourcesConfiguration.class,
     ScannerConfiguration.class
 })
 public class ScannerTest extends InitializingResourceBean {

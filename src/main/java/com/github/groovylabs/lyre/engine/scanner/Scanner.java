@@ -8,12 +8,13 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class Scanner implements InitializingBean {
+public class Scanner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Scanner.class);
 
@@ -29,7 +30,8 @@ public class Scanner implements InitializingBean {
 
     private Watcher watcher = null;
 
-    public void afterPropertiesSet() throws Exception {
+    @PostConstruct
+    public void init() {
         scan();
     }
 

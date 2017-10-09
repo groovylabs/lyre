@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
-@Profile("unit-test")
 @Import({
     LyrePropertiesConfiguration.class,
     ResourcesConfiguration.class

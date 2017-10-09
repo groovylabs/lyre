@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 
-@Profile({"unit-test", "application-test"})
 @TestConfiguration
 public class ResourcesConfiguration {
 
