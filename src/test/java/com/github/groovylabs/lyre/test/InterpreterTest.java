@@ -22,10 +22,9 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
-@Import({
-    InterpreterConfiguration.class
-})
+@Import({InterpreterConfiguration.class})
 public class InterpreterTest {
 
     @Autowired

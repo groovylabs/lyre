@@ -1,16 +1,16 @@
 package com.github.groovylabs.lyre.test.applications;
 
 import com.github.groovylabs.lyre.EnableLyre;
+import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
+import org.springframework.context.annotation.*;
 
-@Profile("integration-test")
+@Profile("test")
 @EnableLyre
-@Import({LyrePropertiesConfiguration.class})
 @SpringBootApplication
+@Import({LyrePropertiesConfiguration.class})
 public class LyreTestApplication {
 
     public static void main(String[] args) {

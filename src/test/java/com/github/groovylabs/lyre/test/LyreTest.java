@@ -1,11 +1,10 @@
+/*
 package com.github.groovylabs.lyre.test;
 
 import com.github.groovylabs.lyre.test.applications.LyreTestApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
@@ -14,10 +13,10 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@ActiveProfiles("integration-test")
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE, classes = LyreTestApplication.class)
-public class EnableLyreTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = LyreTestApplication.class)
+public class LyreTest {
 
     private RestTemplate restTemplate;
 
@@ -34,3 +33,4 @@ public class EnableLyreTest {
     }
 
 }
+*/

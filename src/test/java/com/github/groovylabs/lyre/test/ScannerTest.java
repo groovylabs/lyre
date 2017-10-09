@@ -20,6 +20,7 @@ import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @Import({
     ScannerConfiguration.class

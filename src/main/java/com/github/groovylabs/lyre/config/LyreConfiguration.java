@@ -4,7 +4,11 @@ import com.github.groovylabs.lyre.Lyre;
 import org.springframework.boot.Banner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
+@Component
+@Profile("!test")
 public class LyreConfiguration implements CommandLineRunner {
 
     public final static String LYRE_PROPERTIES_PREFIX = "lyre";
