@@ -1,10 +1,9 @@
 package com.github.groovylabs.lyre.test.configurations;
 
 import com.github.groovylabs.lyre.config.LyreProperties;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.*;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 
 @TestConfiguration
 public class LyrePropertiesConfiguration {

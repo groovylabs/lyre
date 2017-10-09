@@ -5,9 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.engine.reader.Reader;
-import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguration;
 import com.github.groovylabs.lyre.test.configurations.ReaderConfiguration;
-import com.github.groovylabs.lyre.test.configurations.ResourcesConfiguration;
 import com.github.groovylabs.lyre.test.tools.Resources;
 import com.github.groovylabs.lyre.test.tools.TempIO;
 import org.junit.Test;
@@ -25,9 +23,7 @@ import static org.assertj.core.api.Fail.fail;
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
-@Import({
-    ReaderConfiguration.class
-})
+@Import({ReaderConfiguration.class})
 public class ReaderTest {
 
     @Autowired

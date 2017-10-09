@@ -3,8 +3,6 @@ package com.github.groovylabs.lyre.test;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.engine.reader.Reader;
 import com.github.groovylabs.lyre.test.configurations.InterpreterConfiguration;
-import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguration;
-import com.github.groovylabs.lyre.test.configurations.ResourcesConfiguration;
 import com.github.groovylabs.lyre.test.tools.Resources;
 import com.github.groovylabs.lyre.test.tools.TempIO;
 import org.junit.Test;

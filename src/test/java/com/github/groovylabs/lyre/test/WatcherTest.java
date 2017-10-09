@@ -1,8 +1,6 @@
 package com.github.groovylabs.lyre.test;
 
 import com.github.groovylabs.lyre.engine.scanner.Scanner;
-import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguration;
-import com.github.groovylabs.lyre.test.configurations.ResourcesConfiguration;
 import com.github.groovylabs.lyre.test.configurations.ScannerConfiguration;
 import com.github.groovylabs.lyre.test.initializations.InitializingResourceBean;
 import com.github.groovylabs.lyre.test.tools.Resources;
@@ -28,9 +26,7 @@ import static org.mockito.Mockito.verify;
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
-@Import({
-    ScannerConfiguration.class
-})
+@Import({ScannerConfiguration.class})
 public class WatcherTest extends InitializingResourceBean {
 
     @Autowired
