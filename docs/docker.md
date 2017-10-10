@@ -14,7 +14,7 @@ ___
 * You also can build the image locally.
     - `git clone https://github.com/groovylabs/lyre.git`
     - `cd lyre`
-    - `docker build --tag="$USER/lyre" .`
+    - `docker build -t groovylabs/lyre .`
 ___ 
 #### Default start
 
