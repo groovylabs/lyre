@@ -4,7 +4,7 @@ import com.github.groovylabs.lyre.EnableLyre;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@EnableLyre
+@EnableLyre(port = 8234, enableRemoteConnections = "true")
 @SpringBootApplication
 public class TestBoot {
 

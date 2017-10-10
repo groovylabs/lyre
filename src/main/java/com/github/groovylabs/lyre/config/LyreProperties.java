@@ -2,12 +2,12 @@ package com.github.groovylabs.lyre.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = LyreConfiguration.LYRE_PROPERTIES_PREFIX)
+@ConfigurationProperties(prefix = LyreRunner.LYRE_PROPERTIES_PREFIX)
 public class LyreProperties {
 
-    private boolean enableRemoteConnections = false;
+    private Boolean enableRemoteConnections;
 
-    private boolean enableLivereload = false;
+    private Boolean enableLivereload;
 
     private int port = 8234;
 
@@ -24,18 +24,18 @@ public class LyreProperties {
     private boolean debug = false;
 
     public boolean isEnableRemoteConnections() {
-        return enableRemoteConnections;
+        return enableRemoteConnections == null ? false : enableRemoteConnections;
     }
 
-    public void setEnableRemoteConnections(boolean enableRemoteConnections) {
+    public void setEnableRemoteConnections(Boolean enableRemoteConnections) {
         this.enableRemoteConnections = enableRemoteConnections;
     }
 
     public boolean isEnableLivereload() {
-        return enableLivereload;
+        return enableLivereload == null ? false : enableLivereload;
     }
 
-    public void setEnableLivereload(boolean enableLivereload) {
+    public void setEnableLivereload(Boolean enableLivereload) {
         this.enableLivereload = enableLivereload;
     }
 
