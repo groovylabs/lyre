@@ -4,10 +4,38 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>groovylabs</groupId>
+    <groupId>com.github.groovylabs</groupId>
     <artifactId>lyre</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <version>1.0.0</version>
+
+    <name>Lyre</name>
+    <description>A development tool to mock REST services</description>
+    <url>https://github.com/groovylabs/lyre</url>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+    <organization>
+        <name>Groovylabs</name>
+        <url>https://github.com/groovylabs</url>
+    </organization>
+    <developers>
+        <developer>
+            <name>Kaio Cesar</name>
+            <email>kaio.cesarbs@gmail.com</email>
+            <organization>Groovylabs</organization>
+            <organizationUrl>https://github.com/groovylabs</organizationUrl>
+        </developer>
+        <developer>
+            <name>Jose Neto</name>
+            <email>jose.slneto@gmail.com</email>
+            <organization>Groovylabs</organization>
+            <organizationUrl>https://github.com/groovylabs</organizationUrl>
+        </developer>
+    </developers>
 
     <properties>
         <spring.version>1.5.6.RELEASE</spring.version>
@@ -16,46 +44,55 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.version>3.5.0</maven.version>
     </properties>
-
+    <scm>
+        <url>https://github.com/groovylabs/lyre</url>
+        <connection>scm:git:git://github.com/groovylabs/lyre.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/groovylabs/lyre.git</developerConnection>
+    </scm>
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/groovylabs/lyre/issues</url>
+    </issueManagement>
+    <ciManagement>
+        <system>Travis</system>
+        <url>https://travis-ci.org/groovylabs/lyre</url>
+    </ciManagement>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <version>${spring.version}</version>
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jersey</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>io.swagger</groupId>
             <artifactId>swagger-inflector</artifactId>
@@ -71,46 +108,32 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
             <version>${springfox-swagger2.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${springfox-swagger2.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-yaml</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>23.0</version>
         </dependency>
-
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>maven-central</id>
-            <url>http://repo1.maven.org/maven2</url>
-        </repository>
-    </repositories>
-
     <profiles>
         <profile>
             <id>release-jar</id>
@@ -142,7 +165,6 @@
             </build>
         </profile>
     </profiles>
-
     <build>
         <plugins>
             <plugin>

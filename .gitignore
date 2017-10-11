@@ -1,3 +1,14 @@
-.idea/
 *.iml
+*.jar
+.idea/
+lib/
 target/
+.DS_Store
+.classpath
+.factorypath
+.metadata
+.project
+.settings
+/build
+MANIFEST.MF
+settings.xml
