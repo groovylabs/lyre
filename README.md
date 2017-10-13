@@ -72,8 +72,6 @@ public class YourApp {
 
 ### With JAR
 
-
-
 ## Usage
 
 ### Using files to create endpoints
@@ -132,9 +130,26 @@ File suffix extension | file-format | .lyre
 Servlet context path | context-path | *none*
 Lyre Application path | application-path | api
 
-#### 
+#### Using environment variables
 
-  
+```
+$   export LYRE_PORT=8080 
+$   export LYRE_ENABLE_REMOTE_CONNECTIONS=true
+```
+
+#### Using application.properties
+
+```
+$   echo 'lyre.port=8080' >> application.properties
+$   echo 'lyre.enable_remote_connection=true' >> application.properties
+```
+
+#### Using @EnableLyre interface
+
+```
+@EnableLyre(port = 8080, enableRemoteConnections = "true")
+```
+
 ## Support Channels
 
 * [Gitter chat (main)](https://gitter.im/groovylabs-lyre/Lobby)
