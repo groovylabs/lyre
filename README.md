@@ -1,9 +1,8 @@
 # Lyre - A development tool to mock REST services.
 
 [![Build Status](https://travis-ci.org/groovylabs/lyre.svg?branch=master)](https://travis-ci.org/groovylabs/lyre)
-[![Discord chat](https://img.shields.io/badge/discord-join%20chat%20%E2%86%92-brightgreen.svg?style=flat)](https://discord.gg/Huz8BJH)
+[![GitHub release](https://img.shields.io/badge/download-latest-brightgreen.svg)](https://github.com/groovylabs/lyre/releases)
 [![Gitter](https://badges.gitter.im/groovylabs-lyre/Lobby.svg)](https://gitter.im/groovylabs-lyre/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![GitHub release](https://img.shields.io/github/release/qubyte/rubidium.svg)](https://github.com/groovylabs/lyre/releases)
 
 <img align="right" height="300" src="">
     
@@ -20,7 +19,7 @@ Lyre is a project designated to help developers as a REST services mock API. Our
 
 ### Getting Lyre
 
-You can download Lyre on github or build by yourself.
+You can download on github or build by yourself.
 
 - **Download Lyre at: [available releases](https://github.com/groovylabs/lyre/releases)**   
 *or*
@@ -85,7 +84,7 @@ Lyre supports two data formats: **YAML** and **JSON**, you can choose whatever y
 /dir
     - yaml_endpoints.lyre
     - json_endpoints.lyre
-```
+```   
 
 Do not forget to set ```lyre.scan-path``` property to endpoint's directory.
 
@@ -152,9 +151,8 @@ $   echo 'lyre.enable_remote_connection=true' >> application.properties
 
 ## Support Channels
 
-* [Gitter chat (main)](https://gitter.im/groovylabs-lyre/Lobby)
-* [Discord chat](https://discord.gg/0fFM7QF0KpZRh2cY)
 * [Mailing list](https://groups.google.com/forum/#!forum/groovylabs-lyre) - groovylabs-lyre@googlegroups.com
+* [Gitter chat](https://gitter.im/groovylabs-lyre/Lobby)
 
 ## Contributing
 

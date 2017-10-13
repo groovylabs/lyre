@@ -1,8 +1,0 @@
-{
-    "GET /json/ping" : {
-        "response" : {
-            "data" : "GET PONG JSON",
-            "status" : "200"
-        }
-    }
-}
