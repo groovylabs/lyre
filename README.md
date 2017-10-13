@@ -143,22 +143,14 @@ Lyre Application path | application-path | api
 
 ## Contributing
 
-## Sponsors
+We welcome [contributions](https://github.com/groovylabs/lyre/graphs/contributors) of all kinds from anyone. Please take a moment to review the [guidelines for contributing](CONTRIBUTING.md).
 
+* [Bug reports](https://github.com/groovylabs/lyre/wiki/Report-a-Bug)
+* [Feature requests](CONTRIBUTING.md#features)
+* [Pull requests](CONTRIBUTING.md#pull-requests)
 
 ## License
 
 Copyright (c) 2017 Groovylabs and [other contributors](https://github.com/groovylabs/lyre/graphs/contributors)
 
 Licensed under the MIT License
-
-
-## Support
-
-## Contributing
-
-We welcome [contributions](https://github.com/groovylabs/lyre/graphs/contributors) of all kinds from anyone. Please take a moment to review the [guidelines for contributing](CONTRIBUTING.md).
-
-* [Bug reports](https://github.com/groovylabs/lyre/wiki/Report-a-Bug)
-* [Feature requests](CONTRIBUTING.md#features)
-* [Pull requests](CONTRIBUTING.md#pull-requests)
