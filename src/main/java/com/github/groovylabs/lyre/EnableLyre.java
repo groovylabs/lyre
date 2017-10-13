@@ -30,6 +30,27 @@ import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
 
+/**
+ * EnableLyre Interface - Indicates to spring that a particular {@link org.springframework.boot.ApplicationRunner}
+ * implementation needs to be instantiated and called {@code #run}.
+ * <p>
+ * The desired main class that is annotated with {@code @EnableLyre} together with {@code @SpringBootApplication},
+ * acquires a significance meaning, it allows a bean creation of {@link LyreRunner} and a {@link Lyre}
+ * instance that should run.
+ * <p>
+ * This interface also provides a property configuration thought it.
+ * {@code enableRemoteConnections}
+ * {@code enableLiveReload}
+ * {@code port}
+ * {@code contextPath}
+ * {@code apiPath}
+ * {@code scanPath}
+ * {@code fileFormat}
+ * {@code enableSwaggerDoc}
+ * {@code debug}
+ *
+ * @see LyreRunner
+ */
 @Target(value = ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
@@ -38,7 +59,7 @@ public @interface EnableLyre {
 
     String enableRemoteConnections() default "";
 
-    String enableLivereload() default "";
+    String enableLiveReload() default "";
 
     int port() default 0;
 

@@ -33,6 +33,12 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 
+/**
+ * LyreRunner implementation of {@link ApplicationRunner} interface.
+ *
+ * This class actual creates a Lyre spring boot application, set the main application class and prepare eventual
+ * arguments to be passed.
+ */
 public class LyreRunner implements ApplicationRunner {
 
     public final static String LYRE_PROPERTIES_PREFIX = "lyre";

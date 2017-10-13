@@ -46,10 +46,10 @@ public class RunnerUtils {
                 arguments.add("--lyre.enable_remote_connections=" + enableLyre.enableRemoteConnections());
 
             //check if enable livereload is set
-            if (!StringUtils.isEmpty(enableLyre.enableLivereload())
-                && (enableLyre.enableLivereload().equals("true")
-                || enableLyre.enableLivereload().equals("false")))
-                arguments.add("--lyre.enable_livereload=" + enableLyre.enableLivereload());
+            if (!StringUtils.isEmpty(enableLyre.enableLiveReload())
+                && (enableLyre.enableLiveReload().equals("true")
+                || enableLyre.enableLiveReload().equals("false")))
+                arguments.add("--lyre.enable_live_reload=" + enableLyre.enableLiveReload());
 
             //check if port is set
             if (enableLyre.port() > 0)

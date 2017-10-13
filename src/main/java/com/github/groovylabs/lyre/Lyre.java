@@ -47,6 +47,15 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Map;
 
+/**
+ * Lyre class - Spring Boot Application responsible to configure and start a sandbox servlet container
+ * which contains a Jersey 2 application.
+ * <p>
+ * It uses a set of {@link LyreProperties} configuration properties.
+ *
+ * @see EnableLyre
+ */
+
 @SpringBootApplication
 @EnableConfigurationProperties(LyreProperties.class)
 @EnableAutoConfiguration
