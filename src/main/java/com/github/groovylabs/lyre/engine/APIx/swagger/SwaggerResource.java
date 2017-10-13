@@ -35,7 +35,7 @@ public class SwaggerResource {
 
         Swagger swagger = new Swagger();
         swagger.setInfo(swaggerInfo());
-        swagger.setBasePath("/" + lyreProperties.getApiPath());
+        swagger.setBasePath("/" + lyreProperties.getApplicationPath());
         swagger.setSchemes(Stream.of(Scheme.HTTP).collect(Collectors.toList()));
         swagger.setConsumes(Stream.of("application/json").collect(Collectors.toList()));
         swagger.setProduces(Stream.of("application/json").collect(Collectors.toList()));

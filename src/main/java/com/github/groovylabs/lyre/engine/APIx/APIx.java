@@ -72,11 +72,11 @@ public class APIx extends ResourceConfig {
             public void onStartup(final Container container) {
                 LOGGER.info("Lyre REST API Mock tool started");
 
-                LOGGER.info("\u21B3 " + "Endpoints are available at: http://{}:{}/{}{}",
+                LOGGER.info("\u21B3 " + "Endpoints are available at: http://{}:{}{}{}",
                     InetAddress.getLoopbackAddress().getHostAddress(),
                     lyreProperties.getPort(),
                     (!StringUtils.isEmpty(lyreProperties.getContextPath()) ? lyreProperties.getContextPath() + "/" : ""),
-                    lyreProperties.getApiPath());
+                    lyreProperties.getApplicationPath());
 
                 com.github.groovylabs.lyre.engine.APIx.APIx.container = container;
             }

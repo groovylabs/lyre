@@ -1,30 +1,21 @@
-## Lyre - Endpoint mock tool
-###1.0 Syntax to describe endpoints properties.
-
-___
-#### Endpoint [ENTRY]
+## Endpoint [ENTRY]
 
 * METHOD /PATH or ALIAS:
     - Definition: Endpoint entry, mandatory and unique.
     - When found duplicated entries, only the first occurrence will be processed.
 
-    ####examples:    
-        YAML:
-        
+#### examples:    
+    YAML:
         GET /path/yaml:
-            ...
-            
+            ...   
         Endpoint YAML:
             ...
          
-         
-        JSON:
-        
+    JSON:    
         {
             "POST /path/json" : {
                 ... 
             },  
-        
             "Endpoint JSON" : {
                ...
             }
@@ -37,7 +28,7 @@ ___
     > Defines endpoint method, will override previous definitions.  
     Supported HTTP Methods: 
     > * GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS, TRACE
-    >####examples:  
+    >#### examples:  
     >     YAML:  
     >       method: GET
     >       
@@ -47,7 +38,7 @@ ___
 * **path:** _(Required)_
     > Defines endpoint path, will override previous definitions.  
     Proper syntax= prefixed with "/".
-    >####examples:  
+    >#### examples:  
     >     YAML:  
     >       path: /path/to/your/test
     >       
@@ -58,7 +49,7 @@ ___
     > Endpoint identification.  
     Default value: 
     > * **method** and **path**
-    >####examples:  
+    >#### examples:  
     >     YAML:  
     >       alias: Endpoint A
     >       name: Endpoint B
@@ -71,7 +62,7 @@ ___
     > Defines consumed media Type.  
     Default value:
     >* */ *
-    >####examples:  
+    >#### examples:  
     >     YAML:  
     >       consumes: application/xml
     >       
@@ -81,7 +72,7 @@ ___
 * **data:** _(Optional)_
     > Defines the expected data.  
     Data need to match with the request data to accept.
-    >####examples:  
+    >#### examples:  
     >     YAML:  
     >       consumes: '{"data":"123"}'
     >       
@@ -90,7 +81,7 @@ ___
 
 * **idle | timeout:** _(Optional)_
     > Idle property allows to set delay (milliseconds) at endpoint response.  
-    >####examples:  
+    >#### examples:  
     >     YAML:  
     >       idle: 1000
     >       timeout: 1500
@@ -104,7 +95,7 @@ ___
 
 * **response | responses**: _(Required)_
     - Definition: Endpoint response.
-    ####examples:    
+    #### examples:    
         YAML:
         
         response:

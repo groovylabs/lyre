@@ -29,9 +29,9 @@
         </dependency>
 
         <dependency>
-            <groupId>groovylabs</groupId>
+            <groupId>com.github.groovylabs</groupId>
             <artifactId>lyre</artifactId>
-            <version>1.0.0</version>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>

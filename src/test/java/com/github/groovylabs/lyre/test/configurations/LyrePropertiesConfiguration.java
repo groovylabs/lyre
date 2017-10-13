@@ -13,7 +13,7 @@ public class LyrePropertiesConfiguration {
     public LyreProperties lyreProperties() {
         LyreProperties lyreProperties = new LyreProperties();
         lyreProperties.setScanPath(System.getProperty("user.dir") + "/src/test/resources/endpoints");
-        lyreProperties.setApiPath("test");
+        lyreProperties.setApplicationPath("test");
         lyreProperties.setDebug(true);
         return lyreProperties;
     }

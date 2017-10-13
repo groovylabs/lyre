@@ -7,15 +7,15 @@ public class LyreProperties {
 
     private Boolean enableRemoteConnections;
 
-    private Boolean enableLivereload;
+    private Boolean enableLiveReload;
 
     private int port = 8234;
 
     private String contextPath = "";
 
-    private String apiPath = "api";
+    private String applicationPath = "api";
 
-    private String scanPath = System.getProperty("user.dir") + "/src/main/resources";
+    private String scanPath = System.getProperty("user.dir");
 
     private String fileFormat = ".lyre";
 
@@ -31,12 +31,12 @@ public class LyreProperties {
         this.enableRemoteConnections = enableRemoteConnections;
     }
 
-    public boolean isEnableLivereload() {
-        return enableLivereload == null ? false : enableLivereload;
+    public boolean getEnableLiveReload() {
+        return enableLiveReload == null ? false : enableLiveReload;
     }
 
-    public void setEnableLivereload(Boolean enableLivereload) {
-        this.enableLivereload = enableLivereload;
+    public void setEnableLiveReload(Boolean enableLiveReload) {
+        this.enableLiveReload = enableLiveReload;
     }
 
     public int getPort() {
@@ -55,12 +55,12 @@ public class LyreProperties {
         this.contextPath = contextPath;
     }
 
-    public String getApiPath() {
-        return apiPath;
+    public String getApplicationPath() {
+        return applicationPath;
     }
 
-    public void setApiPath(String apiPath) {
-        this.apiPath = apiPath;
+    public void setApplicationPath(String applicationPath) {
+        this.applicationPath = applicationPath;
     }
 
     public String getScanPath() {

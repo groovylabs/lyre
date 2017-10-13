@@ -21,7 +21,6 @@ import java.util.HashMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Fail.fail;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ActiveProfiles("test")
@@ -38,7 +37,7 @@ public class WatcherTest extends InitializingResourceBean {
     @Before
     public void init() {
         //changing live-reload property to true.
-        scanner.getLyreProperties().setEnableLivereload(true);
+        scanner.getLyreProperties().setEnableLiveReload(true);
     }
 
     /**

@@ -59,7 +59,7 @@ public class Scanner {
 
     public final void startWatcher(List<File> files) {
         if (watcherInstance == null) {
-            if (lyreProperties.isEnableLivereload()) {
+            if (lyreProperties.getEnableLiveReload()) {
                 watcher = new Watcher(this, files, lyreProperties);
                 watcherInstance = new Thread(watcher);
                 watcherInstance.start();
