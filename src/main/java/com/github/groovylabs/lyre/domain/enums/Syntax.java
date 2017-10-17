@@ -23,22 +23,33 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain;
+package com.github.groovylabs.lyre.domain.enums;
 
-import com.github.groovylabs.lyre.domain.appliers.Countdown;
+import com.github.groovylabs.lyre.domain.Endpoint;
+import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
+import com.github.groovylabs.lyre.engine.interpreter.Applier;
 
-public class Setup {
+public enum Syntax {
 
-    private Countdown countdown;
+    // ENDPOINT REQUEST
+    METHOD, PATH, ALIAS, NAME, CONSUMES,
+    // ENDPOINT RESPONSE
+    RESPONSE, RESPONSES, STATUS, PRODUCES,
+    // ENDPOINT COMMON
+    DATA, HEADER,
+    // ENDPOINT PROPERTIES
+    PROPERTY, PROPERTIES, IDLE, TIMEOUT, BUSY, BROKEN, FORBIDDEN;
 
-    public Setup() {
+    public boolean is(String property) {
+        return this.name().equalsIgnoreCase(property);
     }
 
-    public Countdown getCountdown() {
-        return countdown;
+    public ApplyOn<Endpoint> applier(Level level) {
+        try {
+            return Applier.valueOf(this.name()).level(level);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return Applier.NONE;
+        }
     }
 
-    public void setCountdown(Countdown countdown) {
-        this.countdown = countdown;
-    }
 }

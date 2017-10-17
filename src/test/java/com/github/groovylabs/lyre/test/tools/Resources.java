@@ -78,7 +78,6 @@ public class Resources {
         endpoint += "    method: " + method + "\n";
         endpoint += "    alias: " + alias + "\n";
         endpoint += "    consumes: " + consumes + "\n";
-        endpoint += "    idle: " + idle + "\n";
         endpoint += "    data: " + data + "\n";
 
         if (response.length == 3) {
@@ -90,8 +89,8 @@ public class Resources {
         }
 
         if (setup.length == 3) {
-            endpoint += "    setup:\n";
-
+            endpoint += "    property:\n";
+            endpoint += "        idle: " + idle + "\n";
             endpoint += "        busy: " + setup[0] + "\n";
             endpoint += "        broken: " + setup[1] + "\n";
             endpoint += "        forbidden: " + setup[2] + "\n";

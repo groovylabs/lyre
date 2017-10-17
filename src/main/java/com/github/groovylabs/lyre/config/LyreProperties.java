@@ -56,7 +56,7 @@ public class LyreProperties {
         this.enableRemoteConnections = enableRemoteConnections;
     }
 
-    public boolean getEnableLiveReload() {
+    public boolean isEnableLiveReload() {
         return enableLiveReload == null ? false : enableLiveReload;
     }
 

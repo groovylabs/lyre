@@ -23,34 +23,7 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.enums;
+package com.github.groovylabs.lyre.domain.errors;
 
-import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.domain.errors.SyntaxError;
-import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
-
-public enum Level {
-
-    ENDPOINT,
-    REQUEST(
-        Syntax.METHOD, Syntax.PATH, Syntax.ALIAS, Syntax.NAME,
-        Syntax.CONSUMES, Syntax.DATA, Syntax.RESPONSE, Syntax.PROPERTY
-    ),
-    RESPONSE(Syntax.STATUS, Syntax.HEADER, Syntax.PRODUCES, Syntax.DATA),
-    PROPERTY(Syntax.IDLE, Syntax.TIMEOUT, Syntax.BUSY, Syntax.BROKEN, Syntax.FORBIDDEN);
-
-    private Syntax[] syntaxes;
-
-    Level(Syntax... syntaxes) {
-        this.syntaxes = syntaxes;
-    }
-
-    public ApplyOn<Endpoint> has(String syntax) throws SyntaxError {
-        for (Syntax obj : syntaxes) {
-            if (obj.is(syntax))
-                return obj.applier(this);
-        }
-        throw new SyntaxError();
-    }
-
+public class SyntaxError extends Exception {
 }

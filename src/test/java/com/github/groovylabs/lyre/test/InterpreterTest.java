@@ -111,7 +111,7 @@ public class InterpreterTest {
         //TODO cookie
 
         //should have idle / timer
-        assertThat(bundledEndpoint.getTimer().getIdle())
+        assertThat(bundledEndpoint.getProperty().getTimer().getIdle())
             .isEqualTo(1000);
 
         //should have response

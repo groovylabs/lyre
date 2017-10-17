@@ -64,7 +64,7 @@ public class APIxInflector implements Inflector<ContainerRequestContext, Object>
 
         dispatcher.publish(logFactory.logger(endpoint, request).info("Endpoint called.").event());
 
-        Countdown countdown = endpoint.getSetup().getCountdown();
+        Countdown countdown = endpoint.getProperty().getCountdown();
 
         if (!StringUtils.isEmpty(endpoint.getData())) {
             String requestObject = endpointUtils.getEntityBody(containerRequestContext);
@@ -82,10 +82,10 @@ public class APIxInflector implements Inflector<ContainerRequestContext, Object>
                 .entity(countdown.getStatus().getReasonPhrase()).build();
         } else {
 
-            if (endpoint.getTimer().idle() > 0) {
+            if (endpoint.getProperty().getTimer().idle() > 0) {
 
                 try {
-                    Thread.sleep(endpoint.getTimer().idle());
+                    Thread.sleep(endpoint.getProperty().getTimer().idle());
                 } catch (InterruptedException e) {
 
                 }

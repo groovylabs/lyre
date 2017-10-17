@@ -25,7 +25,6 @@
 
 package com.github.groovylabs.lyre.domain;
 
-import com.github.groovylabs.lyre.domain.appliers.Timer;
 import com.google.common.hash.Hashing;
 import org.springframework.http.HttpMethod;
 
@@ -46,11 +45,9 @@ public class Endpoint {
 
     private Cookie cookie;
 
-    private Timer timer;
-
     private Response response;
 
-    private Setup setup;
+    private Property property;
 
     private String fileName;
 
@@ -58,8 +55,7 @@ public class Endpoint {
 
     public Endpoint() {
         this.setResponse(new Response());
-        this.setSetup(new Setup());
-        this.setTimer(new Timer());
+        this.setProperty(new Property());
     }
 
     public String getAlias() {
@@ -114,14 +110,6 @@ public class Endpoint {
         this.cookie = cookie;
     }
 
-    public Timer getTimer() {
-        return timer;
-    }
-
-    public void setTimer(Timer timer) {
-        this.timer = timer;
-    }
-
     public Response getResponse() {
         return response;
     }
@@ -130,12 +118,12 @@ public class Endpoint {
         this.response = response;
     }
 
-    public Setup getSetup() {
-        return setup;
+    public Property getProperty() {
+        return property;
     }
 
-    public void setSetup(Setup setup) {
-        this.setup = setup;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
     public String getFileName() {

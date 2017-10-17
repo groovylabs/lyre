@@ -23,15 +23,34 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.enums;
+package com.github.groovylabs.lyre.domain;
 
-public enum Property {
+import com.github.groovylabs.lyre.domain.appliers.Countdown;
+import com.github.groovylabs.lyre.domain.appliers.Timer;
 
-    METHOD, PATH, ALIAS, NAME, DATA, IDLE, TIMEOUT, PARAMS, RESPONSE, RESPONSES, STATUS, CONSUMES, PRODUCES, HEADER,
-    SETUP, BUSY, BROKEN, FORBIDDEN;
+public class Property {
 
-    public boolean is(String property) {
-        return this.name().equalsIgnoreCase(property);
+    private Timer timer;
+
+    private Countdown countdown;
+
+    public Property() {
+        this.setTimer(new Timer());
     }
 
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    public Countdown getCountdown() {
+        return countdown;
+    }
+
+    public void setCountdown(Countdown countdown) {
+        this.countdown = countdown;
+    }
 }
