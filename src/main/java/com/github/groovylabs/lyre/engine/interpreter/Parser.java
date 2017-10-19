@@ -27,8 +27,8 @@ package com.github.groovylabs.lyre.engine.interpreter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.domain.enums.Level;
-import com.github.groovylabs.lyre.domain.enums.Syntax;
+import com.github.groovylabs.lyre.domain.Level;
+import com.github.groovylabs.lyre.domain.Syntax;
 import com.github.groovylabs.lyre.domain.errors.SyntaxError;
 import com.github.groovylabs.lyre.validator.Validator;
 import org.slf4j.Logger;
@@ -47,7 +47,9 @@ public abstract class Parser {
 
     protected String fileName;
 
-    protected void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level level) {
+    protected void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level... tree) {
+
+        Level level = tree[tree.length-1];
 
         switch (level) {
             case ENDPOINT:
@@ -74,9 +76,26 @@ public abstract class Parser {
                     this.parse(endpoint, node, Level.REQUEST));
 
                 break;
+            case HEADER:
+
+                try {
+                    tree[0].has(Syntax.HEADER, entry.getKey()).apply(endpoint, entry.getValue().asText());
+                } catch (SyntaxError error) {
+                    unrecognizedElement(entry.getKey(), level);
+                }
+
+                break;
             case REQUEST:
 
-                if (Syntax.RESPONSE.is(entry.getKey()) || Syntax.RESPONSES.is(entry.getKey())) {
+                if (Syntax.HEADER.is(entry.getKey())) {
+
+                    System.out.println(level);
+                    System.out.println(entry.getKey());
+
+                    entry.getValue().fields().forEachRemaining(node ->
+                        this.parse(endpoint, node, Level.REQUEST, Level.HEADER));
+
+                } else if (Syntax.RESPONSE.is(entry.getKey()) || Syntax.RESPONSES.is(entry.getKey())) {
 
                     entry.getValue().fields().forEachRemaining(node ->
                         this.parse(endpoint, node, Level.RESPONSE));
@@ -88,7 +107,22 @@ public abstract class Parser {
 
                 }
 
+                try {
+                    level.has(entry.getKey()).apply(endpoint, entry.getValue().asText());
+                } catch (SyntaxError error) {
+                    unrecognizedElement(entry.getKey(), level);
+                }
+
+                break;
             case RESPONSE:
+
+                if (Syntax.HEADER.is(entry.getKey())) {
+
+                    entry.getValue().fields().forEachRemaining(node ->
+                        this.parse(endpoint, node, Level.RESPONSE, Level.HEADER));
+
+                }
+
             case PROPERTY:
 
                 try {

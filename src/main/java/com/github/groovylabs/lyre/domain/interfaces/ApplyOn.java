@@ -25,6 +25,6 @@
 
 package com.github.groovylabs.lyre.domain.interfaces;
 
-public interface ApplyOn<T> {
-    void apply(T object, String value);
+public interface ApplyOn<T, U> {
+    void apply(T object, U value);
 }

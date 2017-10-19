@@ -26,6 +26,7 @@
 package com.github.groovylabs.lyre.domain;
 
 import com.github.groovylabs.lyre.domain.appliers.Countdown;
+import com.github.groovylabs.lyre.domain.appliers.Probability;
 import com.github.groovylabs.lyre.domain.appliers.Timer;
 
 public class Property {
@@ -34,8 +35,12 @@ public class Property {
 
     private Countdown countdown;
 
+    private Probability probability;
+
     public Property() {
         this.setTimer(new Timer());
+        this.setCountdown(new Countdown());
+        this.setProbability(new Probability());
     }
 
     public Timer getTimer() {
@@ -52,5 +57,13 @@ public class Property {
 
     public void setCountdown(Countdown countdown) {
         this.countdown = countdown;
+    }
+
+    public Probability getProbability() {
+        return probability;
+    }
+
+    public void setProbability(Probability probability) {
+        this.probability = probability;
     }
 }

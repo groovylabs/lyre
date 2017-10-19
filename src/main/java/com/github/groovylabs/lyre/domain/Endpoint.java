@@ -28,7 +28,6 @@ package com.github.groovylabs.lyre.domain;
 import com.google.common.hash.Hashing;
 import org.springframework.http.HttpMethod;
 
-import javax.ws.rs.core.Cookie;
 import java.nio.charset.StandardCharsets;
 
 public class Endpoint {
@@ -43,7 +42,7 @@ public class Endpoint {
 
     private String data;
 
-    private Cookie cookie;
+    private Header header;
 
     private Response response;
 
@@ -54,6 +53,7 @@ public class Endpoint {
     private String hash;
 
     public Endpoint() {
+        this.setHeader(new Header());
         this.setResponse(new Response());
         this.setProperty(new Property());
     }
@@ -102,12 +102,12 @@ public class Endpoint {
         this.data = data;
     }
 
-    public Cookie getCookie() {
-        return cookie;
+    public Header getHeader() {
+        return header;
     }
 
-    public void setCookie(Cookie cookie) {
-        this.cookie = cookie;
+    public void setHeader(Header header) {
+        this.header = header;
     }
 
     public Response getResponse() {

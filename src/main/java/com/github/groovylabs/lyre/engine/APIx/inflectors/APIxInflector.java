@@ -37,7 +37,10 @@ import org.springframework.util.StringUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.Map;
 
 public class APIxInflector implements Inflector<ContainerRequestContext, Object> {
 
@@ -66,14 +69,9 @@ public class APIxInflector implements Inflector<ContainerRequestContext, Object>
 
         Countdown countdown = endpoint.getProperty().getCountdown();
 
-        if (!StringUtils.isEmpty(endpoint.getData())) {
-            String requestObject = endpointUtils.getEntityBody(containerRequestContext);
-
-            //TODO: Make a method that will be looking for the attributes of the object, not the of object as string.
-            if (!endpoint.getData().equals(requestObject))
-                return Response.status(Response.Status.NOT_ACCEPTABLE).build();
-
-        }
+        // check if request data/headers are equal to the desired information.
+        if (!equalsRequestData(containerRequestContext) || !equalsRequestHeader(containerRequestContext))
+            return Response.status(Response.Status.NOT_ACCEPTABLE).build();
 
         if (countdown != null && countdown.getCalls() > 0) {
             countdown.decrease();
@@ -94,7 +92,43 @@ public class APIxInflector implements Inflector<ContainerRequestContext, Object>
 
             return Response
                 .status(endpoint.getResponse().getStatus().value())
+                .replaceAll(endpoint.getResponse().getHeader().getContent())
                 .entity(endpoint.getResponse().getData()).type(endpoint.getResponse().getProduces()).build();
         }
     }
+
+    private boolean equalsRequestData(ContainerRequestContext containerRequestContext) {
+
+        if (!StringUtils.isEmpty(endpoint.getData())) {
+            String requestObject = endpointUtils.getEntityBody(containerRequestContext);
+
+            //TODO: Make a method that will be looking for the attributes of the object, not the of object as string.
+            if (!endpoint.getData().equals(requestObject))
+                return false;
+        }
+
+        return true;
+    }
+
+    private boolean equalsRequestHeader(ContainerRequestContext containerRequestContext) {
+
+        MultivaluedMap<String, String> requestHeader = containerRequestContext.getHeaders();
+        MultivaluedMap<String, Object> desiredHeader = endpoint.getHeader().getContent();
+
+        if (!StringUtils.isEmpty(desiredHeader)) {
+
+            if (!requestHeader.isEmpty()) {
+
+                for (Map.Entry<String, List<Object>> map : desiredHeader.entrySet()) {
+                    if (!requestHeader.containsKey(map.getKey()) || !requestHeader.get(map.getKey()).containsAll(map.getValue()))
+                        return false;
+                }
+
+            } else
+                return false;
+        }
+
+        return true;
+    }
+
 }

@@ -26,12 +26,12 @@
 package com.github.groovylabs.lyre.engine.interpreter;
 
 import com.github.groovylabs.lyre.domain.Endpoint;
+import com.github.groovylabs.lyre.domain.Level;
 import com.github.groovylabs.lyre.domain.appliers.Countdown;
-import com.github.groovylabs.lyre.domain.enums.Level;
 import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
 import org.springframework.http.HttpStatus;
 
-public enum Applier implements ApplyOn<Endpoint> {
+public enum Applier implements ApplyOn<Endpoint, String> {
 
     NONE,
     METHOD {
@@ -74,6 +74,18 @@ public enum Applier implements ApplyOn<Endpoint> {
         @Override
         public void apply(Endpoint endpoint, String value) {
             endpoint.getResponse().setProduces(value);
+        }
+    },
+    HEADER {
+        @Override
+        public void apply(Endpoint endpoint, String value) {
+            if (!super.key.equals(Level.HEADER.name().toLowerCase())) {
+                if (super.level.equals(Level.REQUEST))
+                    endpoint.getHeader().setContent(super.key, value);
+                else if (super.level.equals(Level.RESPONSE)) {
+                    endpoint.getResponse().getHeader().setContent(super.key, value);
+                }
+            }
         }
     },
     DATA {
@@ -122,8 +134,11 @@ public enum Applier implements ApplyOn<Endpoint> {
 
     private Level level;
 
-    public Applier level(Level level) {
+    private String key;
+
+    public Applier set(Level level, String key) {
         this.level = level;
+        this.key = key;
         return this;
     }
 

@@ -23,33 +23,40 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.enums;
+package com.github.groovylabs.lyre.domain.appliers;
 
-import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
-import com.github.groovylabs.lyre.engine.interpreter.Applier;
+import org.springframework.http.HttpStatus;
 
-public enum Syntax {
+public class Probability implements ApplyOn<HttpStatus, Long> {
 
-    // ENDPOINT REQUEST
-    METHOD, PATH, ALIAS, NAME, CONSUMES,
-    // ENDPOINT RESPONSE
-    RESPONSE, RESPONSES, STATUS, PRODUCES,
-    // ENDPOINT COMMON
-    DATA, HEADER,
-    // ENDPOINT PROPERTIES
-    PROPERTY, PROPERTIES, IDLE, TIMEOUT, BUSY, BROKEN, FORBIDDEN;
+    private HttpStatus status;
 
-    public boolean is(String property) {
-        return this.name().equalsIgnoreCase(property);
+    private double probability;
+
+    public Probability() {
+
     }
 
-    public ApplyOn<Endpoint> applier(Level level) {
-        try {
-            return Applier.valueOf(this.name()).level(level);
-        } catch (IllegalArgumentException | NullPointerException e) {
-            return Applier.NONE;
-        }
+    @Override
+    public void apply(HttpStatus object, Long value) {
+        this.status = object;
+        this.probability = value;
     }
 
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
+    }
+
+    public double getProbability() {
+        return probability;
+    }
+
+    public void setProbability(double probability) {
+        this.probability = probability;
+    }
 }

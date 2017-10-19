@@ -23,18 +23,18 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.enums;
+package com.github.groovylabs.lyre.domain;
 
-import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.errors.SyntaxError;
 import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
 
 public enum Level {
 
     ENDPOINT,
+    HEADER(Syntax.CUSTOM),
     REQUEST(
-        Syntax.METHOD, Syntax.PATH, Syntax.ALIAS, Syntax.NAME,
-        Syntax.CONSUMES, Syntax.DATA, Syntax.RESPONSE, Syntax.PROPERTY
+        Syntax.METHOD, Syntax.PATH, Syntax.ALIAS, Syntax.NAME, Syntax.CONSUMES,
+        Syntax.DATA, Syntax.HEADER, Syntax.RESPONSE, Syntax.PROPERTY
     ),
     RESPONSE(Syntax.STATUS, Syntax.HEADER, Syntax.PRODUCES, Syntax.DATA),
     PROPERTY(Syntax.IDLE, Syntax.TIMEOUT, Syntax.BUSY, Syntax.BROKEN, Syntax.FORBIDDEN);
@@ -45,10 +45,24 @@ public enum Level {
         this.syntaxes = syntaxes;
     }
 
-    public ApplyOn<Endpoint> has(String syntax) throws SyntaxError {
+    public ApplyOn<Endpoint, String> has(String syntax) throws SyntaxError {
+        return this.has(syntax, syntax);
+    }
+
+    public ApplyOn<Endpoint, String> has(Syntax syntax) throws SyntaxError {
+        return this.has(syntax.name(), syntax.name());
+    }
+
+    public ApplyOn<Endpoint, String> has(Syntax syntax, String key) throws SyntaxError {
+        return this.has(syntax.name(), key);
+    }
+
+    public ApplyOn<Endpoint, String> has(String syntax, String key) throws SyntaxError {
         for (Syntax obj : syntaxes) {
             if (obj.is(syntax))
-                return obj.applier(this);
+                return obj.applier(this, key);
+            else if (obj.equals(Syntax.CUSTOM))
+                return Syntax.valueOf(syntax).applier(this, key);
         }
         throw new SyntaxError();
     }

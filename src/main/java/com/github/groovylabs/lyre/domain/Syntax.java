@@ -23,48 +23,32 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.appliers;
+package com.github.groovylabs.lyre.domain;
 
 import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
-import org.springframework.http.HttpStatus;
+import com.github.groovylabs.lyre.engine.interpreter.Applier;
 
-public class Countdown implements ApplyOn<HttpStatus, Long> {
+public enum Syntax {
 
-    private HttpStatus status;
+    // ENDPOINT REQUEST
+    METHOD, PATH, ALIAS, NAME, CONSUMES,
+    // ENDPOINT RESPONSE
+    RESPONSE, RESPONSES, STATUS, PRODUCES,
+    // ENDPOINT COMMON
+    DATA, HEADER, CUSTOM,
+    // ENDPOINT PROPERTIES
+    PROPERTY, PROPERTIES, IDLE, TIMEOUT, BUSY, BROKEN, FORBIDDEN;
 
-    private long calls;
-
-    public Countdown() {
+    public boolean is(String property) {
+        return this.name().equalsIgnoreCase(property);
     }
 
-    public Countdown(HttpStatus status, long calls) {
-        this.status = status;
-        this.calls = calls;
+    public ApplyOn<Endpoint, String> applier(Level level, String key) {
+        try {
+            return Applier.valueOf(this.name()).set(level, key);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return Applier.NONE;
+        }
     }
 
-    @Override
-    public void apply(HttpStatus object, Long value) {
-        this.status = object;
-        this.calls = value;
-    }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(HttpStatus status) {
-        this.status = status;
-    }
-
-    public long getCalls() {
-        return calls;
-    }
-
-    public void setCalls(long calls) {
-        this.calls = calls;
-    }
-
-    public void decrease() {
-        this.calls--;
-    }
 }

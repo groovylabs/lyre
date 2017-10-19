@@ -30,7 +30,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.domain.enums.Level;
+import com.github.groovylabs.lyre.domain.Level;
 import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

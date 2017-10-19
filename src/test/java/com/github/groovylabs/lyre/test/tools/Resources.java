@@ -70,7 +70,7 @@ public class Resources {
 
     public String createEndpointAsYAML(
         String key, String path, String method, String alias, String consumes, String idle,
-        String data, String[] response, String[] setup) {
+        String data, String[] requestHeader, String[] response, String[] responseHeader, String[] setup) {
 
         String endpoint = "";
         endpoint += key + ":\n";
@@ -80,12 +80,24 @@ public class Resources {
         endpoint += "    consumes: " + consumes + "\n";
         endpoint += "    data: " + data + "\n";
 
+        if (requestHeader.length > 0) {
+            endpoint += "    header:\n";
+            endpoint += "        Request Header 1: " + requestHeader[0] + "\n";
+            endpoint += "        Request Header 2: " + requestHeader[1] + "\n";
+        }
+
         if (response.length == 3) {
             endpoint += "    response:\n";
 
             endpoint += "        status: " + response[0] + "\n";
             endpoint += "        produces: " + response[1] + "\n";
             endpoint += "        data: " + response[2] + "\n";
+
+            if (responseHeader.length > 0) {
+                endpoint += "        header:\n";
+                endpoint += "           Response Header 1: " + responseHeader[0] + "\n";
+                endpoint += "           Response Header 2: " + responseHeader[1] + "\n";
+            }
         }
 
         if (setup.length == 3) {
