@@ -40,6 +40,7 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.util.StringUtils;
 
 import java.net.InetAddress;
@@ -72,6 +73,7 @@ public class Lyre {
     }
 
     @Bean
+    @Profile("!docker")
     public EmbeddedServletContainerCustomizer embeddedServletContainerCustomizer() {
         return (container -> {
 

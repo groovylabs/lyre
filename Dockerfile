@@ -8,6 +8,6 @@ ADD target/*.jar $LYRE_PATH/
 
 RUN mv $LYRE_PATH/*.jar $LYRE_PATH/jar/lyre.jar
 
-EXPOSE $LYRE_PORT
+EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "/lyre/jar/lyre.jar --lyre.enable-remote-connections=true --lyre.scan-path=/lyre/endpoints"]
+ENTRYPOINT ["java", "-jar", "/lyre/jar/lyre.jar", "--lyre.enable-remote-connections=true", "--lyre.scan-path=/lyre/endpoints", "--spring.profiles.active=docker"]
