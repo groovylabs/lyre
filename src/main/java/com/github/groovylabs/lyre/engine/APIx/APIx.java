@@ -47,13 +47,10 @@ import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
-import java.util.Arrays;
 
 @Component
 public class APIx extends ResourceConfig {
@@ -71,9 +68,6 @@ public class APIx extends ResourceConfig {
 
     @Autowired
     private Bundle bundle;
-
-    @Autowired
-    private Environment environment;
 
     private static Container container;
 
