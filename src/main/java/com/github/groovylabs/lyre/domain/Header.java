@@ -23,48 +23,24 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.appliers;
+package com.github.groovylabs.lyre.domain;
 
-import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
-import org.springframework.http.HttpStatus;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
 
-public class Countdown implements ApplyOn<HttpStatus, Long> {
+public class Header {
 
-    private HttpStatus status;
+    private MultivaluedMap<String, Object> content;
 
-    private long calls;
-
-    public Countdown() {
+    public Header() {
+        this.content = new MultivaluedHashMap<>();
     }
 
-    public Countdown(HttpStatus status, long calls) {
-        this.status = status;
-        this.calls = calls;
+    public MultivaluedMap<String, Object> getContent() {
+        return content;
     }
 
-    @Override
-    public void apply(HttpStatus object, Long value) {
-        this.status = object;
-        this.calls = value;
-    }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(HttpStatus status) {
-        this.status = status;
-    }
-
-    public long getCalls() {
-        return calls;
-    }
-
-    public void setCalls(long calls) {
-        this.calls = calls;
-    }
-
-    public void decrease() {
-        this.calls--;
+    public void setContent(String key, String value) {
+        this.content.add(key, value);
     }
 }

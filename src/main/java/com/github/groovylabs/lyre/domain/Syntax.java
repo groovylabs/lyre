@@ -23,28 +23,32 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.enums;
+package com.github.groovylabs.lyre.domain;
 
-public enum Level {
+import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
+import com.github.groovylabs.lyre.engine.interpreter.Applier;
 
-    ENDPOINT,
-    REQUEST(Property.PATH, Property.METHOD, Property.CONSUMES, Property.RESPONSE, Property.DATA),
-    RESPONSE(Property.STATUS, Property.HEADER, Property.PRODUCES, Property.DATA),
-    SETUP(Property.IDLE, Property.BUSY, Property.BROKEN, Property.FORBIDDEN),
-    PARAMETER();
+public enum Syntax {
 
-    private Property[] properties;
+    // ENDPOINT REQUEST
+    METHOD, PATH, ALIAS, NAME, CONSUMES,
+    // ENDPOINT RESPONSE
+    RESPONSE, RESPONSES, STATUS, PRODUCES,
+    // ENDPOINT COMMON
+    DATA, HEADER, CUSTOM,
+    // ENDPOINT PROPERTIES
+    PROPERTY, PROPERTIES, IDLE, TIMEOUT, BUSY, BROKEN, FORBIDDEN;
 
-    Level(Property... properties) {
-        this.properties = properties;
+    public boolean is(String property) {
+        return this.name().equalsIgnoreCase(property);
     }
 
-    public Property has(String property) {
-        for (Property prop : properties) {
-            if (prop.is(property))
-                return prop;
+    public ApplyOn<Endpoint, String> applier(Level level, String key) {
+        try {
+            return Applier.valueOf(this.name()).set(level, key);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return Applier.NONE;
         }
-        return null;
     }
 
 }

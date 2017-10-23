@@ -23,48 +23,8 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.appliers;
+package com.github.groovylabs.lyre.domain.interfaces;
 
-import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
-import org.springframework.http.HttpStatus;
-
-public class Countdown implements ApplyOn<HttpStatus, Long> {
-
-    private HttpStatus status;
-
-    private long calls;
-
-    public Countdown() {
-    }
-
-    public Countdown(HttpStatus status, long calls) {
-        this.status = status;
-        this.calls = calls;
-    }
-
-    @Override
-    public void apply(HttpStatus object, Long value) {
-        this.status = object;
-        this.calls = value;
-    }
-
-    public HttpStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(HttpStatus status) {
-        this.status = status;
-    }
-
-    public long getCalls() {
-        return calls;
-    }
-
-    public void setCalls(long calls) {
-        this.calls = calls;
-    }
-
-    public void decrease() {
-        this.calls--;
-    }
+public interface ApplyOn<T, U> {
+    void apply(T object, U value);
 }
