@@ -47,18 +47,41 @@ public class Bundle {
             endpoints.add(endpoint);
     }
 
+    public void remove(String method, String path) {
+        endpoints.removeIf(endpoint -> endpoint.getMethod().name().equals(method) && endpoint.getPath().equals(path));
+    }
+
+    public void addAll(List<Endpoint> endpoints) {
+        if (endpoints != null) {
+            this.endpoints.addAll(endpoints);
+        }
+    }
+
     public boolean exists(Endpoint endpoint) {
         return endpoints.stream().anyMatch(e ->
             e.getPath().equals(endpoint.getPath()) && e.getMethod().equals(endpoint.getMethod())
         );
     }
 
-    public void change(Endpoint endpoint) throws EndpointNotFoundException {
+    public Endpoint find(String method, String path) {
+        return endpoints.stream()
+            .filter(e -> e.getMethod().name().equals(method) && e.getPath().equals(path)).findFirst().get();
+    }
+
+    public void update(Endpoint endpoint) throws EndpointNotFoundException {
         if (exists(endpoint)) {
             endpoints.removeIf(e -> e.getPath().equals(endpoint.getPath()) && e.getMethod().equals(endpoint.getMethod()));
             endpoints.add(endpoint);
         } else
             throw new EndpointNotFoundException("Endpoint [" + endpoint.getMethod() + " - " + endpoint.getPath() + "] not found at the Bundle list!");
+    }
+
+    public boolean isEmpty() {
+        return endpoints.isEmpty();
+    }
+
+    public void clear() {
+        endpoints.clear();
     }
 
 }
