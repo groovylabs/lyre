@@ -27,8 +27,8 @@ package com.github.groovylabs.lyre.engine.APIx.services;
 
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.domain.exceptions.ConflictException;
 import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
+import com.github.groovylabs.lyre.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,16 +52,19 @@ public class EndpointService {
     @Autowired
     private APIxController apixController;
 
+    @Autowired
+    private Validator validator;
+
     @GET
     public Response get(@NotNull @QueryParam("method") String method, @NotNull @QueryParam("path") String path) {
         if (bundle.isEmpty())
-            return Response.noContent().build();
+            throw new NotFoundException("Bundle is empty");
         else {
 
             Endpoint endpoint = bundle.find(method, path);
 
             if (endpoint == null)
-                return Response.status(Response.Status.NOT_FOUND).build();
+                throw new NotFoundException("Endpoint does not exist");
 
             return Response.ok().entity(endpoint).build();
         }
@@ -77,21 +80,18 @@ public class EndpointService {
     @POST
     public Response post(Endpoint endpoint) {
 
-        // TODO check if endpoint is valid (method, path, response)
-        if (endpoint != null) {
+        if (validator.check(endpoint)) {
 
             if (bundle.exists(endpoint))
                 bundle.update(endpoint);
             else
-                throw new BadRequestException("Endpoint [" + endpoint.hashCode() + "] does not exists, use put to create.");
+                throw new NotFoundException("Endpoint does not exist");
 
             apixController.bootAttempt(this.getClass().getSimpleName() +
                 " POST {Endpoint method:[" + endpoint.getMethod().name() + "] path:[" + endpoint.getPath() + "]}");
 
-        } else {
-            LOGGER.info("Endpoint [" + endpoint.hashCode() + "] is invalid");
-            throw new ConflictException("Endpoint [" + endpoint.hashCode() + "] is invalid");
-        }
+        } else
+            throw new BadRequestException("Malformed endpoint entity");
 
         return Response.ok().entity(endpoint).build();
     }
@@ -99,18 +99,15 @@ public class EndpointService {
     @PUT
     public Response put(Endpoint endpoint) {
 
-        // TODO check if endpoint is valid (method, path, response)
-        if (endpoint != null) {
+        if (validator.check(endpoint)) {
 
             if (bundle.exists(endpoint)) {
                 bundle.update(endpoint);
             } else
                 bundle.add(endpoint);
 
-        } else {
-            LOGGER.info("Endpoint [" + endpoint.hashCode() + "] is invalid");
-            throw new ConflictException("Endpoint [" + endpoint.hashCode() + "] is invalid");
-        }
+        } else
+            throw new BadRequestException("Malformed endpoint entity");
 
         return Response.status(Response.Status.CREATED).build();
     }

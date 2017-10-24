@@ -30,7 +30,7 @@ import javax.ws.rs.core.MultivaluedMap;
 
 public class Header {
 
-    private MultivaluedMap<String, Object> content;
+    private MultivaluedHashMap<String, Object> content;
 
     public Header() {
         this.content = new MultivaluedHashMap<>();
@@ -40,7 +40,11 @@ public class Header {
         return content;
     }
 
-    public void setContent(String key, String value) {
+    public void setContent(MultivaluedHashMap<String, Object> content) {
+        this.content = content;
+    }
+
+    public void addContent(String key, String value) {
         this.content.add(key, value);
     }
 }

@@ -81,9 +81,9 @@ public enum Applier implements ApplyOn<Endpoint, String> {
         public void apply(Endpoint endpoint, String value) {
             if (!super.key.equals(Level.HEADER.name().toLowerCase())) {
                 if (super.level.equals(Level.REQUEST))
-                    endpoint.getHeader().setContent(super.key, value);
+                    endpoint.getHeader().addContent(super.key, value);
                 else if (super.level.equals(Level.RESPONSE)) {
-                    endpoint.getResponse().getHeader().setContent(super.key, value);
+                    endpoint.getResponse().getHeader().addContent(super.key, value);
                 }
             }
         }
