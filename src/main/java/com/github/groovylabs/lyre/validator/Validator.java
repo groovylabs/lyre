@@ -106,7 +106,7 @@ public class Validator {
     public boolean check(String value, String reference) {
 
         if (reference.equals("path"))
-            return !StringUtils.isEmpty(value) && value.startsWith("/");
+            return !StringUtils.isEmpty(value);
         else if (reference.equals("method"))
             return HttpMethod.resolve(value) != null;
 
