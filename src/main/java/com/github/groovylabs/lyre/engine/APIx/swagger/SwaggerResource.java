@@ -29,22 +29,20 @@ import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.engine.APIx.inflectors.SwaggerInflector;
-import com.github.groovylabs.lyre.engine.APIx.swagger.implementations.ParameterInterfaceImpl;
+import com.github.groovylabs.lyre.engine.APIx.swagger.resources.LyreSwagger;
+import com.github.groovylabs.lyre.engine.APIx.swagger.resources.SwaggerHelper;
+import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
-import io.swagger.models.*;
+import io.swagger.models.Swagger;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Component
 public class SwaggerResource {
@@ -54,95 +52,69 @@ public class SwaggerResource {
     @Autowired
     private LyreProperties lyreProperties;
 
-    private Swagger buildSwagger(Bundle bundle) {
+    @Autowired
+    private SwaggerHelper helper;
 
-        // ref https://github.com/OAI/OpenAPI-Specification/tree/master/examples/v2.0/json
+    public void register(Bundle bundle, ResourceConfig resourceConfig) {
 
-        Swagger swagger = new Swagger();
-        swagger.setInfo(swaggerInfo());
-        swagger.setBasePath("/" + lyreProperties.getApplicationPath());
-        swagger.setSchemes(Stream.of(Scheme.HTTP).collect(Collectors.toList()));
-        swagger.setConsumes(Stream.of("application/json").collect(Collectors.toList()));
-        swagger.setProduces(Stream.of("application/json").collect(Collectors.toList()));
+        if (lyreProperties.isEnableSwagger()) {
 
-        LOGGER.info("Boot [STATUS]: Creating Swagger endpoints");
+            Swagger swaggerApi = buildSwaggerApi(bundle);
+
+            if (swaggerApi != null) {
+                Resource.Builder resource = Resource.builder();
+                resource.path("/swagger")
+                    .addMethod(HttpMethod.GET)
+                    .produces(MediaType.APPLICATION_JSON)
+                    .handledBy(new SwaggerInflector(swaggerApi));
+
+                resourceConfig.registerResources(resource.build());
+            }
+
+            Swagger swaggerManagement = buildSwaggerManagement();
+
+            if (swaggerManagement != null) {
+                Resource.Builder resource = Resource.builder();
+                resource.path("/management")
+                    .addMethod(HttpMethod.GET)
+                    .produces(MediaType.APPLICATION_JSON)
+                    .handledBy(new SwaggerInflector(swaggerManagement));
+
+                resourceConfig.registerResources(resource.build());
+            }
+        }
+
+        resourceConfig.register(ApiListingResource.class);
+        resourceConfig.register(SwaggerSerializers.class);
+        SwaggerSerializers.setPrettyPrint(true);
+    }
+
+    private Swagger buildSwaggerApi(Bundle bundle) {
+
+        Swagger swagger = new LyreSwagger("Lyre API", lyreProperties.getApplicationPath());
+        swagger.getInfo().description("Lyre - A development tool to mock REST services.");
+
+        LOGGER.info("Creating swagger api...");
 
         for (Endpoint endpoint : bundle.getEndpoints())
-            buildSwaggerPath(swagger, endpoint);
+            helper.buildSwaggerApiPath(swagger, endpoint);
 
-        LOGGER.info("Boot [STATUS]: Swagger endpoint created successfully");
+        LOGGER.info("Swagger api created");
 
         return swagger;
     }
 
-    public void register(Bundle bundle, ResourceConfig resourceConfig) {
+    private Swagger buildSwaggerManagement() {
+        Swagger swagger = new LyreSwagger("Lyre Management", lyreProperties.getApplicationPath());
+        swagger.getInfo().description("Manage your endpoints and server configuration.");
 
-        if (lyreProperties.isEnableSwaggerDoc()) {
+        LOGGER.info("Creating swagger management...");
 
-            Swagger swagger = buildSwagger(bundle);
+        helper.buildSwaggerManagement(swagger);
 
-            Resource.Builder resource = Resource.builder();
-            resource.path("/docs")
-                .addMethod(HttpMethod.GET)
-                .produces(MediaType.APPLICATION_JSON)
-                .handledBy(new SwaggerInflector(swagger));
+        LOGGER.info("Swagger management created");
 
-            resourceConfig.registerResources(resource.build());
-            resourceConfig.register(SwaggerSerializers.class);
-        }
-    }
-
-    private Info swaggerInfo() {
-
-        Info info = new Info();
-
-        info.version("1.0.0");
-        info.title("Lyre Swagger UI");
-        info.description("A Mock API exposed to call Lyre REST endpoints.");
-
-        //TODO contact info
-
-        License license = new License();
-        license.name("MIT");
-        license.setUrl("https://github.com/groovylabs/lyre/blob/master/LICENSE");
-
-        info.license(new License());
-
-        return info;
-    }
-
-    private void buildSwaggerPath(Swagger swagger, Endpoint endpoint) {
-
-        try {
-            Operation operation = new Operation();
-            operation.consumes(endpoint.getConsumes());
-
-            if (!StringUtils.isEmpty(endpoint.getData()))
-                buildSwaggerBodyParam(operation);
-
-            operation.addResponse(endpoint.getResponse().getStatus().toString(), new io.swagger.models.Response());
-
-            swagger.path(endpoint.getPath(), new Path().set(endpoint.getMethod().toString().toLowerCase(), operation));
-
-        } catch (Exception e) {
-            LOGGER.error("[SwaggerIntegration] Error during build swaggerEndpoint object! PATH=[{}] / METHOD=[{}]",
-                endpoint.getPath(), endpoint.getMethod());
-        }
-    }
-
-    private void buildSwaggerBodyParam(Operation operation) {
-        io.swagger.models.Response response = new io.swagger.models.Response();
-        ParameterInterfaceImpl param = new ParameterInterfaceImpl();
-
-        param.setName("Body");
-        param.setIn("body");
-        param.setRequired(true);
-        param.setDescription("Expected declared object in lyre file by the endpoint");
-
-        response.setDescription(Response.Status.NOT_ACCEPTABLE.toString());
-
-        operation.addParameter(param);
-        operation.addResponse(String.valueOf(Response.Status.NOT_ACCEPTABLE.getStatusCode()), response);
+        return swagger;
     }
 
 }

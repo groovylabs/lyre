@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.swagger.implementations;
+package com.github.groovylabs.lyre.engine.APIx.swagger.resources;
 
 import io.swagger.models.parameters.Parameter;
 
