@@ -59,7 +59,7 @@ ___
     >       "name": "Endpoint D"
     
 * **consumes:** _(Optional)_
-    > Defines consumed media Type.  
+    > Defines consumed Media Type.  
     Default value:
     >* */ *
     >#### examples:  
@@ -71,24 +71,13 @@ ___
     
 * **data:** _(Optional)_
     > Defines the expected data.  
-    Data need to match with the request data to accept.
+    Data must match with request's data to be accepted.
     >#### examples:  
     >     YAML:  
     >       consumes: '{"data":"123"}'
     >       
     >     JSON:
     >       "consumes": "{'data':'123'}"
-
-* **idle | timeout:** _(Optional)_
-    > Idle property allows to set delay (milliseconds) at endpoint response.  
-    >#### examples:  
-    >     YAML:  
-    >       idle: 1000
-    >       timeout: 1500
-    >       
-    >     JSON:
-    >       "idle": 2000
-    >       "timeout": 2500
 
 ___
 #### Endpoint [RESPONSE]
@@ -116,17 +105,49 @@ ___
                ...
             }
         }
-        
-// TODO response properties
 
-GET /path:
-    path:
-    method:
-    header:
+___
+#### Endpoint [PROPERTY]
+
+* **property | properties**: _(Optional)_
+    - Definition: Endpoint properties.
+    #### examples:    
+        YAML:
+        
+        property:
+            ...
+            
+        properties:
+            ...
+         
+         
+        JSON:
+        
+        {
+            "property" : {
+                ... 
+            },  
+        
+            "properties" : {
+               ...
+            }
+        }
+
+* **idle | timeout:** _(Optional)_
+    > Idle property allows to set delay (milliseconds) at endpoint response.  
+    >#### examples:  
+    >     YAML:  
+    >       idle: 1000
+    >       timeout: 1500
+    >       
+    >     JSON:
+    >       "idle": 2000
+    >       "timeout": 2500
+
+
+// TODO
+header:
         custom_key:
-    consumes:
-    data: 'as string'
-    idle: in milisseconds (timeout)
     response(s):
         200:
             header:
@@ -146,7 +167,7 @@ GET /api/v{version}/search?data=1&q=2:
             varN:
         produces:
         data: $enpoint.response
-    setup:
+    property:
         busy: returns http 429 (number of busy calls)
         forbidden: return http 403 (forbidden) (number of busy calls)
         broken: return http 500 (number of busy calls)

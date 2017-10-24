@@ -23,15 +23,34 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.enums;
+package com.github.groovylabs.lyre.engine.APIx.swagger.resources;
 
-public enum Property {
+import io.swagger.models.*;
 
-    METHOD, PATH, ALIAS, NAME, DATA, IDLE, TIMEOUT, PARAMS, RESPONSE, RESPONSES, STATUS, CONSUMES, PRODUCES, HEADER,
-    SETUP, BUSY, BROKEN, FORBIDDEN;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-    public boolean is(String property) {
-        return this.name().equalsIgnoreCase(property);
+public class LyreSwagger extends Swagger {
+
+    public LyreSwagger(String title, String applicationPath) {
+
+        Info info = new Info();
+
+        info.version("1.0");
+        info.title(title);
+        info.description("A Mock API exposed to call Lyre REST endpoints.");
+
+        info.setContact(new Contact()
+            .name("Groovylabs").email("groovylabs-lyre@googlegroups.com"));
+
+        info.license(new License()
+            .name("MIT").url("https://github.com/groovylabs/lyre/blob/master/LICENSE"));
+
+        this.setInfo(info);
+        this.setBasePath("/" + applicationPath);
+        this.setSchemes(Stream.of(Scheme.HTTP).collect(Collectors.toList()));
+        this.setConsumes(Stream.of("application/json").collect(Collectors.toList()));
+        this.setProduces(Stream.of("application/json").collect(Collectors.toList()));
     }
 
 }

@@ -28,21 +28,23 @@ package com.github.groovylabs.lyre.engine.APIx.services;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
+import com.github.groovylabs.lyre.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Component
-@Path(value = "/bundle")
+@Path(value = "/endpoint")
 @Produces(MediaType.APPLICATION_JSON)
-public class BundleService {
+public class EndpointService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BundleService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EndpointService.class);
 
     @Autowired
     private Bundle bundle;
@@ -50,54 +52,62 @@ public class BundleService {
     @Autowired
     private APIxController apixController;
 
+    @Autowired
+    private Validator validator;
+
     @GET
-    public Response get() {
+    public Response get(@NotNull @QueryParam("method") String method, @NotNull @QueryParam("path") String path) {
         if (bundle.isEmpty())
-            return Response.noContent().build();
-        else
-            return Response.ok().entity(bundle).build();
+            throw new NotFoundException("Bundle is empty");
+        else {
+
+            Endpoint endpoint = bundle.find(method, path);
+
+            if (endpoint == null)
+                throw new NotFoundException("Endpoint does not exist");
+
+            return Response.ok().entity(endpoint).build();
+        }
     }
 
     @DELETE
-    public Response delete() {
-        bundle.clear();
+    public Response delete(@NotNull @QueryParam("method") String method, @NotNull @QueryParam("path") String path) {
+        bundle.remove(method, path);
         apixController.bootAttempt(this.getClass().getSimpleName() + " DELETE");
         return Response.ok().build();
     }
 
     @POST
-    public Response post(Bundle bundle) {
+    public Response post(Endpoint endpoint) {
 
-        if (!bundle.isEmpty()) {
-            for (Endpoint endpoint : bundle.getEndpoints()) {
-                if (bundle.exists(endpoint))
-                    bundle.update(endpoint);
-                else
-                    bundle.add(endpoint);
-            }
+        if (validator.check(endpoint)) {
+
+            if (bundle.exists(endpoint))
+                bundle.update(endpoint);
+            else
+                throw new NotFoundException("Endpoint does not exist");
 
             apixController.bootAttempt(this.getClass().getSimpleName() +
-                " POST {Bundle}");
-        } else {
-            LOGGER.info("Bundle [" + bundle.hashCode() + "] is empty");
-            throw new BadRequestException("Bundle [" + bundle.hashCode() + "] is empty");
-        }
+                " POST {Endpoint method:[" + endpoint.getMethod().name() + "] path:[" + endpoint.getPath() + "]}");
 
-        return Response.ok().entity(bundle).build();
+        } else
+            throw new BadRequestException("Malformed endpoint entity");
+
+        return Response.ok().entity(endpoint).build();
     }
 
     @PUT
-    public Response put(Bundle bundle) {
+    public Response put(Endpoint endpoint) {
 
-        if (bundle != null && bundle.getEndpoints() != null && !bundle.getEndpoints().isEmpty()) {
-            bundle.clear();
-            bundle.addAll(bundle.getEndpoints());
-            apixController.bootAttempt(this.getClass().getSimpleName() +
-                " PUT {Bundle}");
-        } else {
-            LOGGER.info("Bundle [" + bundle.hashCode() + "] is empty");
-            throw new BadRequestException("Bundle [" + bundle.hashCode() + "] is empty");
-        }
+        if (validator.check(endpoint)) {
+
+            if (bundle.exists(endpoint)) {
+                bundle.update(endpoint);
+            } else
+                bundle.add(endpoint);
+
+        } else
+            throw new BadRequestException("Malformed endpoint entity");
 
         return Response.status(Response.Status.CREATED).build();
     }

@@ -41,7 +41,7 @@ public class Watcher extends Overlay<Scanner> implements Runnable {
 
     private LyreProperties lyreProperties;
 
-    private final Path path;
+    private Path path;
 
     private List<File> files;
 

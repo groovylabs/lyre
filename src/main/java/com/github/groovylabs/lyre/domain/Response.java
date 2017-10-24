@@ -31,9 +31,15 @@ public class Response {
 
     private HttpStatus status;
 
+    private Header header;
+
     private String data;
 
     private String produces = "*/*";
+
+    public Response() {
+        this.header = new Header();
+    }
 
     public void setStatus(String status) {
         this.setStatus(HttpStatus.valueOf(Integer.parseInt(status)));
@@ -45,6 +51,14 @@ public class Response {
 
     public void setStatus(HttpStatus status) {
         this.status = status;
+    }
+
+    public Header getHeader() {
+        return header;
+    }
+
+    public void setHeader(Header header) {
+        this.header = header;
     }
 
     public String getData() {

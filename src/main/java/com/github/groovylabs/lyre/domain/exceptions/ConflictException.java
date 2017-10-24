@@ -23,22 +23,16 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain;
+package com.github.groovylabs.lyre.domain.exceptions;
 
-import com.github.groovylabs.lyre.domain.appliers.Countdown;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-public class Setup {
+public class ConflictException extends WebApplicationException {
 
-    private Countdown countdown;
-
-    public Setup() {
+    public ConflictException(String message) {
+        super(Response.status(Response.Status.CONFLICT).entity(message).type(MediaType.TEXT_PLAIN).build());
     }
 
-    public Countdown getCountdown() {
-        return countdown;
-    }
-
-    public void setCountdown(Countdown countdown) {
-        this.countdown = countdown;
-    }
 }

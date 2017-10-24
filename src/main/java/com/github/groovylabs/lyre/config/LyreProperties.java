@@ -44,7 +44,9 @@ public class LyreProperties {
 
     private String fileFormat = ".lyre";
 
-    private boolean enableSwaggerDoc = true;
+    private boolean enableSwagger = true;
+
+    private boolean enavleSwaggerManagement = true;
 
     private boolean debug = false;
 
@@ -56,7 +58,7 @@ public class LyreProperties {
         this.enableRemoteConnections = enableRemoteConnections;
     }
 
-    public boolean getEnableLiveReload() {
+    public boolean isEnableLiveReload() {
         return enableLiveReload == null ? false : enableLiveReload;
     }
 
@@ -104,12 +106,12 @@ public class LyreProperties {
         this.fileFormat = fileFormat;
     }
 
-    public boolean isEnableSwaggerDoc() {
-        return enableSwaggerDoc;
+    public boolean isEnableSwagger() {
+        return enableSwagger;
     }
 
-    public void setEnableSwaggerDoc(boolean enableSwaggerDoc) {
-        this.enableSwaggerDoc = enableSwaggerDoc;
+    public void setEnableSwagger(boolean enableSwagger) {
+        this.enableSwagger = enableSwagger;
     }
 
     public boolean isDebug() {

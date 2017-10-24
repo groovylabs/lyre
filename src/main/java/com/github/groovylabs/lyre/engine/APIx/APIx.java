@@ -36,6 +36,7 @@ import com.github.groovylabs.lyre.engine.APIx.controller.APIxListener;
 import com.github.groovylabs.lyre.engine.APIx.filters.CORSFilter;
 import com.github.groovylabs.lyre.engine.APIx.inflectors.APIxInflector;
 import com.github.groovylabs.lyre.engine.APIx.services.BundleService;
+import com.github.groovylabs.lyre.engine.APIx.services.EndpointService;
 import com.github.groovylabs.lyre.engine.APIx.services.LandingPageService;
 import com.github.groovylabs.lyre.engine.APIx.swagger.SwaggerResource;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
@@ -48,7 +49,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import java.net.InetAddress;
@@ -140,13 +140,14 @@ public class APIx extends ResourceConfig {
             resourceConfig.registerResources(resource.build());
         }
 
-        swaggerResource.register(bundle, resourceConfig);
         resourceConfig.register(new MultiPartFeature());
         resourceConfig.register(APIxListener.class);
         resourceConfig.register(CORSFilter.class);
+        resourceConfig.register(EndpointService.class);
         resourceConfig.register(BundleService.class);
         resourceConfig.register(LandingPageService.class);
         resourceConfig.register(NotFoundExceptionMapper.class);
+        swaggerResource.register(bundle, resourceConfig);
 
         dispatcher.publish(bundleEvent);
 

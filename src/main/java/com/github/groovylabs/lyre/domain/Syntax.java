@@ -23,15 +23,32 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.exceptions;
+package com.github.groovylabs.lyre.domain;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
+import com.github.groovylabs.lyre.engine.interpreter.Applier;
 
-public class DuplicatedEndpointException extends WebApplicationException {
+public enum Syntax {
 
-    public DuplicatedEndpointException(String message) {
-        super(Response.status(Response.Status.CONFLICT).entity(message).type(MediaType.TEXT_PLAIN).build());
+    // ENDPOINT REQUEST
+    METHOD, PATH, ALIAS, NAME, CONSUMES,
+    // ENDPOINT RESPONSE
+    RESPONSE, RESPONSES, STATUS, PRODUCES,
+    // ENDPOINT COMMON
+    DATA, HEADER, CUSTOM,
+    // ENDPOINT PROPERTIES
+    PROPERTY, PROPERTIES, IDLE, TIMEOUT, BUSY, BROKEN, FORBIDDEN;
+
+    public boolean is(String property) {
+        return this.name().equalsIgnoreCase(property);
     }
+
+    public ApplyOn<Endpoint, String> applier(Level level, String key) {
+        try {
+            return Applier.valueOf(this.name()).set(level, key);
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return Applier.NONE;
+        }
+    }
+
 }

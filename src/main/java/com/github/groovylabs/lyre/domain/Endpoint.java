@@ -25,11 +25,9 @@
 
 package com.github.groovylabs.lyre.domain;
 
-import com.github.groovylabs.lyre.domain.appliers.Timer;
 import com.google.common.hash.Hashing;
 import org.springframework.http.HttpMethod;
 
-import javax.ws.rs.core.Cookie;
 import java.nio.charset.StandardCharsets;
 
 public class Endpoint {
@@ -44,22 +42,20 @@ public class Endpoint {
 
     private String data;
 
-    private Cookie cookie;
-
-    private Timer timer;
+    private Header header;
 
     private Response response;
 
-    private Setup setup;
+    private Property property;
 
     private String fileName;
 
     private String hash;
 
     public Endpoint() {
+        this.setHeader(new Header());
         this.setResponse(new Response());
-        this.setSetup(new Setup());
-        this.setTimer(new Timer());
+        this.setProperty(new Property());
     }
 
     public String getAlias() {
@@ -106,20 +102,12 @@ public class Endpoint {
         this.data = data;
     }
 
-    public Cookie getCookie() {
-        return cookie;
+    public Header getHeader() {
+        return header;
     }
 
-    public void setCookie(Cookie cookie) {
-        this.cookie = cookie;
-    }
-
-    public Timer getTimer() {
-        return timer;
-    }
-
-    public void setTimer(Timer timer) {
-        this.timer = timer;
+    public void setHeader(Header header) {
+        this.header = header;
     }
 
     public Response getResponse() {
@@ -130,12 +118,12 @@ public class Endpoint {
         this.response = response;
     }
 
-    public Setup getSetup() {
-        return setup;
+    public Property getProperty() {
+        return property;
     }
 
-    public void setSetup(Setup setup) {
-        this.setup = setup;
+    public void setProperty(Property property) {
+        this.property = property;
     }
 
     public String getFileName() {

@@ -23,48 +23,47 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.appliers;
+package com.github.groovylabs.lyre.domain;
 
-import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
-import org.springframework.http.HttpStatus;
+import com.github.groovylabs.lyre.domain.appliers.Countdown;
+import com.github.groovylabs.lyre.domain.appliers.Probability;
+import com.github.groovylabs.lyre.domain.appliers.Timer;
 
-public class Countdown implements ApplyOn<HttpStatus, Long> {
+public class Property {
 
-    private HttpStatus status;
+    private Timer timer;
 
-    private long calls;
+    private Countdown countdown;
 
-    public Countdown() {
+    private Probability probability;
+
+    public Property() {
+        this.setTimer(new Timer());
+        this.setCountdown(new Countdown());
+        this.setProbability(new Probability());
     }
 
-    public Countdown(HttpStatus status, long calls) {
-        this.status = status;
-        this.calls = calls;
+    public Timer getTimer() {
+        return timer;
     }
 
-    @Override
-    public void apply(HttpStatus object, Long value) {
-        this.status = object;
-        this.calls = value;
+    public void setTimer(Timer timer) {
+        this.timer = timer;
     }
 
-    public HttpStatus getStatus() {
-        return status;
+    public Countdown getCountdown() {
+        return countdown;
     }
 
-    public void setStatus(HttpStatus status) {
-        this.status = status;
+    public void setCountdown(Countdown countdown) {
+        this.countdown = countdown;
     }
 
-    public long getCalls() {
-        return calls;
+    public Probability getProbability() {
+        return probability;
     }
 
-    public void setCalls(long calls) {
-        this.calls = calls;
-    }
-
-    public void decrease() {
-        this.calls--;
+    public void setProbability(Probability probability) {
+        this.probability = probability;
     }
 }

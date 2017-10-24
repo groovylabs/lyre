@@ -90,10 +90,23 @@ public class Validator {
         return true;
     }
 
+    public boolean check(Endpoint endpoint) {
+
+        if (endpoint == null ||
+            endpoint.getResponse() == null ||
+            StringUtils.isEmpty(endpoint.getPath()) ||
+            StringUtils.isEmpty(endpoint.getMethod()) ||
+            StringUtils.isEmpty(endpoint.getResponse().getStatus())) {
+            return false;
+        }
+
+        return true;
+    }
+
     public boolean check(String value, String reference) {
 
         if (reference.equals("path"))
-            return !StringUtils.isEmpty(value) && value.startsWith("/");
+            return !StringUtils.isEmpty(value);
         else if (reference.equals("method"))
             return HttpMethod.resolve(value) != null;
 
