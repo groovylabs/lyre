@@ -15,5 +15,12 @@ branches:
   - master
   - uptream
 
+addons:
+sonarcloud:
+  organization: "groovylabs"
+  token:
+    secure: 958c4e2aeadff503e43c1a38a80efe7ec8d1ee88
+
 script:
+  - sonar-scanner
   - ./mvnw clean install -P release-jar
