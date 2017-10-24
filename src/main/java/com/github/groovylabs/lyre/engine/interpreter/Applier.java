@@ -43,7 +43,7 @@ public enum Applier implements ApplyOn<Endpoint, String> {
     PATH {
         @Override
         public void apply(Endpoint endpoint, String value) {
-            endpoint.setPath(value);
+            endpoint.setPath(!value.startsWith("/") ? "/" + value: value);
         }
     },
     ALIAS {

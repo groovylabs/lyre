@@ -42,11 +42,14 @@ public class SwaggerHelper {
 
         Operation operation = new Operation();
         operation.consumes(endpoint.getConsumes());
+        io.swagger.models.Response response = new io.swagger.models.Response();
 
         if (!StringUtils.isEmpty(endpoint.getData()))
             buildSwaggerApiBodyParam(operation);
 
-        operation.addResponse(endpoint.getResponse().getStatus().toString(), new io.swagger.models.Response());
+        response.setDescription(endpoint.getResponse().getStatus().getReasonPhrase());
+
+        operation.addResponse(endpoint.getResponse().getStatus().toString(), response);
 
         swagger.path(endpoint.getPath(), new Path().set(endpoint.getMethod().toString().toLowerCase(), operation));
 
@@ -98,7 +101,7 @@ public class SwaggerHelper {
 
         //Endpoints Services
         buildEndpointServices(swagger);
-        
+
         // Bundle Services
         buildBundleServices(swagger);
     }

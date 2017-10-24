@@ -63,11 +63,12 @@ public abstract class Parser {
                 if (validator.check(words[0], "method"))
                     endpoint.setMethod(words[0]);
 
+
                 // check if has second word and is path
                 if (words.length > 1 && validator.check(words[1], "path"))
-                    endpoint.setPath(words[1]);
+                    endpoint.setPath(!words[1].startsWith("/") ? "/" + words[1] : words[1]);
 
-                if (StringUtils.isEmpty(endpoint.getMethod()) && StringUtils.isEmpty(endpoint.getMethod()))
+                if (StringUtils.isEmpty(endpoint.getMethod()) && StringUtils.isEmpty(endpoint.getPath()))
                     endpoint.setAlias(entry.getKey());
                 else
                     endpoint.setAlias(endpoint.getMethod() + " " + endpoint.getPath());
