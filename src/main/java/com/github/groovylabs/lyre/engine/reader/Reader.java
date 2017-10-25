@@ -89,7 +89,7 @@ public class Reader {
                 LOGGER.error("Error mapping file [{}], invalid .yml and .json format", file.getName());
 
                 if (lyreProperties.isDebug()) {
-                    e.printStackTrace();
+                    LOGGER.debug("Stacktrace", e);
                 } else
                     LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
 
@@ -98,7 +98,7 @@ public class Reader {
                 LOGGER.error("Error reading file [{}]", file.getName());
 
                 if (lyreProperties.isDebug()) {
-                    e.printStackTrace();
+                    LOGGER.debug("Stacktrace", e);
                 } else
                     LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
             }
@@ -108,7 +108,7 @@ public class Reader {
             LOGGER.error("Error reading file [{}]", file.getName());
 
             if (lyreProperties.isDebug()) {
-                e.printStackTrace();
+                LOGGER.debug("Stacktrace", e);
             } else
                 LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
 
