@@ -39,9 +39,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Configuration
-@ConditionalOnProperty(prefix = "lyre", name = "enable.swagger.doc", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(prefix = "lyre", name = "enable.swagger", havingValue = "true", matchIfMissing = true)
 @Import({Swagger2DocumentationConfiguration.class})
 public class SwaggerConfiguration {
+
+    public static final String managementUrl = System.getProperty("user.dir") + "/src/main/resources/swagger.json";
 
     @Component
     @Primary
@@ -50,12 +52,17 @@ public class SwaggerConfiguration {
         @Override
         public List<SwaggerResource> get() {
 
-            SwaggerResource jerseySwaggerResource = new SwaggerResource();
-            jerseySwaggerResource.setLocation("/api/docs");
-            jerseySwaggerResource.setSwaggerVersion("2.0");
-            jerseySwaggerResource.setName("Lyre REST API Mock");
+            SwaggerResource swaggerApiResource = new SwaggerResource();
+            swaggerApiResource.setLocation("/api/swagger");
+            swaggerApiResource.setSwaggerVersion("2.0");
+            swaggerApiResource.setName("API");
 
-            return Stream.of(jerseySwaggerResource).collect(Collectors.toList());
+            SwaggerResource swaggerManagementResource = new SwaggerResource();
+            swaggerManagementResource.setLocation("/api/management");
+            swaggerManagementResource.setSwaggerVersion("2.0");
+            swaggerManagementResource.setName("Management");
+
+            return Stream.of(swaggerApiResource, swaggerManagementResource).collect(Collectors.toList());
         }
 
     }

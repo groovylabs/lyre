@@ -23,28 +23,16 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain;
+package com.github.groovylabs.lyre.domain.exceptions;
 
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-public class Header {
+public class ConflictException extends WebApplicationException {
 
-    private MultivaluedHashMap<String, Object> content;
-
-    public Header() {
-        this.content = new MultivaluedHashMap<>();
+    public ConflictException(String message) {
+        super(Response.status(Response.Status.CONFLICT).entity(message).type(MediaType.TEXT_PLAIN).build());
     }
 
-    public MultivaluedMap<String, Object> getContent() {
-        return content;
-    }
-
-    public void setContent(MultivaluedHashMap<String, Object> content) {
-        this.content = content;
-    }
-
-    public void addContent(String key, String value) {
-        this.content.add(key, value);
-    }
 }
