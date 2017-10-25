@@ -18,3 +18,5 @@ trim_trailing_whitespace = false
 [*.lyre]
 indent_size = 2
 
+[*.yml]
+indent_size = 2
