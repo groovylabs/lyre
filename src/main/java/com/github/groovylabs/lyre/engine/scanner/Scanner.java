@@ -84,13 +84,13 @@ public class Scanner {
 
     public final void startWatcher(List<File> files) {
         if (watcherInstance == null) {
-            if (lyreProperties.getEnableLiveReload()) {
+            if (lyreProperties.isEnableLiveReload()) {
                 watcher = new Watcher(this, files, lyreProperties);
                 watcherInstance = new Thread(watcher);
                 watcherInstance.start();
             } else {
                 LOGGER.info("Watcher disabled, " +
-                    "to enable live-reload feature set 'lyre.enable-livereload=true' on properties");
+                    "to enable live-reload feature set 'lyre.enable-live-reload=true' on properties");
             }
         }
     }

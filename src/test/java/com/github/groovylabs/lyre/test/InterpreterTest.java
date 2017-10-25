@@ -63,7 +63,10 @@ public class InterpreterTest {
         String endpoint = resources.createEndpointAsYAML(
             "GET", "/path/endpoint", "POST", "endpoint test",
             "application/json", "1000", "data_request",
-            new String[]{"200", "application/xml", "data_response"}, new String[]{"1", "2", "3"});
+            new String[]{"value 1", "value 2"},
+            new String[]{"200", "application/xml", "data_response"},
+            new String[]{"value 3", "value 4"},
+            new String[]{"1", "2", "3"});
 
         // write file on temporary directory
         File file = TempIO.buildFile("endpoint", ".lyre", resources.getDirectory(0));
@@ -108,10 +111,15 @@ public class InterpreterTest {
         assertThat(bundledEndpoint.getData())
             .isEqualTo("data_request");
 
-        //TODO cookie
+        //should have request header
+        assertThat(bundledEndpoint.getHeader().getContent().get("Request Header 1"))
+            .contains("value 1");
+
+        assertThat(bundledEndpoint.getHeader().getContent().get("Request Header 2"))
+            .contains("value 2");
 
         //should have idle / timer
-        assertThat(bundledEndpoint.getTimer().getIdle())
+        assertThat(bundledEndpoint.getProperty().getTimer().getIdle())
             .isEqualTo(1000);
 
         //should have response
@@ -128,6 +136,13 @@ public class InterpreterTest {
         //should have produces response
         assertThat(bundledEndpoint.getResponse().getProduces())
             .isEqualTo("application/xml");
+
+        //should have response header
+        assertThat(bundledEndpoint.getResponse().getHeader().getContent().get("Response Header 1"))
+            .contains("value 3");
+
+        assertThat(bundledEndpoint.getResponse().getHeader().getContent().get("Response Header 2"))
+            .contains("value 4");
 
         //TODO configuration / setups
 

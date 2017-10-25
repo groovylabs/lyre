@@ -23,15 +23,40 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.enums;
+package com.github.groovylabs.lyre.domain.appliers;
 
-public enum Property {
+import com.github.groovylabs.lyre.domain.interfaces.ApplyOn;
+import org.springframework.http.HttpStatus;
 
-    METHOD, PATH, ALIAS, NAME, DATA, IDLE, TIMEOUT, PARAMS, RESPONSE, RESPONSES, STATUS, CONSUMES, PRODUCES, HEADER,
-    SETUP, BUSY, BROKEN, FORBIDDEN;
+public class Probability implements ApplyOn<HttpStatus, Long> {
 
-    public boolean is(String property) {
-        return this.name().equalsIgnoreCase(property);
+    private HttpStatus status;
+
+    private double probability;
+
+    public Probability() {
+
     }
 
+    @Override
+    public void apply(HttpStatus object, Long value) {
+        this.status = object;
+        this.probability = value;
+    }
+
+    public HttpStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(HttpStatus status) {
+        this.status = status;
+    }
+
+    public double getProbability() {
+        return probability;
+    }
+
+    public void setProbability(double probability) {
+        this.probability = probability;
+    }
 }

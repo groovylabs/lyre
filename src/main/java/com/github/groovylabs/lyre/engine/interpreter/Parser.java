@@ -27,14 +27,13 @@ package com.github.groovylabs.lyre.engine.interpreter;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.domain.appliers.Countdown;
-import com.github.groovylabs.lyre.domain.enums.Level;
-import com.github.groovylabs.lyre.domain.enums.Property;
+import com.github.groovylabs.lyre.domain.Level;
+import com.github.groovylabs.lyre.domain.Syntax;
+import com.github.groovylabs.lyre.domain.errors.SyntaxError;
 import com.github.groovylabs.lyre.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
 
 import java.util.Map;
@@ -48,7 +47,9 @@ public abstract class Parser {
 
     protected String fileName;
 
-    protected void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level level) {
+    protected void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level... tree) {
+
+        Level level = tree[tree.length-1];
 
         switch (level) {
             case ENDPOINT:
@@ -75,90 +76,62 @@ public abstract class Parser {
                     this.parse(endpoint, node, Level.REQUEST));
 
                 break;
+            case HEADER:
+
+                try {
+                    tree[0].has(Syntax.HEADER, entry.getKey()).apply(endpoint, entry.getValue().asText());
+                } catch (SyntaxError error) {
+                    unrecognizedElement(entry.getKey(), level);
+                }
+
+                break;
             case REQUEST:
 
-                if (Property.METHOD.is(entry.getKey())) {
+                if (Syntax.HEADER.is(entry.getKey())) {
 
-                    endpoint.setMethod(entry.getValue().asText());
+                    System.out.println(level);
+                    System.out.println(entry.getKey());
 
-                } else if (Property.PATH.is(entry.getKey())) {
+                    entry.getValue().fields().forEachRemaining(node ->
+                        this.parse(endpoint, node, Level.REQUEST, Level.HEADER));
 
-                    endpoint.setPath(entry.getValue().asText());
-
-                } else if (Property.ALIAS.is(entry.getKey()) || Property.NAME.is(entry.getKey())) {
-
-                    endpoint.setAlias(entry.getValue().asText());
-
-                } else if (Property.CONSUMES.is(entry.getKey())) {
-
-                    endpoint.setConsumes(entry.getValue().asText());
-
-                } else if (Property.IDLE.is(entry.getKey()) || Property.TIMEOUT.is(entry.getKey())) {
-
-                    endpoint.getTimer().setIdle(entry.getValue().asLong(-1));
-
-                } else if (Property.DATA.is(entry.getKey())) {
-
-                    endpoint.setData(entry.getValue().asText());
-
-                } else if (Property.RESPONSE.is(entry.getKey()) || Property.RESPONSES.is(entry.getKey())) {
+                } else if (Syntax.RESPONSE.is(entry.getKey()) || Syntax.RESPONSES.is(entry.getKey())) {
 
                     entry.getValue().fields().forEachRemaining(node ->
                         this.parse(endpoint, node, Level.RESPONSE));
 
-                } else if (Property.SETUP.is(entry.getKey())) {
+                } else if (Syntax.PROPERTY.is(entry.getKey()) || Syntax.PROPERTIES.is(entry.getKey())) {
 
                     entry.getValue().fields().forEachRemaining(node ->
-                        this.parse(endpoint, node, Level.SETUP));
+                        this.parse(endpoint, node, Level.PROPERTY));
 
-                } else {
+                }
+
+                try {
+                    level.has(entry.getKey()).apply(endpoint, entry.getValue().asText());
+                } catch (SyntaxError error) {
                     unrecognizedElement(entry.getKey(), level);
                 }
 
                 break;
             case RESPONSE:
 
-                if (Property.STATUS.is(entry.getKey())) {
+                if (Syntax.HEADER.is(entry.getKey())) {
 
-                    endpoint.getResponse().setStatus(entry.getValue().asText());
+                    entry.getValue().fields().forEachRemaining(node ->
+                        this.parse(endpoint, node, Level.RESPONSE, Level.HEADER));
 
-                } else if (Property.PRODUCES.is(entry.getKey())) {
+                }
 
-                    endpoint.getResponse().setProduces(entry.getValue().asText());
+            case PROPERTY:
 
-                } else if (Property.DATA.is(entry.getKey())) {
-
-                    endpoint.getResponse().setData(entry.getValue().asText());
-
-                } else {
+                try {
+                    level.has(entry.getKey()).apply(endpoint, entry.getValue().asText());
+                } catch (SyntaxError error) {
                     unrecognizedElement(entry.getKey(), level);
                 }
 
                 break;
-            case SETUP:
-
-                if (Property.BUSY.is(entry.getKey())) {
-
-                    // TODO factory to make Countdown
-                    endpoint.getSetup().setCountdown(new Countdown(HttpStatus.TOO_MANY_REQUESTS, entry.getValue().asLong(-1)));
-
-                } else if (Property.BROKEN.is(entry.getKey())) {
-
-                    // TODO factory to make Countdown
-                    endpoint.getSetup().setCountdown(new Countdown(HttpStatus.INTERNAL_SERVER_ERROR, entry.getValue().asLong(-1)));
-
-                } else if (Property.FORBIDDEN.is(entry.getKey())) {
-
-                    // TODO factory to make Countdown
-                    endpoint.getSetup().setCountdown(new Countdown(HttpStatus.FORBIDDEN, entry.getValue().asLong(-1)));
-
-                } else {
-                    unrecognizedElement(entry.getKey(), level);
-                }
-
-            case PARAMETER:
-                break;
-
         }
 
     }
