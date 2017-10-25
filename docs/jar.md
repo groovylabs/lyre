@@ -1,5 +1,5 @@
 ## Lyre - Endpoint mock tool
-###1.0 Walkthrough to run Lyre application on Docker.
+###1.0 Walkthrough to run Lyre application (JAR FILE).
 
 ___  
 #### Installation
@@ -10,12 +10,6 @@ To run jar, you need clone and build Lyre project. To do this, follow this steps
 - `mvn install -P release-jar`
 ___ 
 #### Run jar
-
-To run application with default configurations, run command below:
-
-`java -jar -Dlyre.scan-path=<path-to-lyre-files> lyre-<lyre-version>.jar`
-
-The command above, will start one Lyre Application on port 8234, will scan files with **.lyre** extension and livereload option will be disabled.
 
 You can customize your configurations with jar, below is the configuration list we accept (plus [Spring properties](https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html)):
 

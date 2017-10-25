@@ -69,7 +69,21 @@ public class YourApp {
 
 ### With Docker
 
+Run command below to run Lyre:
+
+`docker run -p <your-port>:8080 -v <host-path>:/lyre/endpoints -it groovylabs/lyre`
+
+Instead of **<host-path>**, input the path if you want to share with Docker (containing endpoint files and properties to Lyre application)
+
+If you want more information about running Lyre with docker, see [this](https://github.com/groovylabs/lyre/wiki/Running-with-Docker).
+
 ### With JAR
+
+To run application with default configurations, run:
+
+`java -jar -Dlyre.scan-path=<path-to-lyre-files> lyre-<lyre-version>.jar`
+
+If you want more information about running Lyre with jar, see [this](https://github.com/groovylabs/lyre/wiki/Running-Lyre-from-JAR).
 
 ## Usage
 

@@ -17,14 +17,6 @@ ___
     - `mvn install -P release-jar`
     - `docker build -t groovylabs/lyre .`
 ___ 
-#### Default start
-
-You can launch the image using the docker command line:
-
-`docker run -p <your-port>:8080 -v <host-path>:/lyre/endpoints -it groovylabs/lyre`
-
-Instead of **<host-path>**, input the path if you want to share with Docker (containing endpoint files and properties to Lyre application)
-___ 
 #### Start with custom properties
 
 If you want to change the default configuration with one custom, you need to put this one inside a **shared folder with the suffix .properties** and use this command:
