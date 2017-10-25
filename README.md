@@ -4,7 +4,7 @@
 [![GitHub release](https://img.shields.io/badge/download-latest-brightgreen.svg)](https://github.com/groovylabs/lyre/releases)
 [![Gitter](https://badges.gitter.im/groovylabs-lyre/Lobby.svg)](https://gitter.im/groovylabs-lyre/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-<img align="right" height="300" src="">
+<img align="right" height="256" src="https://github.com/groovylabs/lyre-logo/blob/master/logo/lyre_white_bd.png">
     
 ---
 
