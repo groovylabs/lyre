@@ -31,6 +31,8 @@ import com.github.groovylabs.lyre.domain.factories.LogFactory;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
 import com.github.groovylabs.lyre.utils.EndpointUtils;
 import org.glassfish.jersey.process.Inflector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
@@ -43,6 +45,8 @@ import java.util.List;
 import java.util.Map;
 
 public class APIxInflector implements Inflector<ContainerRequestContext, Object> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(APIxInflector.class);
 
     @Autowired
     private LogFactory logFactory;
@@ -73,28 +77,29 @@ public class APIxInflector implements Inflector<ContainerRequestContext, Object>
         if (!equalsRequestData(containerRequestContext) || !equalsRequestHeader(containerRequestContext))
             return Response.status(Response.Status.NOT_ACCEPTABLE).build();
 
-        if (countdown != null && countdown.getCalls() > 0) {
-            countdown.decrease();
-            return Response
-                .status(countdown.getStatus().value())
-                .entity(countdown.getStatus().getReasonPhrase()).build();
-        } else {
+        try {
 
-            if (endpoint.getProperty().getTimer().idle() > 0) {
+            if (countdown != null && countdown.getCalls() > 0) {
+                countdown.decrease();
+                return Response
+                    .status(countdown.getStatus().value())
+                    .entity(countdown.getStatus().getReasonPhrase()).build();
+            } else {
 
-                try {
+                if (endpoint.getProperty().getTimer().idle() > 0) {
+
                     Thread.sleep(endpoint.getProperty().getTimer().idle());
-                } catch (InterruptedException e) {
-
                 }
-
             }
-
-            return Response
-                .status(endpoint.getResponse().getStatus().value())
-                .replaceAll(endpoint.getResponse().getHeader().getContent())
-                .entity(endpoint.getResponse().getData()).type(endpoint.getResponse().getProduces()).build();
+        } catch (InterruptedException e) {
+            LOGGER.error("Error applying timer property on endpoint request.", e);
+            Thread.currentThread().interrupt();
         }
+
+        return Response
+            .status(endpoint.getResponse().getStatus().value())
+            .replaceAll(endpoint.getResponse().getHeader().getContent())
+            .entity(endpoint.getResponse().getData()).type(endpoint.getResponse().getProduces()).build();
     }
 
     private boolean equalsRequestData(ContainerRequestContext containerRequestContext) {

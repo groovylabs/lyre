@@ -78,10 +78,8 @@ public class BundleService {
 
             apixController.bootAttempt(this.getClass().getSimpleName() +
                 " POST {Bundle}");
-        } else {
-            LOGGER.info("Bundle [" + bundle.hashCode() + "] is empty");
-            throw new BadRequestException("Bundle [" + bundle.hashCode() + "] is empty");
-        }
+        } else
+            throw new BadRequestException("Malformed bundle entity");
 
         return Response.ok().entity(bundle).build();
     }
@@ -94,10 +92,8 @@ public class BundleService {
             bundle.addAll(bundle.getEndpoints());
             apixController.bootAttempt(this.getClass().getSimpleName() +
                 " PUT {Bundle}");
-        } else {
-            LOGGER.info("Bundle [" + bundle.hashCode() + "] is empty");
-            throw new BadRequestException("Bundle [" + bundle.hashCode() + "] is empty");
-        }
+        } else
+            throw new BadRequestException("Malformed bundle entity");
 
         return Response.status(Response.Status.CREATED).build();
     }

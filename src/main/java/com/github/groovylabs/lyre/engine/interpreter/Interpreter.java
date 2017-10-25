@@ -76,7 +76,7 @@ public class Interpreter extends Parser {
                     LOGGER.error("Error parsing file [{}] to endpoint bundle", fileName);
 
                     if (lyreProperties.isDebug()) {
-                        e.printStackTrace();
+                        LOGGER.debug("Stacktrace", e);
                     } else
                         LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
 

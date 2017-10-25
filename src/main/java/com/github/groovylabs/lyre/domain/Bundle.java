@@ -29,6 +29,7 @@ import com.github.groovylabs.lyre.domain.exceptions.EndpointNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Bundle {
 
@@ -65,10 +66,10 @@ public class Bundle {
 
     public Endpoint find(String method, String path) {
         return endpoints.stream()
-            .filter(e -> e.getMethod().name().equals(method) && e.getPath().equals(path)).findFirst().get();
+            .filter(e -> e.getMethod().name().equals(method) && e.getPath().equals(path)).findFirst().orElse(null);
     }
 
-    public void update(Endpoint endpoint) throws EndpointNotFoundException {
+    public void update(Endpoint endpoint) {
         if (exists(endpoint)) {
             endpoints.removeIf(e -> e.getPath().equals(endpoint.getPath()) && e.getMethod().equals(endpoint.getMethod()));
             endpoints.add(endpoint);
