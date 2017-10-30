@@ -46,8 +46,6 @@ public class LyreProperties {
 
     private boolean enableSwagger = true;
 
-    private boolean enavleSwaggerManagement = true;
-
     private boolean debug = false;
 
     public boolean isEnableRemoteConnections() {

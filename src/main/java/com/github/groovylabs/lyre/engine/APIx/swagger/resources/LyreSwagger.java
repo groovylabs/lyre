@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 
 public class LyreSwagger extends Swagger {
 
-    public LyreSwagger(String title, String applicationPath) {
+    public LyreSwagger(String title, String contextPath, String applicationPath) {
 
         Info info = new Info();
 
@@ -47,7 +47,7 @@ public class LyreSwagger extends Swagger {
             .name("MIT").url("https://github.com/groovylabs/lyre/blob/master/LICENSE"));
 
         this.setInfo(info);
-        this.setBasePath("/" + applicationPath);
+        this.setBasePath(contextPath + "/" + applicationPath);
         this.setSchemes(Stream.of(Scheme.HTTP).collect(Collectors.toList()));
         this.setConsumes(Stream.of("application/json").collect(Collectors.toList()));
         this.setProduces(Stream.of("application/json").collect(Collectors.toList()));
