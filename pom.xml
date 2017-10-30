@@ -139,16 +139,17 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.version}</version>
-                <configuration>
-                    <mainClass>com.github.groovylabs.lyre.Lyre</mainClass>
-                </configuration>
                 <executions>
                     <execution>
-                        <id>attach-sources</id>
                         <goals>
                             <goal>repackage</goal>
                         </goals>
+                        <configuration>
+                            <classifier>standalone</classifier>
+                            <mainClass>
+                                com.github.groovylabs.lyre.Lyre
+                            </mainClass>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
