@@ -8,7 +8,7 @@
     
 ---
 
-Lyre is a project designated to help developers as a REST services mock API. Our name references the lyrebird species, which can mimic natural and artificial sounds from their environment. Analogously, Lyre application provides multiples ways to create, edit and expose endpoints for development/test purpose.
+Lyre is a project designated to help developers as a REST services mock API. Our name references the lyrebird species, which can mimic natural and artificial sounds from their environment. Analogously, Lyre application provides multiples ways to create, edit and expose endpoints (mimic them) for development/test purpose.
 
 **View complete docs on [our wiki](https://github.com/groovylabs/lyre/wiki)**.
 
@@ -46,12 +46,6 @@ You can download on github or build by yourself.
         ```
         compile group: 'com.github.groovylabs', name: 'lyre', version: '0.0.1-RELEASE'
         ``` 
-        
-    - **Build jar and import manually:**
-        ```sh
-        $   ./mvnw clean install -P release-jar
-        ```  
-
 
 ### With Spring Boot
 
@@ -73,17 +67,17 @@ Run command below to run Lyre:
 
 `docker run -p <your-port>:8080 -v <your-path>:/lyre/shared -it groovylabs/lyre`
 
-Instead of **<your-path>**, input the path if you want to share with Docker (containing endpoint files and properties to Lyre application)
-
-If you want more information about running Lyre with Docker, see [this](https://github.com/groovylabs/lyre/wiki/Running-Docker).
+If you want more information about running Lyre with Docker, please check our [wiki](https://github.com/groovylabs/lyre/wiki/Running-Docker).
 
 ### With JAR
 
 To run application with default configurations, run:
 
-`java -jar -Dlyre.scan-path=<path-to-lyre-files> lyre-<lyre-version>-standalone.jar`
+`java -jar -Dlyre.scan-path=<your-path> lyre-<lyre-version>-standalone.jar`
 
-If you want more information about running Lyre with JAR, see [this](https://github.com/groovylabs/lyre/wiki/Running-JAR).
+If you want more information about running Lyre with JAR, please check our [wiki](https://github.com/groovylabs/lyre/wiki/Running-JAR).
+
+Instead of **your-path** put the directory path you want to share (containing endpoint files or/and properties).
 
 ## Usage
 
