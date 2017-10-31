@@ -11,9 +11,8 @@ os:
 
 branches:
   only:
-  - stable
   - master
-  - uptream
+  - develop
 
 addons:
   sonarcloud:
