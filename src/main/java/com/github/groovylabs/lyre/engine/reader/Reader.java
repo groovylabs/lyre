@@ -76,7 +76,7 @@ public class Reader {
 
             objectNodes.put(file.getPath(), mapper.readValue(file, ObjectNode.class));
 
-        } catch (JsonParseException | JsonMappingException fileMapperException) {
+        } catch (JsonParseException | JsonMappingException yamlException) {
 
             try {
 
@@ -84,14 +84,14 @@ public class Reader {
 
                 objectNodes.put(file.getPath(), mapperJson.readValue(file, ObjectNode.class));
 
-            } catch (JsonParseException | JsonMappingException e) {
+            } catch (JsonParseException | JsonMappingException jsonException) {
 
-                LOGGER.error("Error mapping file [{}], invalid .yml and .json format", file.getName());
+                LOGGER.error("Error mapping file [{}], invalid .yml and .json format.", file.getName());
+                LOGGER.error("[YAML PARSER] Reason [{}]", yamlException.getMessage());
+                LOGGER.error("[JSON PARSER] Reason [{}]", jsonException.getMessage());
 
-                if (lyreProperties.isDebug()) {
-                    LOGGER.debug("Stacktrace", e);
-                } else
-                    LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
+                LOGGER.debug("[YAML PARSER STACKTRACE]", yamlException);
+                LOGGER.debug("[JSON PARSER STACKTRACE]", jsonException);
 
             } catch (IOException e) {
 
