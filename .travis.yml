@@ -4,6 +4,8 @@ jdk:
   - oraclejdk8
   - openjdk8
 
+sudo: false
+
 services:
   - docker
 
@@ -38,9 +40,16 @@ script:
 after_success:
   - export TAG=`if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "travis_build_docker" ]]; then echo "latest"; else echo $TRAVIS_PULL_REQUEST_BRANCH; fi`
   - export REPO=groovylabs/lyre
+  - echo 'start after_success'
   - docker build -t $REPO:$TAG -f Dockerfile .
+  - echo '[DOCKER BUILD] Successfully!'
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - echo '[DOCKER LOGIN] Successfully!'
+  - echo 'TRAVIS_PULL_REQUES = ' $TRAVIS_PULL_REQUEST ' / TRAVIS_BRANCH = ' $TRAVIS_BRANCH
   - if [[ $TRAVIS_PULL_REQUEST == "false" ]] && [[ $TRAVIS_BRANCH == "travis_build_docker" ]]; then
+      echo 'INSIDE IF'
       docker tag $REPO:$TAG $REPO:$TRAVIS_BUILD_NUMBER;
+      echo '[DOCKER TAG] Successfully!'
       docker push $REPO:$TRAVIS_BUILD_NUMBER;
+      echo '[DOCKER PUSH] Successfully!'
     fi
