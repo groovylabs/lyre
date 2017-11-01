@@ -91,8 +91,7 @@ public class SwaggerResource {
 
     private Swagger buildSwaggerApi(Bundle bundle) {
 
-        Swagger swagger = new LyreSwagger("Lyre API", lyreProperties.getContextPath(), lyreProperties.getApplicationPath());
-        swagger.getInfo().description("Lyre - A development tool to mock REST services.");
+        Swagger swagger = new LyreSwagger(lyreProperties.getContextPath(), lyreProperties.getApplicationPath());
 
         LOGGER.info("Creating swagger api...");
 
@@ -105,8 +104,7 @@ public class SwaggerResource {
     }
 
     private Swagger buildSwaggerManagement() {
-        Swagger swagger = new LyreSwagger("Lyre Management", lyreProperties.getContextPath(), lyreProperties.getApplicationPath());
-        swagger.getInfo().description("Manage your endpoints and server configuration.");
+        Swagger swagger = new LyreSwagger( "Manage your endpoints and server configuration.", lyreProperties.getContextPath(), lyreProperties.getApplicationPath());
 
         LOGGER.info("Creating swagger management...");
 

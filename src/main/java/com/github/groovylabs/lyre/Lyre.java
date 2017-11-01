@@ -41,7 +41,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -110,6 +113,18 @@ public class Lyre {
         registration.setLoadOnStartup(1);
         return registration;
 
+    }
+
+    @Bean
+    public WebMvcConfigurerAdapter webMvcConfigurerAdapter() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addViewControllers(ViewControllerRegistry registry) {
+                registry.addViewController("/")
+                    .setStatusCode(HttpStatus.PERMANENT_REDIRECT)
+                    .setViewName("/swagger-ui.html");
+            }
+        };
     }
 
 }

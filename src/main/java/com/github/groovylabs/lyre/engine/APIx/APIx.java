@@ -37,7 +37,6 @@ import com.github.groovylabs.lyre.engine.APIx.filters.CORSFilter;
 import com.github.groovylabs.lyre.engine.APIx.inflectors.APIxInflector;
 import com.github.groovylabs.lyre.engine.APIx.services.BundleService;
 import com.github.groovylabs.lyre.engine.APIx.services.EndpointService;
-import com.github.groovylabs.lyre.engine.APIx.services.LandingPageService;
 import com.github.groovylabs.lyre.engine.APIx.swagger.SwaggerResource;
 import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -97,11 +96,9 @@ public class APIx extends ResourceConfig {
             public void onStartup(final Container container) {
                 LOGGER.info("Lyre REST API Mock tool started");
 
-                LOGGER.info("\u21B3 " + "Endpoints are available at: http://{}:{}{}/{}",
+                LOGGER.info("\u21B3 " + "Endpoints are available at: http://{}:{}",
                     InetAddress.getLoopbackAddress().getHostAddress(),
-                    lyreProperties.getPort(),
-                    lyreProperties.getContextPath(),
-                    lyreProperties.getApplicationPath());
+                    lyreProperties.getPort());
 
                 com.github.groovylabs.lyre.engine.APIx.APIx.container = container;
             }
@@ -145,7 +142,6 @@ public class APIx extends ResourceConfig {
         resourceConfig.register(CORSFilter.class);
         resourceConfig.register(EndpointService.class);
         resourceConfig.register(BundleService.class);
-        resourceConfig.register(LandingPageService.class);
         resourceConfig.register(NotFoundExceptionMapper.class);
         swaggerResource.register(bundle, resourceConfig);
 
