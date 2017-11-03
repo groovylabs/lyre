@@ -44,7 +44,7 @@ You can download on github or build by yourself.
         
         *with gradle:*
         ```
-        compile group: 'com.github.groovylabs', name: 'lyre', version: '1.0.0-RELEASE'
+        compile group: 'com.github.groovylabs', name: 'lyre', version: '1.0.0-RC'
         ``` 
 
 ### With Spring Boot
