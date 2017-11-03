@@ -38,7 +38,7 @@ You can download on github or build by yourself.
         <dependency>
             <groupId>com.github.groovylabs</groupId>
             <artifactId>lyre</artifactId>
-            <version>1.0.0-RELEASE</version>
+            <version>1.0.0-RC</version>
         </dependency>
         ```
         
