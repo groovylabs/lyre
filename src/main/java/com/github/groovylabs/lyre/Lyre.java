@@ -122,8 +122,7 @@ public class Lyre {
             public void addViewControllers(ViewControllerRegistry registry) {
                 registry.addViewController("/")
                     .setStatusCode(HttpStatus.PERMANENT_REDIRECT)
-                    .setViewName((StringUtils.isEmpty(lyreProperties.getContextPath()) ? "" : lyreProperties.getContextPath())
-                        + "/ swagger - ui.html");
+                    .setViewName("/swagger-ui.html");
             }
         };
     }
