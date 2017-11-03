@@ -47,11 +47,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableConfigurationProperties(LyreProperties.class)
 public class Lyre {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Lyre.class);
-
-    @Autowired
-    private LyreProperties lyreProperties;
-
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(Lyre.class);
         app.setMainApplicationClass(Lyre.class);
