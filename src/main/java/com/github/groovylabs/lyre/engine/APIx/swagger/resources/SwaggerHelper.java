@@ -26,15 +26,16 @@
 package com.github.groovylabs.lyre.engine.APIx.swagger.resources;
 
 import com.github.groovylabs.lyre.domain.Endpoint;
-import io.swagger.models.*;
+import io.swagger.models.Operation;
+import io.swagger.models.Path;
+import io.swagger.models.Swagger;
+import io.swagger.models.Tag;
 import io.swagger.models.parameters.BodyParameter;
 import io.swagger.models.parameters.QueryParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class SwaggerHelper {
@@ -42,6 +43,7 @@ public class SwaggerHelper {
     public void buildSwaggerApiPath(Swagger swagger, Endpoint endpoint) {
 
         Operation operation = new Operation();
+        operation.tag("API");
         operation.consumes(endpoint.getConsumes());
         io.swagger.models.Response response = new io.swagger.models.Response();
 
@@ -74,30 +76,11 @@ public class SwaggerHelper {
 
     public void buildSwaggerManagement(Swagger swagger) {
 
-        List<Tag> tags = new ArrayList<>();
-
-        Tag endpoint = new Tag()
-            .name("1 : Endpoint Management");
-
-        Tag bundle = new Tag()
-            .name("2 : Bundle Management");
-
-        Tag configuration = new Tag()
-            .name("3 : Server Configuration");
-
-        Tag monitor = new Tag()
-            .name("4 : Monitoring");
-
-        Tag danger = new Tag()
-            .name("5 : Danger Zone");
-
-        tags.add(endpoint);
-        tags.add(bundle);
-        tags.add(configuration);
-        tags.add(monitor);
-        tags.add(danger);
-
-        swagger.setTags(tags);
+        swagger.getTags().add(new Tag().name("1 : Endpoint Management"));
+        swagger.getTags().add(new Tag().name("2 : Bundle Management"));
+        swagger.getTags().add(new Tag().name("3 : Server Configuration"));
+        swagger.getTags().add(new Tag().name("4 : Monitoring"));
+        swagger.getTags().add(new Tag().name("5 : Danger Zone"));
 
         //Endpoints Services
         buildEndpointServices(swagger);

@@ -26,22 +26,30 @@
 package com.github.groovylabs.lyre.engine.APIx.swagger.resources;
 
 import io.swagger.models.*;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class LyreSwagger extends Swagger {
 
-    public LyreSwagger(String title, String contextPath, String applicationPath) {
+    public LyreSwagger(String contextPath, String applicationPath) {
+        this(null, contextPath, applicationPath);
+    }
+
+    public LyreSwagger(String subtitle, String contextPath, String applicationPath) {
 
         Info info = new Info();
 
         info.version("1.0");
-        info.title(title);
-        info.description("A Mock API exposed to call Lyre REST endpoints.");
-
+        info.title("Lyre");
+        info.setDescription("**[A development tool to mock REST services.](https://github.com/groovylabs/lyre)**" +
+            " <br> " + (StringUtils.isEmpty(subtitle) ? "" : subtitle) +
+            " <br> <br> View complete documentation and examples on [our wiki](https://github.com/groovylabs/lyre/wiki)." +
+            " <br> [Bug?](https://github.com/groovylabs/lyre/issues)");
         info.setContact(new Contact()
-            .name("Groovylabs").email("groovylabs-lyre@googlegroups.com"));
+            .name("Groovylabs"));
 
         info.license(new License()
             .name("MIT").url("https://github.com/groovylabs/lyre/blob/master/LICENSE"));
@@ -51,6 +59,8 @@ public class LyreSwagger extends Swagger {
         this.setSchemes(Stream.of(Scheme.HTTP).collect(Collectors.toList()));
         this.setConsumes(Stream.of("application/json").collect(Collectors.toList()));
         this.setProduces(Stream.of("application/json").collect(Collectors.toList()));
+        this.setTags(new ArrayList<>());
+        this.getTags().add(new Tag().name("API"));
     }
 
 }
