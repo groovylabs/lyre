@@ -38,13 +38,13 @@ You can download on github or build by yourself.
         <dependency>
             <groupId>com.github.groovylabs</groupId>
             <artifactId>lyre</artifactId>
-            <version>0.0.1-RELEASE</version>
+            <version>1.0.0-RELEASE</version>
         </dependency>
         ```
         
         *with gradle:*
         ```
-        compile group: 'com.github.groovylabs', name: 'lyre', version: '0.0.1-RELEASE'
+        compile group: 'com.github.groovylabs', name: 'lyre', version: '1.0.0-RELEASE'
         ``` 
 
 ### With Spring Boot
