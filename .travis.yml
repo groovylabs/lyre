@@ -19,6 +19,9 @@ addons:
     organization: "groovylabs"
     token:
       secure: 958c4e2aeadff503e43c1a38a80efe7ec8d1ee88
+     branches:
+        - master
+        - develop
 
 script:
   - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
