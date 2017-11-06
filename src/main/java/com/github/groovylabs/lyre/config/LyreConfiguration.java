@@ -25,9 +25,92 @@
 
 package com.github.groovylabs.lyre.config;
 
+import com.github.groovylabs.lyre.engine.APIx.APIx;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.servlet.ServletContainer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jersey.JerseyProperties;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import javax.annotation.PostConstruct;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.Map;
 
 @Configuration
+@EnableAutoConfiguration
 public class LyreConfiguration {
 
+    @Autowired
+    private LyreProperties lyreProperties;
+
+    @Profile("docker")
+    @Configuration
+    class DockerProperties {
+
+        @PostConstruct
+        public void construct() {
+            lyreProperties.setPort(8080);
+        }
+    }
+
+    @Bean
+    public EmbeddedServletContainerCustomizer embeddedServletContainerCustomizer() {
+        return (container -> {
+
+            container.setContextPath(lyreProperties.getContextPath());
+
+            if (!lyreProperties.isEnableRemoteConnections()) {
+                try {
+                    InetAddress inetAddress = InetAddress.getByAddress(new byte[]{127, 0, 0, 1});
+                    container.setAddress(inetAddress);
+                } catch (UnknownHostException e) {
+                    //suppressed exception
+                }
+            }
+
+            container.setPort(lyreProperties.getPort());
+        });
+    }
+
+    @Bean
+    public ServletRegistrationBean jerseyServletRegistration(
+        JerseyProperties jerseyProperties, ResourceConfig config) {
+
+        ServletRegistrationBean registration = new ServletRegistrationBean(
+            new ServletContainer(config));
+
+        for (Map.Entry<String, String> entry : jerseyProperties.getInit().entrySet()) {
+            registration.addInitParameter(entry.getKey(), entry.getValue());
+        }
+
+        registration.addUrlMappings("/" +
+            (StringUtils.isEmpty(lyreProperties.getApplicationPath()) ? "api" : lyreProperties.getApplicationPath())
+            + "/*");
+        registration.setName(APIx.class.getName());
+        registration.setLoadOnStartup(1);
+        return registration;
+
+    }
+
+    @Bean
+    public WebMvcConfigurerAdapter webMvcConfigurerAdapter() {
+        return new WebMvcConfigurerAdapter() {
+            @Override
+            public void addViewControllers(ViewControllerRegistry registry) {
+                registry.addViewController("/")
+                    .setStatusCode(HttpStatus.PERMANENT_REDIRECT)
+                    .setViewName("/swagger-ui.html");
+            }
+        };
+    }
 }
