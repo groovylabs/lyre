@@ -44,7 +44,7 @@ after_success:
         org.codehaus.mojo:exec-maven-plugin:1.6.0:exec)
   - export REPO=groovylabs/lyre
   - if [[ $TRAVIS_BRANCH == "develop" ]]; then
-      docker build -t $REPO:$TAG -f Dockerfile .;
+      docker build -t $REPO -f Dockerfile .;
       docker login -u $DOCKER_USER -p $DOCKER_PASS;
       docker tag $REPO $REPO:$TAG;
       docker push $REPO:$TAG;
