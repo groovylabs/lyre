@@ -48,4 +48,5 @@ after_success:
       docker login -u $DOCKER_USER -p $DOCKER_PASS;
       docker tag $REPO $REPO:$TAG;
       docker push $REPO:$TAG;
+      docker push $REPO:latest;
     fi;
