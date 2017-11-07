@@ -43,14 +43,13 @@ after_success:
   - export BUILD_NUMBER=$(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.6.0:exec)
   - export TAG=`echo $BUILD_NUMBER`
   - export REPO=groovylabs/lyre
+  - export TYPE=nightly
   - if [[ $TRAVIS_BRANCH == "master" ]]; then
       export TYPE=latest;
-    else
-      export TYPE=nightly;
     fi;
-  - docker build -t $REPO:$TAG -f Dockerfile .;
-  - docker login -u $DOCKER_USER -p $DOCKER_PASS;
-  - docker tag $REPO $REPO:$TAG;
-  - docker tag $REPO $REPO:$TYPE;
-  - docker push $REPO:$TAG;
-  - docker push $REPO:$TYPE;
+  - docker build -t $REPO:$TAG -f Dockerfile .
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker tag $REPO $REPO:$TAG
+  - docker tag $REPO $REPO:$TYPE
+  - docker push $REPO:$TAG
+  - docker push $REPO:$TYPE
