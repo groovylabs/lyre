@@ -118,8 +118,8 @@ GET /hello:
 }
 ```
 
-Check our [lyre syntax](https://github.com/groovylabs/lyre/wiki/Endpoint-syntax) to learn more about supported properties.
-Also check our [examples]().
+Check our [lyre syntax](https://github.com/groovylabs/lyre/wiki/Syntax) to learn more about supported properties.
+Also check our [examples](https://github.com/groovylabs/lyre/wiki/Examples).
 
 ## Configuring
 
