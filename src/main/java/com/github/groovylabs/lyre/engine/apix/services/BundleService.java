@@ -23,13 +23,11 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.services;
+package com.github.groovylabs.lyre.engine.apix.services;
 
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,13 +40,15 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class BundleService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BundleService.class);
-
-    @Autowired
     private Bundle bundle;
 
-    @Autowired
     private APIxController apixController;
+
+    @Autowired
+    public BundleService(Bundle bundle, APIxController apixController) {
+        this.bundle = bundle;
+        this.apixController = apixController;
+    }
 
     @GET
     public Response get() {

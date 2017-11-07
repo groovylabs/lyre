@@ -23,31 +23,44 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.websocket.listeners;
+package com.github.groovylabs.lyre.engine.apix.websocket;
 
-import com.github.groovylabs.lyre.config.LyreProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.groovylabs.lyre.domain.Endpoint;
+import com.github.groovylabs.lyre.domain.Event;
+import com.github.groovylabs.lyre.domain.Log;
+import com.github.groovylabs.lyre.domain.enums.Queue;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.messaging.SessionSubscribeEvent;
-
 
 @Component
-public class StompSubscribeEventListener implements ApplicationListener<SessionSubscribeEvent> {
+public class Dispatcher {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StompSubscribeEventListener.class);
+    private String queuePrefix = "/registry/";
+
+    private MessageSendingOperations<String> messagingTemplate;
 
     @Autowired
-    private LyreProperties lyreProperties;
+    public Dispatcher(MessageSendingOperations<String> messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
 
-    @Override
-    public void onApplicationEvent(SessionSubscribeEvent sessionSubscribeEvent) {
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(sessionSubscribeEvent.getMessage());
+    public void publish(Event<?> event) {
 
-        if (lyreProperties.isDebug())
-            LOGGER.info(headerAccessor.toString());
+        if (event != null && event.getQueue() != null && event.getAction() != null) {
+
+            String queue = "";
+
+            if (event.getQueue().equals(Queue.BUNDLE)) {
+                queue = queuePrefix + event.getQueue();
+            } else if (event.getQueue().equals(Queue.LOG) &&
+                ((Log) event.getSource()).getTarget() instanceof Endpoint) {
+                queue = queuePrefix + event.getQueue() + "/" + ((Endpoint) ((Log) event.getSource()).getTarget()).getHash();
+            }
+
+            this.messagingTemplate.convertAndSend(queue, event);
+
+        }
+
     }
 }

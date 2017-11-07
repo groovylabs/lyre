@@ -23,44 +23,35 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.controller;
+package com.github.groovylabs.lyre.engine.apix.websocket.listeners;
 
-import org.glassfish.jersey.server.monitoring.ApplicationEvent;
-import org.glassfish.jersey.server.monitoring.ApplicationEventListener;
-import org.glassfish.jersey.server.monitoring.RequestEvent;
-import org.glassfish.jersey.server.monitoring.RequestEventListener;
+import com.github.groovylabs.lyre.config.LyreProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.messaging.SessionSubscribeEvent;
+
 
 @Component
-public class APIxListener implements ApplicationEventListener {
+public class StompSubscribeEventListener implements ApplicationListener<SessionSubscribeEvent> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(StompSubscribeEventListener.class);
+
+    private LyreProperties lyreProperties;
 
     @Autowired
-    private APIxController controller;
-
-    @Override
-    public void onEvent(ApplicationEvent event) {
-
+    public StompSubscribeEventListener(LyreProperties lyreProperties) {
+        this.lyreProperties = lyreProperties;
     }
 
     @Override
-    public RequestEventListener onRequest(RequestEvent requestEvent) {
-        return new APIxRequestEventListener();
-    }
-
-    public class APIxRequestEventListener implements RequestEventListener {
-
-        @Override
-        public void onEvent(RequestEvent event) {
-            switch (event.getType()) {
-                case RESOURCE_METHOD_START:
-                    controller.increase();
-                    break;
-                case FINISHED:
-                    controller.decrease();
-                    break;
-            }
-
+    public void onApplicationEvent(SessionSubscribeEvent sessionSubscribeEvent) {
+        if (lyreProperties.isDebug()) {
+            String log = StompHeaderAccessor.wrap(sessionSubscribeEvent.getMessage()).toString();
+            LOGGER.debug(log);
         }
     }
 }

@@ -23,30 +23,23 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.websocket.listeners;
+package com.github.groovylabs.lyre.engine.apix.services;
 
-import com.github.groovylabs.lyre.config.LyreProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.messaging.SessionConnectedEvent;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Component
-public class StompSessionConnectedEventListener implements ApplicationListener<SessionConnectedEvent> {
+@Path(value = "/settings")
+@Produces(MediaType.APPLICATION_JSON)
+public class SettingService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StompSessionConnectedEventListener.class);
-
-    @Autowired
-    private LyreProperties lyreProperties;
-
-    @Override
-    public void onApplicationEvent(SessionConnectedEvent sessionConnectedEvent) {
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(sessionConnectedEvent.getMessage());
-
-        if (lyreProperties.isDebug())
-            LOGGER.info(headerAccessor.toString());
+    @GET
+    public Response notImplemented() {
+        return Response.noContent().build();
     }
 }

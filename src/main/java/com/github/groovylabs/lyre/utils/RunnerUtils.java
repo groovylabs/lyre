@@ -33,66 +33,103 @@ import java.util.List;
 
 public class RunnerUtils {
 
+    private RunnerUtils() {
+
+    }
+
     public static String[] buildArguments(EnableLyre enableLyre) {
+
+        if (enableLyre == null)
+            return new String[]{};
 
         List<String> arguments = new ArrayList<>();
 
-        if (enableLyre != null) {
+        if (checkEnableRemoteConnections(enableLyre))
+            arguments.add("--lyre.enable_remote_connections=" + enableLyre.enableRemoteConnections().toLowerCase());
 
-            //check if enable remote connection is set
-            if (!StringUtils.isEmpty(enableLyre.enableRemoteConnections())
-                && (enableLyre.enableRemoteConnections().equals("true")
-                || enableLyre.enableRemoteConnections().equals("false")))
-                arguments.add("--lyre.enable_remote_connections=" + enableLyre.enableRemoteConnections());
+        if (checkEnableLiveReload(enableLyre))
+            arguments.add("--lyre.enable_live_reload=" + enableLyre.enableLiveReload().toLowerCase());
 
-            //check if enable livereload is set
-            if (!StringUtils.isEmpty(enableLyre.enableLiveReload())
-                && (enableLyre.enableLiveReload().equals("true")
-                || enableLyre.enableLiveReload().equals("false")))
-                arguments.add("--lyre.enable_live_reload=" + enableLyre.enableLiveReload());
+        //check if port is set
+        if (enableLyre.port() > 0)
+            arguments.add("--lyre.port=" + enableLyre.port());
 
-            //check if port is set
-            if (enableLyre.port() > 0)
-                arguments.add("--lyre.port=" + enableLyre.port());
+        if (checkContextPath(enableLyre))
+            arguments.add("--lyre.context_path=" + enableLyre.contextPath().toLowerCase());
 
-            //check if context path is set
-            if (!StringUtils.isEmpty(enableLyre.contextPath())
-                && (enableLyre.contextPath().equals("true")
-                || enableLyre.contextPath().equals("false")))
-                arguments.add("--lyre.context_path=" + enableLyre.contextPath());
+        if (checkApplicationPath(enableLyre))
+            arguments.add("--lyre.api_path=" + enableLyre.applicationPath().toLowerCase());
 
-            //check if api path is set
-            if (!StringUtils.isEmpty(enableLyre.apiPath())
-                && (enableLyre.apiPath().equals("true")
-                || enableLyre.apiPath().equals("false")))
-                arguments.add("--lyre.api_path=" + enableLyre.apiPath());
+        if (checkScanPath(enableLyre))
+            arguments.add("--lyre.scan_path=" + enableLyre.scanPath().toLowerCase());
 
-            //check if scan path is set
-            if (!StringUtils.isEmpty(enableLyre.scanPath())
-                && (enableLyre.scanPath().equals("true")
-                || enableLyre.scanPath().equals("false")))
-                arguments.add("--lyre.scan_path=" + enableLyre.scanPath());
+        if (checkFileFormat(enableLyre))
+            arguments.add("--lyre.file_format=" + enableLyre.fileFormat().toLowerCase());
 
-            //check if file format is set
-            if (!StringUtils.isEmpty(enableLyre.fileFormat())
-                && (enableLyre.fileFormat().equals("true")
-                || enableLyre.fileFormat().equals("false")))
-                arguments.add("--lyre.file_format=" + enableLyre.fileFormat());
+        if (checkSwagger(enableLyre))
+            arguments.add("--lyre.enable_swagger=" + enableLyre.enableSwagger().toLowerCase());
 
-            //check if enable swagger doc is set
-            if (!StringUtils.isEmpty(enableLyre.enableSwaggerDoc())
-                && (enableLyre.enableSwaggerDoc().equals("true")
-                || enableLyre.enableSwaggerDoc().equals("false")))
-                arguments.add("--lyre.enable_swagger_doc=" + enableLyre.enableSwaggerDoc());
-
-            //check if debug is set
-            if (!StringUtils.isEmpty(enableLyre.debug())
-                && (enableLyre.debug().equals("true")
-                || enableLyre.debug().equals("false")))
-                arguments.add("--lyre.debug=" + enableLyre.debug());
-        }
+        if (checkDebug(enableLyre))
+            arguments.add("--lyre.debug=" + enableLyre.debug().toLowerCase());
 
         return arguments.toArray(new String[arguments.size()]);
+    }
+
+    //check if enable remote connections is set
+    private static boolean checkEnableRemoteConnections(EnableLyre enableLyre) {
+        return (!StringUtils.isEmpty(enableLyre.enableRemoteConnections())
+            && (enableLyre.enableRemoteConnections().equalsIgnoreCase(Boolean.TRUE.toString())
+            || enableLyre.enableRemoteConnections().equalsIgnoreCase(Boolean.FALSE.toString())));
+    }
+
+    //check if enable live reload is set
+    private static boolean checkEnableLiveReload(EnableLyre enableLyre) {
+        return (!StringUtils.isEmpty(enableLyre.enableLiveReload())
+            && (enableLyre.enableLiveReload().equalsIgnoreCase(Boolean.TRUE.toString())
+            || enableLyre.enableLiveReload().equalsIgnoreCase(Boolean.FALSE.toString())));
+    }
+
+    //check if context path is set
+    private static boolean checkContextPath(EnableLyre enableLyre) {
+        return (!StringUtils.isEmpty(enableLyre.contextPath())
+            && (enableLyre.contextPath().equalsIgnoreCase(Boolean.TRUE.toString())
+            || enableLyre.contextPath().equalsIgnoreCase(Boolean.FALSE.toString())));
+    }
+
+    //check if application path is set
+    private static boolean checkApplicationPath(EnableLyre enableLyre) {
+        return (!StringUtils.isEmpty(enableLyre.applicationPath())
+            && (enableLyre.applicationPath().equalsIgnoreCase(Boolean.TRUE.toString())
+            || enableLyre.applicationPath().equalsIgnoreCase(Boolean.FALSE.toString())));
+    }
+
+    //check if scan path is set
+    private static boolean checkScanPath(EnableLyre enableLyre) {
+        return (!StringUtils.isEmpty(enableLyre.scanPath())
+            && (enableLyre.scanPath().equalsIgnoreCase(Boolean.TRUE.toString())
+            || enableLyre.scanPath().equalsIgnoreCase(Boolean.FALSE.toString())));
+    }
+
+    //check if file format is set
+    private static boolean checkFileFormat(EnableLyre enableLyre) {
+        return (!StringUtils.isEmpty(enableLyre.fileFormat())
+            && (enableLyre.fileFormat().equalsIgnoreCase(Boolean.TRUE.toString())
+            || enableLyre.fileFormat().equalsIgnoreCase(Boolean.FALSE.toString())));
+    }
+
+    //check if enable swagger doc is set
+    private static boolean checkSwagger(EnableLyre enableLyre) {
+        return (!StringUtils.isEmpty(enableLyre.enableSwagger())
+            && (enableLyre.enableSwagger().equalsIgnoreCase(Boolean.TRUE.toString())
+            || enableLyre.enableSwagger().equalsIgnoreCase(Boolean.FALSE.toString())));
+    }
+
+    //check if debug is set
+    private static boolean checkDebug(EnableLyre enableLyre) {
+        return (!StringUtils.isEmpty(enableLyre.debug())
+            && (enableLyre.debug().equalsIgnoreCase(Boolean.TRUE.toString())
+            || enableLyre.debug().equalsIgnoreCase(Boolean.FALSE.toString())));
+
     }
 
 }

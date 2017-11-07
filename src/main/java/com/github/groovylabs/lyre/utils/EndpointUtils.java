@@ -41,10 +41,14 @@ import java.io.InputStream;
 @Component
 public class EndpointUtils {
 
-    @Autowired
+    private static final Logger LOGGER = LoggerFactory.getLogger(EndpointUtils.class);
+
     private LyreProperties lyreProperties;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EndpointUtils.class);
+    @Autowired
+    public EndpointUtils(LyreProperties lyreProperties) {
+        this.lyreProperties = lyreProperties;
+    }
 
     /**
      * Return the body json in one String Object.

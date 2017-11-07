@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.swagger;
+package com.github.groovylabs.lyre.engine.apix.swagger;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
@@ -43,10 +43,8 @@ import java.util.stream.Stream;
 @Import({Swagger2DocumentationConfiguration.class})
 public class SwaggerConfiguration {
 
-    public static final String managementUrl = System.getProperty("user.dir") + "/src/main/resources/swagger.json";
-
-    @Component
     @Primary
+    @Component
     public class CombinedSwaggerResourcesProvider implements SwaggerResourcesProvider {
 
         @Override

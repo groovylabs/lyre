@@ -48,13 +48,17 @@ public class Reader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Reader.class);
 
-    @Autowired
     private LyreProperties lyreProperties;
 
-    @Autowired
     private Interpreter interpreter;
 
     private Map<String, ObjectNode> objectNodes;
+
+    @Autowired
+    public Reader(LyreProperties lyreProperties, Interpreter interpreter) {
+        this.lyreProperties = lyreProperties;
+        this.interpreter = interpreter;
+    }
 
     public void read(File... files) {
 

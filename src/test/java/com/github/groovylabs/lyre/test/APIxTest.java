@@ -28,7 +28,7 @@ package com.github.groovylabs.lyre.test;
 
 import com.github.groovylabs.lyre.Lyre;
 import com.github.groovylabs.lyre.domain.Bundle;
-import com.github.groovylabs.lyre.engine.APIx.APIx;
+import com.github.groovylabs.lyre.engine.apix.APIx;
 import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguration;
 import org.junit.Test;
 import org.junit.runner.RunWith;

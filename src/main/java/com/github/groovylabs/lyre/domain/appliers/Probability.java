@@ -32,16 +32,12 @@ public class Probability implements ApplyOn<HttpStatus, Long> {
 
     private HttpStatus status;
 
-    private double probability;
-
-    public Probability() {
-
-    }
+    private double value;
 
     @Override
     public void apply(HttpStatus object, Long value) {
         this.status = object;
-        this.probability = value;
+        this.value = value;
     }
 
     public HttpStatus getStatus() {
@@ -52,11 +48,11 @@ public class Probability implements ApplyOn<HttpStatus, Long> {
         this.status = status;
     }
 
-    public double getProbability() {
-        return probability;
+    public double getValue() {
+        return value;
     }
 
-    public void setProbability(double probability) {
-        this.probability = probability;
+    public void setValue(double value) {
+        this.value = value;
     }
 }

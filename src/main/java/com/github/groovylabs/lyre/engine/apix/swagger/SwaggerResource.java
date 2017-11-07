@@ -23,14 +23,14 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.swagger;
+package com.github.groovylabs.lyre.engine.apix.swagger;
 
 import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.engine.APIx.inflectors.SwaggerInflector;
-import com.github.groovylabs.lyre.engine.APIx.swagger.resources.LyreSwagger;
-import com.github.groovylabs.lyre.engine.APIx.swagger.resources.SwaggerHelper;
+import com.github.groovylabs.lyre.engine.apix.inflectors.SwaggerInflector;
+import com.github.groovylabs.lyre.engine.apix.swagger.resources.LyreSwagger;
+import com.github.groovylabs.lyre.engine.apix.swagger.resources.SwaggerHelper;
 import io.swagger.jaxrs.listing.ApiListingResource;
 import io.swagger.jaxrs.listing.SwaggerSerializers;
 import io.swagger.models.Swagger;
@@ -49,39 +49,42 @@ public class SwaggerResource {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SwaggerResource.class);
 
-    @Autowired
     private LyreProperties lyreProperties;
 
-    @Autowired
     private SwaggerHelper helper;
+
+    @Autowired
+    public SwaggerResource(LyreProperties lyreProperties, SwaggerHelper helper) {
+        this.lyreProperties = lyreProperties;
+        this.helper = helper;
+    }
 
     public void register(Bundle bundle, ResourceConfig resourceConfig) {
 
         if (lyreProperties.isEnableSwagger()) {
 
+            //API
             Swagger swaggerApi = buildSwaggerApi(bundle);
 
-            if (swaggerApi != null) {
-                Resource.Builder resource = Resource.builder();
-                resource.path("/swagger")
-                    .addMethod(HttpMethod.GET)
-                    .produces(MediaType.APPLICATION_JSON)
-                    .handledBy(new SwaggerInflector(swaggerApi));
+            Resource.Builder resourceApi = Resource.builder();
+            resourceApi.path("/swagger")
+                .addMethod(HttpMethod.GET)
+                .produces(MediaType.APPLICATION_JSON)
+                .handledBy(new SwaggerInflector(swaggerApi));
 
-                resourceConfig.registerResources(resource.build());
-            }
+            resourceConfig.registerResources(resourceApi.build());
 
+            //Management
             Swagger swaggerManagement = buildSwaggerManagement();
 
-            if (swaggerManagement != null) {
-                Resource.Builder resource = Resource.builder();
-                resource.path("/management")
-                    .addMethod(HttpMethod.GET)
-                    .produces(MediaType.APPLICATION_JSON)
-                    .handledBy(new SwaggerInflector(swaggerManagement));
+            Resource.Builder resourceManagement = Resource.builder();
+            resourceManagement.path("/management")
+                .addMethod(HttpMethod.GET)
+                .produces(MediaType.APPLICATION_JSON)
+                .handledBy(new SwaggerInflector(swaggerManagement));
 
-                resourceConfig.registerResources(resource.build());
-            }
+            resourceConfig.registerResources(resourceManagement.build());
+
         }
 
         resourceConfig.register(ApiListingResource.class);
@@ -104,7 +107,7 @@ public class SwaggerResource {
     }
 
     private Swagger buildSwaggerManagement() {
-        Swagger swagger = new LyreSwagger( "Manage your endpoints and server configuration.", lyreProperties.getContextPath(), lyreProperties.getApplicationPath());
+        Swagger swagger = new LyreSwagger("Manage your endpoints and server configuration.", lyreProperties.getContextPath(), lyreProperties.getApplicationPath());
 
         LOGGER.info("Creating swagger management...");
 

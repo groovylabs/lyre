@@ -23,42 +23,34 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.websocket;
+package com.github.groovylabs.lyre.engine.apix.websocket.listeners;
 
-import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.domain.Event;
-import com.github.groovylabs.lyre.domain.Log;
+import com.github.groovylabs.lyre.config.LyreProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.core.MessageSendingOperations;
+import org.springframework.context.ApplicationListener;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.socket.messaging.SessionConnectedEvent;
 
 @Component
-public class Dispatcher {
+public class StompSessionConnectedEventListener implements ApplicationListener<SessionConnectedEvent> {
 
-    private String queuePrefix = "/registry/";
+    private static final Logger LOGGER = LoggerFactory.getLogger(StompSessionConnectedEventListener.class);
+
+    private LyreProperties lyreProperties;
 
     @Autowired
-    private MessageSendingOperations<String> messagingTemplate;
-
-    public void publish(Event<?> event) {
-        if (event != null && event.getQueue() != null && event.getAction() != null) {
-
-            String queue = "";
-
-            switch (event.getQueue()) {
-                case BUNDLE:
-                    queue = queuePrefix + event.getQueue();
-                    break;
-                case LOG:
-                    if (((Log) event.getSource()).getTarget() instanceof Endpoint) {
-                        queue = queuePrefix + event.getQueue() + "/" + ((Endpoint) ((Log) event.getSource()).getTarget()).getHash();
-                    }
-
-                    break;
-            }
-
-            this.messagingTemplate.convertAndSend(queue, event);
-        }
+    public StompSessionConnectedEventListener(LyreProperties lyreProperties) {
+        this.lyreProperties = lyreProperties;
     }
 
+    @Override
+    public void onApplicationEvent(SessionConnectedEvent sessionConnectedEvent) {
+        if (lyreProperties.isDebug()) {
+            String log = StompHeaderAccessor.wrap(sessionConnectedEvent.getMessage()).toString();
+            LOGGER.debug(log);
+        }
+    }
 }

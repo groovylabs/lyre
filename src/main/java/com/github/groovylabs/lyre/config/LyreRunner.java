@@ -41,8 +41,6 @@ import org.springframework.boot.SpringApplication;
  */
 public class LyreRunner implements ApplicationRunner {
 
-    public final static String LYRE_PROPERTIES_PREFIX = "lyre";
-
     @Override
     public void run(ApplicationArguments args) throws Exception {
 

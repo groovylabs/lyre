@@ -39,12 +39,10 @@ public class Log<T> {
 
     private String level;
 
-    private String timestamp;
-
     private T target;
 
     @JsonIgnore
-    private Object parameters[];
+    private Object[] parameters;
 
     public Log() {
     }
@@ -55,8 +53,7 @@ public class Log<T> {
 
     public final void build() {
 
-        this.timestamp = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss  ").format(new Date());
-        this.addMessage(timestamp);
+        this.addMessage(new SimpleDateFormat("yyyy-MM-dd HH.mm.ss  ").format(new Date()));
 
         if (parameters != null)
             for (Object parameter : parameters) {

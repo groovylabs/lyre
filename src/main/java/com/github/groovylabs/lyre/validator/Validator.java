@@ -25,11 +25,9 @@
 
 package com.github.groovylabs.lyre.validator;
 
-import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -40,9 +38,6 @@ import java.util.List;
 public class Validator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Validator.class);
-
-    @Autowired
-    private LyreProperties lyreProperties;
 
     /**
      * Responsible to check the integrity of endpoint before insert it into list and
@@ -92,15 +87,12 @@ public class Validator {
 
     public boolean check(Endpoint endpoint) {
 
-        if (endpoint == null ||
+        return !(endpoint == null ||
             endpoint.getResponse() == null ||
             StringUtils.isEmpty(endpoint.getPath()) ||
             StringUtils.isEmpty(endpoint.getMethod()) ||
-            StringUtils.isEmpty(endpoint.getResponse().getStatus())) {
-            return false;
-        }
+            StringUtils.isEmpty(endpoint.getResponse().getStatus()));
 
-        return true;
     }
 
     public boolean check(String value, String reference) {

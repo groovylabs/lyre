@@ -49,7 +49,8 @@ public class FactoryConfiguration {
     }
 
     @Bean
-    public Log<? extends Object> log() {
+    @SuppressWarnings("unchecked")
+    public Log<Object> log() {
         return logFactory().getObject();
     }
 

@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.inflectors;
+package com.github.groovylabs.lyre.engine.apix.inflectors;
 
 import io.swagger.config.FilterFactory;
 import io.swagger.core.filter.SwaggerSpecFilter;
@@ -51,11 +51,11 @@ public class SwaggerInflector implements Inflector<ContainerRequestContext, Resp
         SwaggerSpecFilter filter = FilterFactory.getFilter();
         if (filter != null) {
 
-            Map<String, Cookie> cookiesvalue = arg0.getCookies();
+            Map<String, Cookie> cookiesValue = arg0.getCookies();
             Map<String, String> cookies = new HashMap<>();
-            if (cookiesvalue != null) {
-                for (String key : cookiesvalue.keySet()) {
-                    cookies.put(key, cookiesvalue.get(key).getValue());
+            if (cookiesValue != null) {
+                for (Map.Entry<String, Cookie> map : cookiesValue.entrySet()) {
+                    cookies.put(map.getKey(), cookiesValue.get(map.getKey()).getValue());
                 }
             }
 

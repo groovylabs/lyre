@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.websocket;
+package com.github.groovylabs.lyre.engine.apix.websocket;
 
 
 import org.springframework.context.annotation.Configuration;

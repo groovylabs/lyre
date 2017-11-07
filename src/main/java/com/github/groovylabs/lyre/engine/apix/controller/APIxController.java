@@ -23,9 +23,9 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.controller;
+package com.github.groovylabs.lyre.engine.apix.controller;
 
-import com.github.groovylabs.lyre.engine.APIx.APIx;
+import com.github.groovylabs.lyre.engine.apix.APIx;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,6 @@ public class APIxController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(APIxController.class);
 
-    @Autowired
     private APIx apix;
 
     private static int running;
@@ -49,9 +48,14 @@ public class APIxController {
 
     private boolean attempting = false;
 
+    @Autowired
+    public APIxController(APIx apix) {
+        this.apix = apix;
+    }
+
     @PostConstruct
-    public void APIxController() {
-        this.running = 0;
+    public synchronized void construct() {
+        APIxController.running = 0;
         this.controller = new Timer();
     }
 
@@ -83,11 +87,11 @@ public class APIxController {
         }
     }
 
-    void increase() {
+    synchronized void increase() {
         running++;
     }
 
-    void decrease() {
+    synchronized void decrease() {
         running--;
     }
 

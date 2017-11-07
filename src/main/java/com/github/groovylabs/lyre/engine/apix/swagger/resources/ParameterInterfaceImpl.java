@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.swagger.resources;
+package com.github.groovylabs.lyre.engine.apix.swagger.resources;
 
 import io.swagger.models.parameters.Parameter;
 
@@ -37,14 +37,9 @@ public class ParameterInterfaceImpl implements Parameter {
     private String description;
     private boolean required = false;
     private String pattern;
-
     private Map<String, Object> vendorExtensions;
-
     private Boolean readOnly = false;
     private Boolean allowEmptyValue = false;
-
-    public ParameterInterfaceImpl() {}
-
 
     @Override
     public String getIn() {

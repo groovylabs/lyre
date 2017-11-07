@@ -33,7 +33,6 @@ import com.github.groovylabs.lyre.domain.errors.SyntaxError;
 import com.github.groovylabs.lyre.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import java.util.Map;
@@ -42,36 +41,24 @@ public abstract class Parser {
 
     protected static final Logger LOGGER = LoggerFactory.getLogger(Parser.class);
 
-    @Autowired
     protected Validator validator;
 
     protected String fileName;
 
+    public Parser(Validator validator) {
+        this.validator = validator;
+    }
+
     protected void parse(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level... tree) {
 
-        Level level = tree[tree.length-1];
+        Level level = tree[tree.length - 1];
 
         switch (level) {
             case ENDPOINT:
 
                 endpoint.setFileName(fileName);
 
-                // suported METHOD and PATH on key.
-                String[] words = entry.getKey().split(" ", 2);
-
-                // check if first word is method
-                if (validator.check(words[0], "method"))
-                    endpoint.setMethod(words[0]);
-
-
-                // check if has second word and is path
-                if (words.length > 1 && validator.check(words[1], "path"))
-                    endpoint.setPath(!words[1].startsWith("/") ? "/" + words[1] : words[1]);
-
-                if (StringUtils.isEmpty(endpoint.getMethod()) && StringUtils.isEmpty(endpoint.getPath()))
-                    endpoint.setAlias(entry.getKey());
-                else
-                    endpoint.setAlias(endpoint.getMethod() + " " + endpoint.getPath());
+                parseEndpointLevel(endpoint, entry);
 
                 entry.getValue().fields().forEachRemaining(node ->
                     this.parse(endpoint, node, Level.REQUEST));
@@ -79,19 +66,12 @@ public abstract class Parser {
                 break;
             case HEADER:
 
-                try {
-                    tree[0].has(Syntax.HEADER, entry.getKey()).apply(endpoint, entry.getValue().asText());
-                } catch (SyntaxError error) {
-                    unrecognizedElement(entry.getKey(), level);
-                }
+                parseHeaderLevel(endpoint, entry, level, tree);
 
                 break;
             case REQUEST:
 
                 if (Syntax.HEADER.is(entry.getKey())) {
-
-                    System.out.println(level);
-                    System.out.println(entry.getKey());
 
                     entry.getValue().fields().forEachRemaining(node ->
                         this.parse(endpoint, node, Level.REQUEST, Level.HEADER));
@@ -116,7 +96,6 @@ public abstract class Parser {
 
                 break;
             case RESPONSE:
-
                 if (Syntax.HEADER.is(entry.getKey())) {
 
                     entry.getValue().fields().forEachRemaining(node ->
@@ -124,17 +103,49 @@ public abstract class Parser {
 
                 }
 
-            case PROPERTY:
-
                 try {
                     level.has(entry.getKey()).apply(endpoint, entry.getValue().asText());
                 } catch (SyntaxError error) {
                     unrecognizedElement(entry.getKey(), level);
                 }
+                break;
 
+            case PROPERTY:
+                try {
+                    level.has(entry.getKey()).apply(endpoint, entry.getValue().asText());
+                } catch (SyntaxError error) {
+                    unrecognizedElement(entry.getKey(), level);
+                }
                 break;
         }
 
+    }
+
+    private void parseEndpointLevel(Endpoint endpoint, Map.Entry<String, JsonNode> entry) {
+
+        // suported METHOD and PATH on key.
+        String[] words = entry.getKey().split(" ", 2);
+
+        // check if first word is method
+        if (validator.check(words[0], "method"))
+            endpoint.setMethod(words[0]);
+
+        // check if has second word and is path
+        if (words.length > 1 && validator.check(words[1], "path"))
+            endpoint.setPath(!words[1].startsWith("/") ? "/" + words[1] : words[1]);
+
+        if (StringUtils.isEmpty(endpoint.getMethod()) && StringUtils.isEmpty(endpoint.getPath()))
+            endpoint.setAlias(entry.getKey());
+        else
+            endpoint.setAlias(endpoint.getMethod() + " " + endpoint.getPath());
+    }
+
+    private void parseHeaderLevel(Endpoint endpoint, Map.Entry<String, JsonNode> entry, Level level, Level... tree) {
+        try {
+            tree[0].has(Syntax.HEADER, entry.getKey()).apply(endpoint, entry.getValue().asText());
+        } catch (SyntaxError error) {
+            unrecognizedElement(entry.getKey(), level);
+        }
     }
 
     private void unrecognizedElement(String key, Level level) {
