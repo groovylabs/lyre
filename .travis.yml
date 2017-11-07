@@ -47,7 +47,7 @@ after_success:
   - if [[ $TRAVIS_BRANCH == "master" ]]; then
       export TYPE=latest;
     fi;
-  - docker build -t $REPO:$TAG -f Dockerfile .
+  - docker build -t $REPO -f Dockerfile .
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker tag $REPO $REPO:$TAG
   - docker tag $REPO $REPO:$TYPE
