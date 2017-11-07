@@ -40,11 +40,11 @@ script:
   - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 
 after_success:
-  - export TAG=$(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive \
-        org.codehaus.mojo:exec-maven-plugin:1.6.0:exec)
+  - export BUILD_NUMBER=$(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.6.0:exec)
+  - export TAG=`echo $BUILD_NUMBER`
   - export REPO=groovylabs/lyre
   - if [[ $TRAVIS_BRANCH == "develop" ]]; then
-      docker build -t $REPO -f Dockerfile .;
+      docker build -t $REPO:$TAG -f Dockerfile .;
       docker login -u $DOCKER_USER -p $DOCKER_PASS;
       docker tag $REPO $REPO:$TAG;
       docker push $REPO:$TAG;
