@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.filters;
+package com.github.groovylabs.lyre.engine.apix.filters;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;

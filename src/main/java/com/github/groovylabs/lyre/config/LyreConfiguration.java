@@ -25,7 +25,7 @@
 
 package com.github.groovylabs.lyre.config;
 
-import com.github.groovylabs.lyre.engine.APIx.APIx;
+import com.github.groovylabs.lyre.engine.apix.APIx;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,17 +50,19 @@ import java.util.Map;
 @EnableAutoConfiguration
 public class LyreConfiguration {
 
-    @Autowired
+    static final String LYRE_PROPERTIES_PREFIX = "lyre";
+
     private LyreProperties lyreProperties;
 
-    @Profile("docker")
-    @Configuration
-    class DockerProperties {
+    @Autowired
+    public LyreConfiguration(LyreProperties lyreProperties) {
+        this.lyreProperties = lyreProperties;
+    }
 
-        @PostConstruct
-        public void construct() {
-            lyreProperties.setPort(8080);
-        }
+    @Profile("docker")
+    @PostConstruct
+    public void construct() {
+        lyreProperties.setPort(8080);
     }
 
     @Bean

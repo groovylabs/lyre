@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.swagger.resources;
+package com.github.groovylabs.lyre.engine.apix.swagger.resources;
 
 import com.github.groovylabs.lyre.domain.Endpoint;
 import io.swagger.models.Operation;
@@ -39,6 +39,14 @@ import javax.ws.rs.core.Response;
 
 @Component
 public class SwaggerHelper {
+
+    private static final String ENDPOINT_MANAGEMENT = "1 : Endpoint Management";
+    private static final String BUNDLE_MANAGEMENT = "2 : Bundle Management";
+    private static final String SERVER_CONFIGURATION = "3 : Server Configuration";
+    private static final String MONITORING = "4 : Monitoring";
+    private static final String DANGER_ZONE = "5 : Danger Zone";
+
+    private static final String TYPE_STRING = "string";
 
     public void buildSwaggerApiPath(Swagger swagger, Endpoint endpoint) {
 
@@ -58,7 +66,7 @@ public class SwaggerHelper {
 
     }
 
-    public void buildSwaggerApiBodyParam(Operation operation) {
+    private void buildSwaggerApiBodyParam(Operation operation) {
         io.swagger.models.Response response = new io.swagger.models.Response();
         ParameterInterfaceImpl param = new ParameterInterfaceImpl();
 
@@ -76,11 +84,11 @@ public class SwaggerHelper {
 
     public void buildSwaggerManagement(Swagger swagger) {
 
-        swagger.getTags().add(new Tag().name("1 : Endpoint Management"));
-        swagger.getTags().add(new Tag().name("2 : Bundle Management"));
-        swagger.getTags().add(new Tag().name("3 : Server Configuration"));
-        swagger.getTags().add(new Tag().name("4 : Monitoring"));
-        swagger.getTags().add(new Tag().name("5 : Danger Zone"));
+        swagger.getTags().add(new Tag().name(ENDPOINT_MANAGEMENT));
+        swagger.getTags().add(new Tag().name(BUNDLE_MANAGEMENT));
+        swagger.getTags().add(new Tag().name(SERVER_CONFIGURATION));
+        swagger.getTags().add(new Tag().name(MONITORING));
+        swagger.getTags().add(new Tag().name(DANGER_ZONE));
 
         //Endpoints Services
         buildEndpointServices(swagger);
@@ -96,22 +104,21 @@ public class SwaggerHelper {
 
         // GET
         Operation get = new Operation();
-        get.addParameter(new QueryParameter().name("method").required(true).description("Endpoint method").type("string"));
-        get.addParameter(new QueryParameter().name("path").required(true).description("Endpoint path").type("string"));
+        get.addParameter(new QueryParameter().name("method").required(true).description("Endpoint method").type(TYPE_STRING));
+        get.addParameter(new QueryParameter().name("path").required(true).description("Endpoint path").type(TYPE_STRING));
         get.addResponse("200", resp().description("Requested endpoint"));
         get.addResponse("400", resp().description("Malformed parameters"));
         get.addResponse("404", resp().description("Bundle is empty"));
         get.addResponse("404", resp().description("Endpoint does not exist"));
-
-        get.tag("1 : Endpoint Management");
+        get.tag(ENDPOINT_MANAGEMENT);
 
         //DELETE
         Operation delete = new Operation();
-        delete.addParameter(new QueryParameter().name("method").required(true).description("Endpoint method").type("string"));
-        delete.addParameter(new QueryParameter().name("path").required(true).description("Endpoint path").type("string"));
+        delete.addParameter(new QueryParameter().name("method").required(true).description("Endpoint method").type(TYPE_STRING));
+        delete.addParameter(new QueryParameter().name("path").required(true).description("Endpoint path").type(TYPE_STRING));
         delete.addResponse("200", resp().description("Attempting to delete endpoint"));
         delete.addResponse("400", resp().description("Malformed parameters"));
-        delete.tag("5 : Danger Zone");
+        delete.tag(DANGER_ZONE);
 
         //POST
         Operation post = new Operation();
@@ -119,14 +126,14 @@ public class SwaggerHelper {
         post.addResponse("200", resp().description("Update a existing endpoint"));
         post.addResponse("400", resp().description("Malformed endpoint entity"));
         post.addResponse("404", resp().description("Endpoint does not exist"));
-        post.tag("1 : Endpoint Management");
+        post.tag(ENDPOINT_MANAGEMENT);
 
         //PUT
         Operation put = new Operation();
         put.addParameter(bodyParameter);
         put.addResponse("200", resp().description("Add new endpoint or update it"));
         put.addResponse("400", resp().description("Malformed endpoint entity"));
-        put.tag("1 : Endpoint Management");
+        put.tag(ENDPOINT_MANAGEMENT);
 
         swagger.path("/endpoint", new Path()
             .set("delete", delete)
@@ -142,24 +149,24 @@ public class SwaggerHelper {
         Operation get = new Operation();
         get.addResponse("200", resp().description("Bundle of endpoints"));
         get.addResponse("204", resp().description("Empty bundle"));
-        get.tag("2 : Bundle Management");
+        get.tag(BUNDLE_MANAGEMENT);
 
         // DELETE
         Operation delete = new Operation();
         delete.addResponse("200", resp().description("Attempting to delete bundle"));
-        delete.tag("5 : Danger Zone");
+        delete.tag(DANGER_ZONE);
 
         // POST
         Operation post = new Operation();
         post.addResponse("200", resp().description("Add new endpoints or update them"));
         post.addResponse("400", resp().description("Malformed bundle entity"));
-        post.tag("2 : Bundle Management");
+        post.tag(BUNDLE_MANAGEMENT);
 
         // PUT
         Operation put = new Operation();
         put.addResponse("200", resp().description("Add a new bundle, will override previous bundle."));
         put.addResponse("400", resp().description("Malformed bundle entity"));
-        put.tag("5 : Danger Zone");
+        put.tag(DANGER_ZONE);
 
         swagger.path("/bundle", new Path()
             .set("delete", delete)

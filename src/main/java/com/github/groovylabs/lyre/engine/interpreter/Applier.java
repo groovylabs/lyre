@@ -43,7 +43,7 @@ public enum Applier implements ApplyOn<Endpoint, String> {
     PATH {
         @Override
         public void apply(Endpoint endpoint, String value) {
-            endpoint.setPath(!value.startsWith("/") ? "/" + value: value);
+            endpoint.setPath(!value.startsWith("/") ? "/" + value : value);
         }
     },
     ALIAS {
@@ -79,7 +79,7 @@ public enum Applier implements ApplyOn<Endpoint, String> {
     HEADER {
         @Override
         public void apply(Endpoint endpoint, String value) {
-            if (!super.key.equals(Level.HEADER.name().toLowerCase())) {
+            if (!super.key.equalsIgnoreCase(Level.HEADER.name())) {
                 if (super.level.equals(Level.REQUEST))
                     endpoint.getHeader().addContent(super.key, value);
                 else if (super.level.equals(Level.RESPONSE)) {
@@ -130,6 +130,7 @@ public enum Applier implements ApplyOn<Endpoint, String> {
     };
 
     public void apply(Endpoint endpoint, String value) {
+        //default apply
     }
 
     private Level level;

@@ -53,7 +53,7 @@ public class ReaderConfiguration {
     @Bean
     @Primary
     public Reader reader() {
-        Reader reader = new Reader();
+        Reader reader = new Reader(lyreProperties, interpreter);
         return reader;
     }
 

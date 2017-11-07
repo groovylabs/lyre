@@ -32,7 +32,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +41,9 @@ public class Scanner {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Scanner.class);
 
-    @Autowired
-    private Reader reader;
-
-    @Autowired
     private LyreProperties lyreProperties;
+
+    private Reader reader;
 
     private List<File> files = new ArrayList<>();
 
@@ -54,8 +51,10 @@ public class Scanner {
 
     private Watcher watcher = null;
 
-    @PostConstruct
-    public void init() {
+    @Autowired
+    public Scanner(LyreProperties lyreProperties, Reader reader) {
+        this.lyreProperties = lyreProperties;
+        this.reader = reader;
         scan();
     }
 

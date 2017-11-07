@@ -42,15 +42,5 @@ public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundExceptio
 
     private InputStream htmlFile() {
         return getClass().getResourceAsStream("/static/404.html");
-        /*File htmlError = new File(ScannerProperties.path + "/static/404.html");
-        InputStream inputStream = null;
-
-        try {
-            inputStream = new FileInputStream(htmlError);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return inputStream;*/
     }
 }

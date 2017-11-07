@@ -23,23 +23,43 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.services;
+package com.github.groovylabs.lyre.engine.apix.controller;
 
-
+import org.glassfish.jersey.server.monitoring.ApplicationEvent;
+import org.glassfish.jersey.server.monitoring.ApplicationEventListener;
+import org.glassfish.jersey.server.monitoring.RequestEvent;
+import org.glassfish.jersey.server.monitoring.RequestEventListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
 @Component
-@Path(value = "/ping")
-public class HealthService {
+public class APIxListener implements ApplicationEventListener {
 
-    @GET
-    @Consumes()
-    public String message() {
-        return "pong";
+    private APIxController controller;
+
+    @Autowired
+    public APIxListener(APIxController controller) {
+        this.controller = controller;
     }
 
+    @Override
+    public void onEvent(ApplicationEvent event) {
+        //noop
+    }
+
+    @Override
+    public RequestEventListener onRequest(RequestEvent requestEvent) {
+        return new APIxRequestEventListener();
+    }
+
+    public class APIxRequestEventListener implements RequestEventListener {
+
+        @Override
+        public void onEvent(RequestEvent event) {
+            if (event.getType().equals(RequestEvent.Type.START))
+                controller.increase();
+            else if (event.getType().equals(RequestEvent.Type.FINISHED))
+                controller.decrease();
+        }
+    }
 }

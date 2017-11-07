@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.swagger.resources;
+package com.github.groovylabs.lyre.engine.apix.swagger.resources;
 
 import io.swagger.models.*;
 import org.springframework.util.StringUtils;

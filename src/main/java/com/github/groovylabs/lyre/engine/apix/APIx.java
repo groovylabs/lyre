@@ -23,7 +23,7 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx;
+package com.github.groovylabs.lyre.engine.apix;
 
 import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.config.NotFoundExceptionMapper;
@@ -32,13 +32,13 @@ import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.Event;
 import com.github.groovylabs.lyre.domain.enums.EventAction;
 import com.github.groovylabs.lyre.domain.enums.Queue;
-import com.github.groovylabs.lyre.engine.APIx.controller.APIxListener;
-import com.github.groovylabs.lyre.engine.APIx.filters.CORSFilter;
-import com.github.groovylabs.lyre.engine.APIx.inflectors.APIxInflector;
-import com.github.groovylabs.lyre.engine.APIx.services.BundleService;
-import com.github.groovylabs.lyre.engine.APIx.services.EndpointService;
-import com.github.groovylabs.lyre.engine.APIx.swagger.SwaggerResource;
-import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
+import com.github.groovylabs.lyre.engine.apix.controller.APIxListener;
+import com.github.groovylabs.lyre.engine.apix.filters.CORSFilter;
+import com.github.groovylabs.lyre.engine.apix.inflectors.APIxInflector;
+import com.github.groovylabs.lyre.engine.apix.services.BundleService;
+import com.github.groovylabs.lyre.engine.apix.services.EndpointService;
+import com.github.groovylabs.lyre.engine.apix.swagger.SwaggerResource;
+import com.github.groovylabs.lyre.engine.apix.websocket.Dispatcher;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.model.Resource;
@@ -57,22 +57,26 @@ public class APIx extends ResourceConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(APIx.class);
 
-    @Autowired
     private LyreProperties lyreProperties;
 
-    @Autowired
     private Dispatcher dispatcher;
 
-    @Autowired
     private SwaggerResource swaggerResource;
 
-    @Autowired
     private Bundle bundle;
 
     private static Container container;
 
+    @Autowired
+    public APIx(LyreProperties lyreProperties, Dispatcher dispatcher, SwaggerResource swaggerResource, Bundle bundle) {
+        this.lyreProperties = lyreProperties;
+        this.dispatcher = dispatcher;
+        this.swaggerResource = swaggerResource;
+        this.bundle = bundle;
+    }
+
     @PostConstruct
-    public void APIx() {
+    public void construct() {
         config(this);
     }
 
@@ -93,7 +97,7 @@ public class APIx extends ResourceConfig {
         resourceConfig.registerInstances(new ContainerLifecycleListener() {
 
             @Override
-            public void onStartup(final Container container) {
+            public synchronized void onStartup(final Container container) {
                 LOGGER.info("Lyre REST API Mock tool started");
 
                 LOGGER.info("\u21B3 " + "Endpoints are available at: http://{}:{}{}",
@@ -101,7 +105,7 @@ public class APIx extends ResourceConfig {
                     lyreProperties.getPort(),
                     lyreProperties.getContextPath());
 
-                com.github.groovylabs.lyre.engine.APIx.APIx.container = container;
+                APIx.container = container;
             }
 
             @Override
@@ -111,6 +115,7 @@ public class APIx extends ResourceConfig {
 
             @Override
             public void onShutdown(final Container container) {
+                //noop
             }
         });
     }

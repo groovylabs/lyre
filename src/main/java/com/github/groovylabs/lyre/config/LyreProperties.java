@@ -27,7 +27,7 @@ package com.github.groovylabs.lyre.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties(prefix = LyreRunner.LYRE_PROPERTIES_PREFIX)
+@ConfigurationProperties(prefix = LyreConfiguration.LYRE_PROPERTIES_PREFIX)
 public class LyreProperties {
 
     private Boolean enableRemoteConnections;

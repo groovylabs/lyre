@@ -34,10 +34,6 @@ public class Bundle {
 
     private List<Endpoint> endpoints = new ArrayList<>();
 
-    public Bundle() {
-
-    }
-
     public List<Endpoint> getEndpoints() {
         return endpoints;
     }

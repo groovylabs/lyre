@@ -23,15 +23,12 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.services;
+package com.github.groovylabs.lyre.engine.apix.services;
 
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
+import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
 import com.github.groovylabs.lyre.validator.Validator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.validation.constraints.NotNull;
@@ -44,16 +41,17 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class EndpointService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EndpointService.class);
-
-    @Autowired
     private Bundle bundle;
 
-    @Autowired
     private APIxController apixController;
 
-    @Autowired
     private Validator validator;
+
+    public EndpointService(Bundle bundle, APIxController apixController, Validator validator) {
+        this.bundle = bundle;
+        this.apixController = apixController;
+        this.validator = validator;
+    }
 
     @GET
     public Response get(@NotNull @QueryParam("method") String method, @NotNull @QueryParam("path") String path) {

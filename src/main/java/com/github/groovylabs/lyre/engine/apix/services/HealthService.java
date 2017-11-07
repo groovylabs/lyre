@@ -23,7 +23,25 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.services;
+package com.github.groovylabs.lyre.engine.apix.services;
 
-public class SettingService {
+
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+@Component
+@Path(value = "/health")
+@Produces(MediaType.APPLICATION_JSON)
+public class HealthService {
+
+    @GET
+    public Response check() {
+        return Response.ok().build();
+    }
+
 }
