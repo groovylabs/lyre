@@ -50,9 +50,9 @@ after_success:
   - echo 'TRAVIS_PULL_REQUES = ' $TRAVIS_PULL_REQUEST ' / TRAVIS_BRANCH = ' $TRAVIS_BRANCH
   - echo 'docker tag' $REPO':'$TAG $REPO':'$TRAVIS_BUILD_NUMBER
   - if [[ $TRAVIS_BRANCH == "develop" ]]; then
-      echo 'INSIDE IF'
+      echo 'INSIDE IF';
       docker tag $REPO $REPO:$TAG;
-      echo '[DOCKER TAG] Successfully!'
+      echo '[DOCKER TAG] Successfully!';
       docker push $REPO:$TAG;
-      echo '[DOCKER PUSH] Successfully!'
+      echo '[DOCKER PUSH] Successfully!';
     fi;
