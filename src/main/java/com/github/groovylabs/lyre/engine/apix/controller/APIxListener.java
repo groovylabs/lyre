@@ -56,7 +56,7 @@ public class APIxListener implements ApplicationEventListener {
 
         @Override
         public void onEvent(RequestEvent event) {
-            if (event.getType().equals(RequestEvent.Type.START))
+            if (event.getType().equals(RequestEvent.Type.RESOURCE_METHOD_START))
                 controller.increase();
             else if (event.getType().equals(RequestEvent.Type.FINISHED))
                 controller.decrease();

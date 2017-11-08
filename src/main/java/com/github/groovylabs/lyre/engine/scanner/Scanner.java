@@ -100,8 +100,10 @@ public class Scanner {
 
             if (file.isFile() && file.getName().endsWith(lyreProperties.getFileFormat()))
                 files.add(file);
-            else if (file.isDirectory())
-                searchFiles(file.listFiles());
+            else if (file.isDirectory()) {
+                File[] files = file.listFiles();
+                if (files != null) searchFiles(files);
+            }
 
         }
 
