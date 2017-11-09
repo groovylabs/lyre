@@ -41,10 +41,6 @@ public class Response {
         this.header = new Header();
     }
 
-    public void setStatus(String status) {
-        this.setStatus(HttpStatus.valueOf(Integer.parseInt(status)));
-    }
-
     public HttpStatus getStatus() {
         return status;
     }

@@ -4,6 +4,19 @@ jdk:
   - oraclejdk8
   - openjdk8
 
+sudo: required
+
+services:
+  - docker
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::8}
+    - REPO=groovylabs/lyre
+    - CGO_ENABLED=0
+    - GOOS=linux
+    - GOARCH=amd64
+
 dist: trusty
 
 os:
@@ -19,7 +32,24 @@ addons:
     organization: "groovylabs"
     token:
       secure: 958c4e2aeadff503e43c1a38a80efe7ec8d1ee88
+    branches:
+      - master
+      - develop
 
 script:
   - ./mvnw clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 
+after_success:
+  - export BUILD_NUMBER=$(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.6.0:exec)
+  - export TAG=`echo $BUILD_NUMBER`
+  - export REPO=groovylabs/lyre
+  - export TYPE=nightly
+  - if [[ $TRAVIS_BRANCH == "master" ]]; then
+      export TYPE=latest;
+    fi;
+  - docker build -t $REPO -f Dockerfile .
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker tag $REPO $REPO:$TAG
+  - docker tag $REPO $REPO:$TYPE
+  - docker push $REPO:$TAG
+  - docker push $REPO:$TYPE

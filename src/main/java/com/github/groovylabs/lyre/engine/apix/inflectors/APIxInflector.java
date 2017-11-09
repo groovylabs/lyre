@@ -23,12 +23,12 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.inflectors;
+package com.github.groovylabs.lyre.engine.apix.inflectors;
 
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.appliers.Countdown;
 import com.github.groovylabs.lyre.domain.factories.LogFactory;
-import com.github.groovylabs.lyre.engine.APIx.websocket.Dispatcher;
+import com.github.groovylabs.lyre.engine.apix.websocket.Dispatcher;
 import com.github.groovylabs.lyre.utils.EndpointUtils;
 import org.glassfish.jersey.process.Inflector;
 import org.slf4j.Logger;

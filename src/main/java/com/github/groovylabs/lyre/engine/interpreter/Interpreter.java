@@ -31,7 +31,8 @@ import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.Level;
-import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
+import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
+import com.github.groovylabs.lyre.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,16 +41,21 @@ import java.util.Map;
 @Component
 public class Interpreter extends Parser {
 
-    @Autowired
     private LyreProperties lyreProperties;
 
-    @Autowired
     private APIxController apixController;
 
-    @Autowired
     private Bundle bundle;
 
     private boolean update = false;
+
+    @Autowired
+    public Interpreter(Validator validator, LyreProperties lyreProperties, APIxController apixController, Bundle bundle) {
+        super(validator);
+        this.lyreProperties = lyreProperties;
+        this.apixController = apixController;
+        this.bundle = bundle;
+    }
 
     public void interpret(Map<String, ObjectNode> nodes) {
 
