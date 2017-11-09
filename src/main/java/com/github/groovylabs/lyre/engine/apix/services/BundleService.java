@@ -23,13 +23,11 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.services;
+package com.github.groovylabs.lyre.engine.apix.services;
 
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,13 +40,15 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class BundleService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(BundleService.class);
-
-    @Autowired
     private Bundle bundle;
 
-    @Autowired
     private APIxController apixController;
+
+    @Autowired
+    public BundleService(Bundle bundle, APIxController apixController) {
+        this.bundle = bundle;
+        this.apixController = apixController;
+    }
 
     @GET
     public Response get() {
@@ -70,10 +70,10 @@ public class BundleService {
 
         if (!bundle.isEmpty()) {
             for (Endpoint endpoint : bundle.getEndpoints()) {
-                if (bundle.exists(endpoint))
-                    bundle.update(endpoint);
+                if (this.bundle.exists(endpoint))
+                    this.bundle.update(endpoint);
                 else
-                    bundle.add(endpoint);
+                    this.bundle.add(endpoint);
             }
 
             apixController.bootAttempt(this.getClass().getSimpleName() +
@@ -88,8 +88,8 @@ public class BundleService {
     public Response put(Bundle bundle) {
 
         if (bundle != null && bundle.getEndpoints() != null && !bundle.getEndpoints().isEmpty()) {
-            bundle.clear();
-            bundle.addAll(bundle.getEndpoints());
+            this.bundle.clear();
+            this.bundle.addAll(bundle.getEndpoints());
             apixController.bootAttempt(this.getClass().getSimpleName() +
                 " PUT {Bundle}");
         } else

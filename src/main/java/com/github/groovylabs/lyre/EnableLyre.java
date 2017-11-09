@@ -43,7 +43,7 @@ import java.lang.annotation.*;
  * {@code enableLiveReload}
  * {@code port}
  * {@code contextPath}
- * {@code apiPath}
+ * {@code applicationPath}
  * {@code scanPath}
  * {@code fileFormat}
  * {@code enableSwaggerDoc}
@@ -65,13 +65,13 @@ public @interface EnableLyre {
 
     String contextPath() default "";
 
-    String apiPath() default "";
+    String applicationPath() default "";
 
     String scanPath() default "";
 
     String fileFormat() default "";
 
-    String enableSwaggerDoc() default "";
+    String enableSwagger() default "";
 
     String debug() default "";
 

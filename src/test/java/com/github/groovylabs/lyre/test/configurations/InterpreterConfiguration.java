@@ -26,8 +26,9 @@
 package com.github.groovylabs.lyre.test.configurations;
 
 import com.github.groovylabs.lyre.config.LyreProperties;
+import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.factories.FactoryConfiguration;
-import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
+import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
 import com.github.groovylabs.lyre.engine.interpreter.Interpreter;
 import com.github.groovylabs.lyre.engine.reader.Reader;
 import com.github.groovylabs.lyre.validator.Validator;
@@ -57,7 +58,7 @@ public class InterpreterConfiguration {
     @Bean
     @Primary
     public Reader reader() {
-        return new Reader();
+        return new Reader(lyreProperties, interpreter());
     }
 
     @Bean
@@ -69,7 +70,7 @@ public class InterpreterConfiguration {
     @Bean
     @Primary
     public Interpreter interpreter() {
-        return new Interpreter();
+        return new Interpreter(validator(), lyreProperties, apixController, new Bundle());
     }
 
 }

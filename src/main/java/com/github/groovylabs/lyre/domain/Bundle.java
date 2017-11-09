@@ -25,6 +25,7 @@
 
 package com.github.groovylabs.lyre.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.groovylabs.lyre.domain.exceptions.EndpointNotFoundException;
 
 import java.util.ArrayList;
@@ -33,10 +34,6 @@ import java.util.List;
 public class Bundle {
 
     private List<Endpoint> endpoints = new ArrayList<>();
-
-    public Bundle() {
-
-    }
 
     public List<Endpoint> getEndpoints() {
         return endpoints;
@@ -76,6 +73,7 @@ public class Bundle {
             throw new EndpointNotFoundException("Endpoint [" + endpoint.getMethod() + " - " + endpoint.getPath() + "] not found at the Bundle list!");
     }
 
+    @JsonIgnore
     public boolean isEmpty() {
         return endpoints.isEmpty();
     }

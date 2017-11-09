@@ -23,23 +23,25 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.services;
+package com.github.groovylabs.lyre.engine.apix.services;
 
 
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Component
-@Path(value = "/ping")
+@Path(value = "/health")
+@Produces(MediaType.APPLICATION_JSON)
 public class HealthService {
 
     @GET
-    @Consumes()
-    public String message() {
-        return "pong";
+    public Response check() {
+        return Response.ok().build();
     }
 
 }

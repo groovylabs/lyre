@@ -23,31 +23,43 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.APIx.websocket.listeners;
+package com.github.groovylabs.lyre.engine.apix.controller;
 
-import com.github.groovylabs.lyre.config.LyreProperties;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.glassfish.jersey.server.monitoring.ApplicationEvent;
+import org.glassfish.jersey.server.monitoring.ApplicationEventListener;
+import org.glassfish.jersey.server.monitoring.RequestEvent;
+import org.glassfish.jersey.server.monitoring.RequestEventListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationListener;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.socket.messaging.SessionSubscribeEvent;
-
 
 @Component
-public class StompSubscribeEventListener implements ApplicationListener<SessionSubscribeEvent> {
+public class APIxListener implements ApplicationEventListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(StompSubscribeEventListener.class);
+    private APIxController controller;
 
     @Autowired
-    private LyreProperties lyreProperties;
+    public APIxListener(APIxController controller) {
+        this.controller = controller;
+    }
 
     @Override
-    public void onApplicationEvent(SessionSubscribeEvent sessionSubscribeEvent) {
-        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(sessionSubscribeEvent.getMessage());
+    public void onEvent(ApplicationEvent event) {
+        //noop
+    }
 
-        if (lyreProperties.isDebug())
-            LOGGER.info(headerAccessor.toString());
+    @Override
+    public RequestEventListener onRequest(RequestEvent requestEvent) {
+        return new APIxRequestEventListener();
+    }
+
+    public class APIxRequestEventListener implements RequestEventListener {
+
+        @Override
+        public void onEvent(RequestEvent event) {
+            if (event.getType().equals(RequestEvent.Type.RESOURCE_METHOD_START))
+                controller.increase();
+            else if (event.getType().equals(RequestEvent.Type.FINISHED))
+                controller.decrease();
+        }
     }
 }
