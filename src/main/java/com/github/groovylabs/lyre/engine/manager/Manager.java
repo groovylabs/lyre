@@ -79,7 +79,7 @@ public class Manager implements Management<Bundle> {
         }
     }
 
-    public void handle(Bundle bundle) {
+    public void handle(Bundle bundle, String attemptSource) {
 
         if (this.update(bundle)) {
             if (this.persist(managedBundle)) {
@@ -90,7 +90,7 @@ public class Manager implements Management<Bundle> {
             }
         }
 
-        apixController.bootAttempt("managing file resource(s)");
+        apixController.bootAttempt(attemptSource);
     }
 
     public boolean persist(Bundle bundle) {

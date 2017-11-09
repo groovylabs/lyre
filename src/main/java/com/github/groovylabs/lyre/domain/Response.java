@@ -25,11 +25,12 @@
 
 package com.github.groovylabs.lyre.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.http.HttpStatus;
 
 public class Response {
 
-    private HttpStatus status;
+    private int status;
 
     private Header header;
 
@@ -41,11 +42,16 @@ public class Response {
         this.header = new Header();
     }
 
-    public HttpStatus getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
+    @JsonIgnore
+    public HttpStatus getHttpStatus() {
+        return HttpStatus.valueOf(this.status);
+    }
+
+    public void setStatus(int status) {
         this.status = status;
     }
 

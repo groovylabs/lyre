@@ -95,9 +95,7 @@ public class Interpreter extends Parser {
 
         update = true;
 
-        LOGGER.info("Interpreted {} file resource(s)", nodes.entrySet().size());
-
-        manager.handle(bundle);
+        manager.handle(bundle, "Interpreted " + nodes.entrySet().size() + " file resource(s)");
     }
 
     public Bundle getBundle() {

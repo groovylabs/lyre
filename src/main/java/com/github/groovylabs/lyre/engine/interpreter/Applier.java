@@ -67,7 +67,7 @@ public enum Applier implements ApplyOn<Endpoint, String> {
     STATUS {
         @Override
         public void apply(Endpoint endpoint, String value) {
-            endpoint.getResponse().setStatus(HttpStatus.valueOf(Integer.parseInt(value)));
+            endpoint.getResponse().setStatus(Integer.parseInt(value));
         }
     },
     PRODUCES {

@@ -27,7 +27,7 @@ package com.github.groovylabs.lyre.engine.apix.services;
 
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
+import com.github.groovylabs.lyre.engine.manager.Manager;
 import com.github.groovylabs.lyre.validator.Validator;
 import org.springframework.stereotype.Component;
 
@@ -43,13 +43,13 @@ public class EndpointService {
 
     private Bundle bundle;
 
-    private APIxController apixController;
+    private Manager manager;
 
     private Validator validator;
 
-    public EndpointService(Bundle bundle, APIxController apixController, Validator validator) {
+    public EndpointService(Bundle bundle, Manager manager, Validator validator) {
         this.bundle = bundle;
-        this.apixController = apixController;
+        this.manager = manager;
         this.validator = validator;
     }
 
@@ -71,7 +71,7 @@ public class EndpointService {
     @DELETE
     public Response delete(@NotNull @QueryParam("method") String method, @NotNull @QueryParam("path") String path) {
         bundle.remove(method, path);
-        apixController.bootAttempt(this.getClass().getSimpleName() + " DELETE");
+        manager.handle(bundle, this.getClass().getSimpleName() + " DELETE");
         return Response.ok().build();
     }
 
@@ -85,7 +85,7 @@ public class EndpointService {
             else
                 throw new NotFoundException("Endpoint does not exist");
 
-            apixController.bootAttempt(this.getClass().getSimpleName() +
+            manager.handle(bundle, this.getClass().getSimpleName() +
                 " POST {Endpoint method:[" + endpoint.getMethod().name() + "] path:[" + endpoint.getPath() + "]}");
 
         } else
@@ -106,6 +106,9 @@ public class EndpointService {
 
         } else
             throw new BadRequestException("Malformed endpoint entity");
+
+        manager.handle(bundle, this.getClass().getSimpleName() +
+            " PUT {Endpoint method:[" + endpoint.getMethod().name() + "] path:[" + endpoint.getPath() + "]}");
 
         return Response.status(Response.Status.CREATED).build();
     }

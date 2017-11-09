@@ -58,9 +58,9 @@ public class SwaggerHelper {
         if (!StringUtils.isEmpty(endpoint.getData()))
             buildSwaggerApiBodyParam(operation);
 
-        response.setDescription(endpoint.getResponse().getStatus().getReasonPhrase());
+        response.setDescription(endpoint.getResponse().getHttpStatus().getReasonPhrase());
 
-        operation.addResponse(endpoint.getResponse().getStatus().toString(), response);
+        operation.addResponse(endpoint.getResponse().getHttpStatus().toString(), response);
 
         swagger.path(endpoint.getPath(), new Path().set(endpoint.getMethod().toString().toLowerCase(), operation));
 

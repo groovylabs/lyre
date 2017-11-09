@@ -97,7 +97,7 @@ public class APIxInflector implements Inflector<ContainerRequestContext, Object>
         }
 
         return Response
-            .status(endpoint.getResponse().getStatus().value())
+            .status(endpoint.getResponse().getStatus())
             .replaceAll(endpoint.getResponse().getHeader().getContent())
             .entity(endpoint.getResponse().getData()).type(endpoint.getResponse().getProduces()).build();
     }
