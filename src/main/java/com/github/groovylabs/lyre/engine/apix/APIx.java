@@ -37,6 +37,7 @@ import com.github.groovylabs.lyre.engine.apix.filters.CORSFilter;
 import com.github.groovylabs.lyre.engine.apix.inflectors.APIxInflector;
 import com.github.groovylabs.lyre.engine.apix.services.BundleService;
 import com.github.groovylabs.lyre.engine.apix.services.EndpointService;
+import com.github.groovylabs.lyre.engine.apix.services.HealthService;
 import com.github.groovylabs.lyre.engine.apix.swagger.SwaggerResource;
 import com.github.groovylabs.lyre.engine.apix.websocket.Dispatcher;
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -149,6 +150,7 @@ public class APIx extends ResourceConfig {
         resourceConfig.register(EndpointService.class);
         resourceConfig.register(BundleService.class);
         resourceConfig.register(NotFoundExceptionMapper.class);
+        resourceConfig.register(HealthService.class);
         swaggerResource.register(bundle, resourceConfig);
 
         dispatcher.publish(bundleEvent);
