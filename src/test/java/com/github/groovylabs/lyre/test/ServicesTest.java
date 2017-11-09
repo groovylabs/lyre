@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
     LyrePropertiesConfiguration.class,
     ResourcesConfiguration.class,
 })
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = Lyre.class)
+@SpringBootTest(properties = {"lyre.port=8082"}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = Lyre.class)
 public class ServicesTest {
 
     private static final String PATH_HEALTH_ENDPOINT = "/test/health";
@@ -154,5 +154,6 @@ public class ServicesTest {
 
         assertThat(this.bundle.getEndpoints()).isEmpty();
     }
+
 
 }

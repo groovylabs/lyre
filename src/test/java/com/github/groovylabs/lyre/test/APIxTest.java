@@ -46,7 +46,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
 @Import({LyrePropertiesConfiguration.class})
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = Lyre.class)
+@SpringBootTest(properties = {"lyre.port=8081"}, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = Lyre.class)
 public class APIxTest {
 
     @Autowired
