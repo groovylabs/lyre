@@ -30,6 +30,7 @@ import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.factories.FactoryConfiguration;
 import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
 import com.github.groovylabs.lyre.engine.interpreter.Interpreter;
+import com.github.groovylabs.lyre.engine.manager.Manager;
 import com.github.groovylabs.lyre.engine.reader.Reader;
 import com.github.groovylabs.lyre.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class InterpreterConfiguration {
     private LyreProperties lyreProperties;
 
     @MockBean
-    private APIxController apixController;
+    private Manager manager;
 
     @Bean
     @Primary
@@ -70,7 +71,7 @@ public class InterpreterConfiguration {
     @Bean
     @Primary
     public Interpreter interpreter() {
-        return new Interpreter(validator(), lyreProperties, apixController, new Bundle());
+        return new Interpreter(validator(), lyreProperties, manager, new Bundle());
     }
 
 }
