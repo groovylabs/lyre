@@ -29,9 +29,8 @@ import java.io.IOException;
 
 public interface Management<T> {
 
-    boolean persist(T object) throws IOException;
+    boolean persist(T object);
 
     boolean update(T object) throws IOException;
-
 
 }

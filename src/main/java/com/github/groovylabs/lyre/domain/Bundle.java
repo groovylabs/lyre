@@ -59,6 +59,10 @@ public class Bundle {
         );
     }
 
+    public Endpoint find(Endpoint endpoint) {
+        return this.find(endpoint.getMethod().name(), endpoint.getPath());
+    }
+
     public Endpoint find(String method, String path) {
         return endpoints.stream()
             .filter(e -> e.getMethod().name().equals(method) && e.getPath().equals(path)).findFirst().orElse(null);
@@ -74,6 +78,11 @@ public class Bundle {
 
     public boolean isEmpty() {
         return endpoints.isEmpty();
+    }
+
+    public void clone(Bundle bundle) {
+        this.clear();
+        this.addAll(bundle.getEndpoints());
     }
 
     public void clear() {
