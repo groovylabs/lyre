@@ -25,10 +25,16 @@
 
 package com.github.groovylabs.lyre.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
+@Component
 @ConfigurationProperties(prefix = LyreConfiguration.LYRE_PROPERTIES_PREFIX)
 public class LyreProperties {
+
+    public static final String BUNDLE_FILENAME = ".lyre";
 
     private Boolean enableRemoteConnections;
 
@@ -47,6 +53,13 @@ public class LyreProperties {
     private boolean enableSwagger = true;
 
     private boolean debug = false;
+
+    @Autowired
+    public LyreProperties(Environment environment) {
+        if (environment.acceptsProfiles("docker")) {
+            this.setPort(8080);
+        }
+    }
 
     public boolean isEnableRemoteConnections() {
         return enableRemoteConnections == null ? false : enableRemoteConnections;
@@ -118,5 +131,9 @@ public class LyreProperties {
 
     public void setDebug(boolean debug) {
         this.debug = debug;
+    }
+
+    public String getBundleFilePath() {
+        return this.getScanPath() + "/" + BUNDLE_FILENAME;
     }
 }

@@ -73,7 +73,7 @@ public class EndpointUtils {
             LOGGER.error("Error to read the body of this request.");
 
             if (lyreProperties.isDebug()) {
-                LOGGER.debug("Stacktrace", e);
+                LOGGER.error("Stacktrace", e);
             } else
                 LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
         }

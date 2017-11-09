@@ -23,29 +23,21 @@
  *
  */
 
-package com.github.groovylabs.lyre.test.configurations;
+package com.github.groovylabs.lyre.test;
 
-import com.github.groovylabs.lyre.config.LyreProperties;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Primary;
-import org.springframework.core.env.Environment;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit4.SpringRunner;
 
-@TestConfiguration
-public class LyrePropertiesConfiguration {
+@ActiveProfiles("test")
+@RunWith(SpringRunner.class)
+public class ManagerTest {
 
-    @Autowired
-    Environment environment;
-
-    @Bean
-    @Primary
-    public LyreProperties lyreProperties() {
-        LyreProperties lyreProperties = new LyreProperties(environment);
-        lyreProperties.setScanPath(System.getProperty("user.dir") + "/src/test/resources/endpoints");
-        lyreProperties.setApplicationPath("test");
-        lyreProperties.setDebug(true);
-        return lyreProperties;
+    @Test
+    public void managerTest() {
+        
     }
+
 
 }

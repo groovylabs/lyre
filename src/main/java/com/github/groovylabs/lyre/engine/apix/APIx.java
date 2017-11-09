@@ -76,7 +76,7 @@ public class APIx extends ResourceConfig {
     }
 
     @PostConstruct
-    public void construct() {
+    private void construct() {
         config(this);
     }
 

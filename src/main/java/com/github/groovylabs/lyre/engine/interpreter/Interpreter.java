@@ -32,6 +32,7 @@ import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.Level;
 import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
+import com.github.groovylabs.lyre.engine.manager.Manager;
 import com.github.groovylabs.lyre.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,17 +44,17 @@ public class Interpreter extends Parser {
 
     private LyreProperties lyreProperties;
 
-    private APIxController apixController;
+    private Manager manager;
 
     private Bundle bundle;
 
     private boolean update = false;
 
     @Autowired
-    public Interpreter(Validator validator, LyreProperties lyreProperties, APIxController apixController, Bundle bundle) {
+    public Interpreter(Validator validator, LyreProperties lyreProperties, Manager manager, Bundle bundle) {
         super(validator);
         this.lyreProperties = lyreProperties;
-        this.apixController = apixController;
+        this.manager = manager;
         this.bundle = bundle;
     }
 
@@ -82,7 +83,7 @@ public class Interpreter extends Parser {
                     LOGGER.error("Error parsing file [{}] to endpoint bundle", fileName);
 
                     if (lyreProperties.isDebug()) {
-                        LOGGER.debug("Stacktrace", e);
+                        LOGGER.error("Stacktrace", e);
                     } else
                         LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
 
@@ -94,7 +95,9 @@ public class Interpreter extends Parser {
 
         update = true;
 
-        apixController.bootAttempt(nodes.entrySet().size() + " file resource(s)");
+        LOGGER.info("Interpreted {} file resource(s)", nodes.entrySet().size());
+
+        manager.handle(bundle);
     }
 
     public Bundle getBundle() {

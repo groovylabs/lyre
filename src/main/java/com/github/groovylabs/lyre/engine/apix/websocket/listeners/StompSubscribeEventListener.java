@@ -51,7 +51,7 @@ public class StompSubscribeEventListener implements ApplicationListener<SessionS
     public void onApplicationEvent(SessionSubscribeEvent sessionSubscribeEvent) {
         if (lyreProperties.isDebug()) {
             String log = StompHeaderAccessor.wrap(sessionSubscribeEvent.getMessage()).toString();
-            LOGGER.debug(log);
+            LOGGER.error(log);
         }
     }
 }

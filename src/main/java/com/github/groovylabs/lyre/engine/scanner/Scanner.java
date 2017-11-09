@@ -98,7 +98,9 @@ public class Scanner {
 
         for (File file : fileList) {
 
-            if (file.isFile() && file.getName().endsWith(lyreProperties.getFileFormat()))
+            if (file.isFile()
+                && !file.getName().equals(LyreProperties.BUNDLE_FILENAME)
+                && file.getName().endsWith(lyreProperties.getFileFormat()))
                 files.add(file);
             else if (file.isDirectory()) {
                 File[] files = file.listFiles();

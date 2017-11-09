@@ -35,6 +35,7 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.StringUtils;
@@ -57,12 +58,6 @@ public class LyreConfiguration {
     @Autowired
     public LyreConfiguration(LyreProperties lyreProperties) {
         this.lyreProperties = lyreProperties;
-    }
-
-    @Profile("docker")
-    @PostConstruct
-    public void construct() {
-        lyreProperties.setPort(8080);
     }
 
     @Bean

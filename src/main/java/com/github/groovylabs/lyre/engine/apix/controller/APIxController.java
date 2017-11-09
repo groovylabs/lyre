@@ -54,7 +54,7 @@ public class APIxController {
     }
 
     @PostConstruct
-    public synchronized void construct() {
+    private synchronized void construct() {
         APIxController.running = 0;
         this.controller = new Timer();
     }

@@ -94,15 +94,15 @@ public class Reader {
                 LOGGER.error("[YAML PARSER] Reason [{}]", yamlException.getMessage());
                 LOGGER.error("[JSON PARSER] Reason [{}]", jsonException.getMessage());
 
-                LOGGER.debug("[YAML PARSER STACKTRACE]", yamlException);
-                LOGGER.debug("[JSON PARSER STACKTRACE]", jsonException);
+                LOGGER.error("[YAML PARSER STACKTRACE]", yamlException);
+                LOGGER.error("[JSON PARSER STACKTRACE]", jsonException);
 
             } catch (IOException e) {
 
                 LOGGER.error("Error reading file [{}]", file.getName());
 
                 if (lyreProperties.isDebug()) {
-                    LOGGER.debug("Stacktrace", e);
+                    LOGGER.error("Stacktrace", e);
                 } else
                     LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
             }
@@ -112,7 +112,7 @@ public class Reader {
             LOGGER.error("Error reading file [{}]", file.getName());
 
             if (lyreProperties.isDebug()) {
-                LOGGER.debug("Stacktrace", e);
+                LOGGER.error("Stacktrace", e);
             } else
                 LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
 
