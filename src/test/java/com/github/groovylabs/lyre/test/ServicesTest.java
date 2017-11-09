@@ -3,6 +3,7 @@ package com.github.groovylabs.lyre.test;
 import com.github.groovylabs.lyre.Lyre;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
+import com.github.groovylabs.lyre.engine.apix.APIx;
 import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguration;
 import com.github.groovylabs.lyre.test.configurations.ResourcesConfiguration;
 import com.github.groovylabs.lyre.test.tools.Resources;
@@ -30,6 +31,7 @@ public class ServicesTest {
 
     private static final String PATH_HEALTH_ENDPOINT = "/test/health";
     private static final String PATH_BUNDLE_ENDPOINT = "/test/bundle";
+    private static final String PATH_APIX_ENDPOINT = "/test/bundle";
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -39,6 +41,22 @@ public class ServicesTest {
 
     @Autowired
     private Bundle bundle;
+
+    @Autowired
+    private APIx apix;
+
+    @Test
+    public void createdEndpointsTest() {
+
+        // apix & bundle instance can not be null
+        assertThat(apix).isNotNull();
+        assertThat(bundle).isNotNull();
+
+        // check if GET apix is active
+        ResponseEntity<String> response
+            = restTemplate.getForEntity(PATH_APIX_ENDPOINT, String.class);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    }
 
     @Test
     public void healthServiceTest() {
