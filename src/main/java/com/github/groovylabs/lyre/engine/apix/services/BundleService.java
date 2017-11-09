@@ -70,10 +70,10 @@ public class BundleService {
 
         if (!bundle.isEmpty()) {
             for (Endpoint endpoint : bundle.getEndpoints()) {
-                if (bundle.exists(endpoint))
-                    bundle.update(endpoint);
+                if (this.bundle.exists(endpoint))
+                    this.bundle.update(endpoint);
                 else
-                    bundle.add(endpoint);
+                    this.bundle.add(endpoint);
             }
 
             apixController.bootAttempt(this.getClass().getSimpleName() +
@@ -88,8 +88,8 @@ public class BundleService {
     public Response put(Bundle bundle) {
 
         if (bundle != null && bundle.getEndpoints() != null && !bundle.getEndpoints().isEmpty()) {
-            bundle.clear();
-            bundle.addAll(bundle.getEndpoints());
+            this.bundle.clear();
+            this.bundle.addAll(bundle.getEndpoints());
             apixController.bootAttempt(this.getClass().getSimpleName() +
                 " PUT {Bundle}");
         } else
