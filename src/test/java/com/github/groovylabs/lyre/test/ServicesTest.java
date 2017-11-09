@@ -155,23 +155,4 @@ public class ServicesTest {
         assertThat(this.bundle.getEndpoints()).isEmpty();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
