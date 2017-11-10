@@ -23,33 +23,42 @@
  *
  */
 
-package com.github.groovylabs.lyre.test;
+package com.github.groovylabs.lyre.test.configurations;
 
+import com.github.groovylabs.lyre.config.LyreProperties;
+import com.github.groovylabs.lyre.domain.Bundle;
+import com.github.groovylabs.lyre.domain.factories.FactoryConfiguration;
+import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
 import com.github.groovylabs.lyre.engine.manager.Manager;
-import com.github.groovylabs.lyre.test.configurations.ManagerConfiguration;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguration;
+import com.github.groovylabs.lyre.test.configurations.ResourcesConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Fail.fail;
-
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
-@Import({ManagerConfiguration.class})
-public class ManagerTest {
+@Profile("test")
+@Import({
+    LyrePropertiesConfiguration.class,
+    ResourcesConfiguration.class,
+    FactoryConfiguration.class
+})
+@TestConfiguration
+public class ManagerConfiguration {
 
     @Autowired
-    private Manager manager;
+    private LyreProperties lyreProperties;
 
-    @Test
-    public void managerTest() {
+    @MockBean
+    private APIxController apixController;
 
-        assertThat(manager).isNotNull();
+    @Bean
+    @Primary
+    public Manager manager() {
+        return new Manager(lyreProperties, apixController, new Bundle());
     }
-
 
 }
