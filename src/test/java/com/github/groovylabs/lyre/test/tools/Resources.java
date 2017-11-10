@@ -28,7 +28,6 @@ package com.github.groovylabs.lyre.test.tools;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.Response;
 import org.springframework.boot.test.context.TestComponent;
-import org.springframework.http.HttpStatus;
 
 import java.io.File;
 import java.io.IOException;

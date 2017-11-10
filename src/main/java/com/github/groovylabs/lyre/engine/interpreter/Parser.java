@@ -43,7 +43,7 @@ public abstract class Parser {
 
     protected Validator validator;
 
-    protected String fileName;
+    protected String[] metadata;
 
     public Parser(Validator validator) {
         this.validator = validator;
@@ -56,7 +56,8 @@ public abstract class Parser {
         switch (level) {
             case ENDPOINT:
 
-                endpoint.setFileName(fileName);
+                endpoint.setFileName(metadata[0]);
+                endpoint.setLastModified(Long.parseLong(metadata[1]));
 
                 parseEndpointLevel(endpoint, entry);
 
@@ -149,7 +150,7 @@ public abstract class Parser {
     }
 
     private void unrecognizedElement(String key, Level level) {
-        LOGGER.warn("Unrecognized element [{}] on [{}] level, inside file: [{}]", key, level, fileName);
+        LOGGER.warn("Unrecognized element [{}] on [{}] level, inside file: [{}]", key, level, metadata[0]);
     }
 
 }

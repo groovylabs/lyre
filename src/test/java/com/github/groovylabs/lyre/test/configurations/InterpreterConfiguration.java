@@ -28,7 +28,6 @@ package com.github.groovylabs.lyre.test.configurations;
 import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.factories.FactoryConfiguration;
-import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
 import com.github.groovylabs.lyre.engine.interpreter.Interpreter;
 import com.github.groovylabs.lyre.engine.manager.Manager;
 import com.github.groovylabs.lyre.engine.reader.Reader;

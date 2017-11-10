@@ -23,11 +23,10 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.exceptions;
+package com.github.groovylabs.lyre.domain.interfaces;
 
-public class EndpointNotFoundException extends Exception {
+public interface PersistOn<P> {
 
-    public EndpointNotFoundException(String message) {
-        super(message);
-    }
+    boolean persist(P object);
+
 }

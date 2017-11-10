@@ -35,6 +35,7 @@ import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.time.Clock;
 
 @Component
 @Path(value = "/endpoint")
@@ -80,9 +81,10 @@ public class EndpointService {
 
         if (validator.check(endpoint)) {
 
-            if (bundle.exists(endpoint))
+            if (bundle.exists(endpoint)) {
+                endpoint.setLastModified(Clock.systemUTC().millis());
                 bundle.update(endpoint);
-            else
+            } else
                 throw new NotFoundException("Endpoint does not exist");
 
             manager.handle(bundle, this.getClass().getSimpleName() +
@@ -99,6 +101,8 @@ public class EndpointService {
 
         if (validator.check(endpoint)) {
 
+            endpoint.setLastModified(Clock.systemUTC().millis());
+            
             if (bundle.exists(endpoint)) {
                 bundle.update(endpoint);
             } else

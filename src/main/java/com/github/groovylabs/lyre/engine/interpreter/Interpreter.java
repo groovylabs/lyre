@@ -31,7 +31,6 @@ import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.Level;
-import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
 import com.github.groovylabs.lyre.engine.manager.Manager;
 import com.github.groovylabs.lyre.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +61,7 @@ public class Interpreter extends Parser {
 
         for (Map.Entry<String, ObjectNode> object : nodes.entrySet()) {
 
-            fileName = object.getKey();
+            metadata = object.getKey().split("\\|");
             ObjectNode parentNode = object.getValue();
 
             parentNode.fields().forEachRemaining(entry -> {
@@ -73,14 +72,14 @@ public class Interpreter extends Parser {
 
                     this.parse(endpoint, entry, Level.ENDPOINT);
 
-                    if (validator.integrity(fileName, endpoint, bundle.getEndpoints(), update)) {
+                    if (validator.integrity(metadata[0], endpoint, bundle.getEndpoints(), update)) {
                         endpoint.createHash();
                         bundle.add(endpoint);
                     }
 
                 } catch (Exception e) {
 
-                    LOGGER.error("Error parsing file [{}] to endpoint bundle", fileName);
+                    LOGGER.error("Error parsing file [{}] to endpoint bundle", metadata[0]);
 
                     if (lyreProperties.isDebug()) {
                         LOGGER.error("Stacktrace", e);

@@ -23,11 +23,12 @@
  *
  */
 
-package com.github.groovylabs.lyre.domain.exceptions;
+package com.github.groovylabs.lyre.domain.interfaces;
 
-public class EndpointNotFoundException extends Exception {
+import java.io.IOException;
 
-    public EndpointNotFoundException(String message) {
-        super(message);
-    }
+public interface Update<U> {
+
+    boolean update(U object) throws IOException;
+
 }

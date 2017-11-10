@@ -23,14 +23,41 @@
  *
  */
 
-package com.github.groovylabs.lyre.engine.manager;
+package com.github.groovylabs.lyre.domain;
 
-import java.io.IOException;
+public class Pack {
 
-public interface Management<T> {
+    private Bundle bundle;
 
-    boolean persist(T object);
+    private Metadata metadata;
 
-    boolean update(T object) throws IOException;
+    public Pack() {
+        this.bundle = new Bundle();
+        this.metadata = new Metadata();
+    }
+
+    public Bundle getBundle() {
+        return bundle;
+    }
+
+    public void setBundle(Bundle bundle) {
+        this.bundle = bundle;
+    }
+
+    public Metadata getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
+    }
+
+    public boolean contains(Endpoint endpoint) {
+        return this.metadata.containtsModified(endpoint);
+    }
+
+    public Long modifiedAt(Endpoint endpoint) {
+        return this.metadata.getModified().get(endpoint.getMethod() + " " + endpoint.getPath());
+    }
 
 }

@@ -25,6 +25,40 @@
 
 package com.github.groovylabs.lyre.domain;
 
-public class ManagedBundle extends Bundle {
+import java.util.HashMap;
+import java.util.Map;
 
+public class Metadata {
+
+    private String version;
+
+    private Map<String, Long> modified;
+
+    public Metadata() {
+        this.modified = new HashMap<>();
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public Map<String, Long> getModified() {
+        return modified;
+    }
+
+    public boolean containtsModified(Endpoint endpoint) {
+        return this.modified.containsKey(endpoint.getMethod() + " " + endpoint.getPath());
+    }
+
+    public void modifiedAt(Endpoint endpoint) {
+        this.modifiedAt(endpoint.getMethod() + " " + endpoint.getPath(), endpoint.getLastModified());
+    }
+
+    public void modifiedAt(String endpointAlias, long timestamp) {
+        modified.put(endpointAlias, timestamp);
+    }
 }

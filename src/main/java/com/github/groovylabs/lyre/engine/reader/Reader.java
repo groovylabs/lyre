@@ -52,7 +52,7 @@ public class Reader {
 
     private Interpreter interpreter;
 
-    private Map<String, ObjectNode> objectNodes;
+    private Map<String, ObjectNode> nodes;
 
     @Autowired
     public Reader(LyreProperties lyreProperties, Interpreter interpreter) {
@@ -62,23 +62,25 @@ public class Reader {
 
     public void read(File... files) {
 
-        objectNodes = new HashMap<>();
+        nodes = new HashMap<>();
 
         LOGGER.info("Reading files, supported syntax: [.yml] or [.json]");
 
         for (File file : files)
-            readFile(file, objectNodes);
+            readFile(file, nodes);
 
-        interpreter.interpret(objectNodes);
+        interpreter.interpret(nodes);
     }
 
     private void readFile(File file, Map<String, ObjectNode> objectNodes) {
+
+        String fileKey = file.getPath() + "|" + file.lastModified();
 
         try {
 
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 
-            objectNodes.put(file.getPath(), mapper.readValue(file, ObjectNode.class));
+            objectNodes.put(fileKey, mapper.readValue(file, ObjectNode.class));
 
         } catch (JsonParseException | JsonMappingException yamlException) {
 
@@ -86,7 +88,7 @@ public class Reader {
 
                 ObjectMapper mapperJson = new ObjectMapper(new JsonFactory());
 
-                objectNodes.put(file.getPath(), mapperJson.readValue(file, ObjectNode.class));
+                objectNodes.put(fileKey, mapperJson.readValue(file, ObjectNode.class));
 
             } catch (JsonParseException | JsonMappingException jsonException) {
 
@@ -135,11 +137,11 @@ public class Reader {
         this.interpreter = interpreter;
     }
 
-    public Map<String, ObjectNode> getObjectNodes() {
-        return objectNodes;
+    public Map<String, ObjectNode> getNodes() {
+        return nodes;
     }
 
-    public void setObjectNodes(Map<String, ObjectNode> objectNodes) {
-        this.objectNodes = objectNodes;
+    public void setNodes(Map<String, ObjectNode> nodes) {
+        this.nodes = nodes;
     }
 }

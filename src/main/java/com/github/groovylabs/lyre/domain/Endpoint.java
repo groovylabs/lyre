@@ -25,6 +25,7 @@
 
 package com.github.groovylabs.lyre.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.hash.Hashing;
 import org.springframework.http.HttpMethod;
 
@@ -48,7 +49,11 @@ public class Endpoint {
 
     private Property property;
 
+    @JsonIgnore
     private String fileName;
+
+    @JsonIgnore
+    private long lastModified;
 
     private String hash;
 
@@ -132,6 +137,14 @@ public class Endpoint {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public long getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(long lastModified) {
+        this.lastModified = lastModified;
     }
 
     public String getHash() {

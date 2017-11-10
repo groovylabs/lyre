@@ -25,15 +25,15 @@
 
 package com.github.groovylabs.lyre.engine.manager;
 
+import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
-import com.github.groovylabs.lyre.domain.Endpoint;
-import com.github.groovylabs.lyre.domain.ManagedBundle;
+import com.github.groovylabs.lyre.domain.Pack;
+import com.github.groovylabs.lyre.domain.interfaces.PersistOn;
+import com.github.groovylabs.lyre.domain.interfaces.Update;
 import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
-import com.github.groovylabs.lyre.validator.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,11 +42,9 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
-public class Manager implements Management<Bundle> {
+public class Manager implements PersistOn<Pack>, Update<Bundle> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Manager.class);
 
@@ -54,9 +52,9 @@ public class Manager implements Management<Bundle> {
 
     private APIxController apixController;
 
-    private File managedBundleFile;
+    private File packFile;
 
-    private ManagedBundle managedBundle;
+    private Pack pack;
 
     private Bundle bundle;
 
@@ -70,9 +68,9 @@ public class Manager implements Management<Bundle> {
     @PostConstruct
     private void construct() {
         try {
-            touchBundleFile();
+            touchFile();
 
-            managedBundle = parseBundleFile();
+            pack = parsePack();
 
         } catch (IOException e) {
             this.noticeFallback(e);
@@ -82,27 +80,26 @@ public class Manager implements Management<Bundle> {
     public void handle(Bundle bundle, String attemptSource) {
 
         if (this.update(bundle)) {
-            if (this.persist(managedBundle)) {
-                this.bundle.clone(managedBundle);
+            if (this.persist(pack)) {
+                this.bundle.clone(pack.getBundle());
             } else {
-                LOGGER.info("Using in-memory bundle control only, auto-generated file unsynchronized.");
-                //TODO log in metadata unsynchronized event on managedBundle.
+                LOGGER.info("Using in-memory bundle control only, pack unsynchronized.");
             }
         }
 
         apixController.bootAttempt(attemptSource);
     }
 
-    public boolean persist(Bundle bundle) {
+    public boolean persist(Pack pack) {
 
         try {
-            if (managedBundleFile != null) {
-                ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-                mapper.writeValue(managedBundleFile, bundle);
+            if (packFile != null) {
+                ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+                mapper.writeValue(packFile, pack);
                 return true;
             }
         } catch (IOException e) {
-            LOGGER.error("Error while writing into auto-generated file, please check read/write permissions on path: {}",
+            LOGGER.error("Error while writing into auto-generated pack file, please check read/write permissions on path: {}",
                 lyreProperties.getBundleFilePath());
         }
 
@@ -113,11 +110,15 @@ public class Manager implements Management<Bundle> {
 
         if (!bundle.isEmpty()) {
             bundle.getEndpoints().forEach(endpoint -> {
-                // TODO log in metadata this endpoint, using alias ref, insertion time.
-                if (managedBundle.exists(endpoint)) {
-                    managedBundle.update(endpoint);
+
+                if (pack.contains(endpoint)) {
+                    if (endpoint.getLastModified() > pack.modifiedAt(endpoint)) {
+                        pack.getBundle().update(endpoint);
+                        pack.getMetadata().modifiedAt(endpoint);
+                    }
                 } else {
-                    managedBundle.add(endpoint);
+                    pack.getBundle().add(endpoint);
+                    pack.getMetadata().modifiedAt(endpoint);
                 }
             });
             return true;
@@ -125,43 +126,43 @@ public class Manager implements Management<Bundle> {
             return false;
     }
 
-    private ManagedBundle parseBundleFile() throws IOException {
+    private Pack parsePack() throws IOException {
         try {
 
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+            ObjectMapper mapper = new ObjectMapper(new JsonFactory());
 
-            return mapper.readValue(managedBundleFile, ManagedBundle.class);
+            return mapper.readValue(packFile, Pack.class);
         } catch (JsonMappingException e) {
             if (e.getMessage().startsWith("No content to map due to end-of-input")) {
-                LOGGER.info("Found empty bundle on auto-generated file");
-                return new ManagedBundle();
+                LOGGER.info("Found empty bundle on auto-generated pack file");
+                return new Pack();
             } else {
-                LOGGER.error("Error while parsing auto-generated file");
+                LOGGER.error("Error while parsing auto-generated pack file");
                 throw e;
             }
         } catch (IOException e) {
-            LOGGER.error("Error while read auto-generated file, please check if file is a valid YAML on path: {}",
+            LOGGER.error("Error while read auto-generated pack file, please check if file is a valid YAML on path: {}",
                 lyreProperties.getBundleFilePath());
             throw e;
         }
     }
 
-    private void touchBundleFile() throws IOException {
+    private void touchFile() throws IOException {
         try {
 
-            managedBundleFile = new File(lyreProperties.getBundleFilePath());
+            packFile = new File(lyreProperties.getBundleFilePath());
 
-            if (!managedBundleFile.exists() && !managedBundleFile.createNewFile()) {
-                LOGGER.info("Lyre auto-generated file already exists.");
+            if (!packFile.exists() && !packFile.createNewFile()) {
+                LOGGER.info("Lyre auto-generated pack file already exists.");
             }
         } catch (IOException e) {
-            LOGGER.error("Error while creating auto-generated file, please check read/write permissions on path: {}",
+            LOGGER.error("Error while creating auto-generated pack file, please check read/write permissions on path: {}",
                 lyreProperties.getBundleFilePath());
             throw e;
         }
     }
 
-    public void noticeFallback(Exception e) {
+    private void noticeFallback(Exception e) {
         LOGGER.error("\u21B3 " + "Falling back to in-memory bundle control");
 
         if (lyreProperties.isDebug()) {
