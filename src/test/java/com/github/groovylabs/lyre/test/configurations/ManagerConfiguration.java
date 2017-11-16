@@ -30,8 +30,7 @@ import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.factories.FactoryConfiguration;
 import com.github.groovylabs.lyre.engine.apix.controller.APIxController;
 import com.github.groovylabs.lyre.engine.manager.Manager;
-import com.github.groovylabs.lyre.test.configurations.LyrePropertiesConfiguration;
-import com.github.groovylabs.lyre.test.configurations.ResourcesConfiguration;
+import com.github.groovylabs.lyre.test.tools.Resources;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -52,12 +51,16 @@ public class ManagerConfiguration {
     @Autowired
     private LyreProperties lyreProperties;
 
+    @Autowired
+    private Resources resources;
+
     @MockBean
     private APIxController apixController;
 
     @Bean
     @Primary
     public Manager manager() {
+        lyreProperties.setScanPath(resources.getDirectory(0).getAbsolutePath());
         return new Manager(lyreProperties, apixController, new Bundle());
     }
 

@@ -34,8 +34,11 @@ public class Metadata {
 
     private Map<String, Long> modified;
 
+    private Map<String, String> revision;
+
     public Metadata() {
         this.modified = new HashMap<>();
+        this.revision = new HashMap<>();
     }
 
     public String getVersion() {
@@ -50,6 +53,10 @@ public class Metadata {
         return modified;
     }
 
+    public Map<String, String> getRevision() {
+        return revision;
+    }
+
     public boolean containtsModified(Endpoint endpoint) {
         return this.modified.containsKey(endpoint.getMethod() + " " + endpoint.getPath());
     }
@@ -60,5 +67,17 @@ public class Metadata {
 
     public void modifiedAt(String endpointAlias, long timestamp) {
         modified.put(endpointAlias, timestamp);
+    }
+
+    public void putRevision(Endpoint endpoint) {
+        this.revision.put(endpoint.getMethod() + " " + endpoint.getPath(), endpoint.getHash());
+    }
+
+    public void putRevision(String key, String revision) {
+        this.revision.put(key, revision);
+    }
+
+    public String revision(String key) {
+        return this.revision.get(key);
     }
 }

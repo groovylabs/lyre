@@ -60,4 +60,8 @@ public class Pack {
         return this.metadata.getModified().get(endpoint.getMethod() + " " + endpoint.getPath());
     }
 
+    public String revision(Endpoint endpoint) {
+        return this.metadata.getRevision().get(endpoint.getMethod() + " " + endpoint.getPath());
+    }
+
 }

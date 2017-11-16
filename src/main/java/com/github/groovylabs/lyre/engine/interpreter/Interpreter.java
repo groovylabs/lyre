@@ -32,6 +32,7 @@ import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.Level;
 import com.github.groovylabs.lyre.engine.manager.Manager;
+import com.github.groovylabs.lyre.utils.EndpointUtils;
 import com.github.groovylabs.lyre.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -73,7 +74,7 @@ public class Interpreter extends Parser {
                     this.parse(endpoint, entry, Level.ENDPOINT);
 
                     if (validator.integrity(metadata[0], endpoint, bundle.getEndpoints(), update)) {
-                        endpoint.createHash();
+                        endpoint.setHash(EndpointUtils.createHash(endpoint));
                         bundle.add(endpoint);
                     }
 

@@ -112,13 +112,16 @@ public class Manager implements PersistOn<Pack>, Update<Bundle> {
             bundle.getEndpoints().forEach(endpoint -> {
 
                 if (pack.contains(endpoint)) {
-                    if (endpoint.getLastModified() > pack.modifiedAt(endpoint)) {
+                    if (endpoint.getLastModified() > pack.modifiedAt(endpoint) &&
+                        !endpoint.getHash().equals(pack.revision(endpoint))) {
                         pack.getBundle().update(endpoint);
                         pack.getMetadata().modifiedAt(endpoint);
+                        pack.getMetadata().putRevision(endpoint);
                     }
                 } else {
                     pack.getBundle().add(endpoint);
                     pack.getMetadata().modifiedAt(endpoint);
+                    pack.getMetadata().putRevision(endpoint);
                 }
             });
             return true;

@@ -25,7 +25,12 @@
 
 package com.github.groovylabs.lyre.utils;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.groovylabs.lyre.config.LyreProperties;
+import com.github.groovylabs.lyre.domain.Endpoint;
+import com.google.common.hash.Hashing;
 import org.glassfish.jersey.message.internal.ReaderWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +42,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 @Component
 public class EndpointUtils {
@@ -78,6 +84,20 @@ public class EndpointUtils {
                 LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
         }
         return result;
+    }
+
+    public static String createHash(Endpoint endpoint) {
+
+        ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+
+        try {
+            String jsonInString = mapper.writeValueAsString(endpoint);
+            return Hashing.sha256()
+                .hashString(jsonInString, StandardCharsets.UTF_8)
+                .toString();
+        } catch (JsonProcessingException e) {
+            return null;
+        }
     }
 
 }

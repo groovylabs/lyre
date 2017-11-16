@@ -26,10 +26,7 @@
 package com.github.groovylabs.lyre.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.common.hash.Hashing;
 import org.springframework.http.HttpMethod;
-
-import java.nio.charset.StandardCharsets;
 
 public class Endpoint {
 
@@ -155,9 +152,4 @@ public class Endpoint {
         this.hash = hash;
     }
 
-    public final void createHash() {
-        this.setHash(Hashing.sha256()
-            .hashString(this.getMethod() + this.getPath(), StandardCharsets.UTF_8)
-            .toString());
-    }
 }

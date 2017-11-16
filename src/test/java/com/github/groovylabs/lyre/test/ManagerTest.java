@@ -35,7 +35,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Fail.fail;
 
 @ActiveProfiles("test")
 @RunWith(SpringRunner.class)
@@ -50,6 +49,5 @@ public class ManagerTest {
 
         assertThat(manager).isNotNull();
     }
-
 
 }
