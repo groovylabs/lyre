@@ -26,6 +26,7 @@
 package com.github.groovylabs.lyre.engine.apix.swagger.resources;
 
 import com.github.groovylabs.lyre.domain.Endpoint;
+import com.github.groovylabs.lyre.domain.Parameter;
 import io.swagger.models.Operation;
 import io.swagger.models.Path;
 import io.swagger.models.Swagger;
@@ -36,6 +37,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class SwaggerHelper {
@@ -58,12 +61,36 @@ public class SwaggerHelper {
         if (!StringUtils.isEmpty(endpoint.getData()))
             buildSwaggerApiBodyParam(operation);
 
+        if (!endpoint.getParameter().getPathParam().isEmpty()
+                || !endpoint.getParameter().getQueryParam().isEmpty())
+            buildSwaggerApiParam(operation, endpoint.getParameter());
+
         response.setDescription(endpoint.getResponse().getStatus().getReasonPhrase());
 
         operation.addResponse(endpoint.getResponse().getStatus().toString(), response);
 
         swagger.path(endpoint.getPath(), new Path().set(endpoint.getMethod().toString().toLowerCase(), operation));
 
+    }
+
+    // TODO: Build path param too.
+    private void buildSwaggerApiParam(Operation operation, Parameter parameter) {
+
+        if (!parameter.getQueryParam().isEmpty()) {
+            List<String> queryKeys = new ArrayList<>(parameter.getQueryParam().keySet());
+            List<String> queryValues = new ArrayList<>(parameter.getQueryParam().values());
+
+            for (int i = 0; i < queryKeys.size(); i++) {
+                ParameterInterfaceImpl param = new ParameterInterfaceImpl();
+
+                param.setName(queryKeys.get(i));
+                param.setIn("query");
+                param.setDescription("Example: " + queryValues.get(i));
+                param.setType("string");
+
+                operation.addParameter(param);
+            }
+        }
     }
 
     private void buildSwaggerApiBodyParam(Operation operation) {

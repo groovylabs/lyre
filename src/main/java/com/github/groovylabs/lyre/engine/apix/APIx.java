@@ -132,6 +132,7 @@ public class APIx extends ResourceConfig {
 
         LOGGER.info("Boot [STATUS]: Creating endpoints into APIx engine");
 
+        // TODO: Make resource work with Query/Path param in response.
         for (Endpoint endpoint : bundle.getEndpoints()) {
 
             Resource.Builder resource =

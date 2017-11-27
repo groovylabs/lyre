@@ -26,6 +26,7 @@
 package com.github.groovylabs.lyre.validator;
 
 import com.github.groovylabs.lyre.domain.Endpoint;
+import com.github.groovylabs.lyre.domain.Parameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
@@ -33,6 +34,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Component
 public class Validator {
@@ -93,6 +97,21 @@ public class Validator {
             StringUtils.isEmpty(endpoint.getMethod()) ||
             StringUtils.isEmpty(endpoint.getResponse().getStatus()));
 
+    }
+
+    public String containsParameters(String path, Parameter parameter) {
+
+        if (path.contains(Parameter.START_QUERY_PARAM)) {
+            Pattern.compile("\\?\\w*?")
+                .splitAsStream(path)
+                .filter(s -> s.contains(Parameter.EQUAL_QUERY_PARAM))
+                .forEach(word -> parameter.composeQueryParam(word));
+
+            // return first
+            return path.split("\\?")[0];
+        } else {
+            return path;
+        }
     }
 
     public boolean check(String value, String reference) {

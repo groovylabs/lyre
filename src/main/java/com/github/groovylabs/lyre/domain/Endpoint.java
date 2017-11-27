@@ -38,6 +38,8 @@ public class Endpoint {
 
     private String path;
 
+    private Parameter parameter;
+
     private String consumes = "*/*";
 
     private String data;
@@ -53,6 +55,7 @@ public class Endpoint {
     private String hash;
 
     public Endpoint() {
+        this.setParameter(new Parameter());
         this.setHeader(new Header());
         this.setResponse(new Response());
         this.setProperty(new Property());
@@ -84,6 +87,14 @@ public class Endpoint {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public Parameter getParameter() {
+        return parameter;
+    }
+
+    public void setParameter(Parameter parameter) {
+        this.parameter = parameter;
     }
 
     public String getConsumes() {

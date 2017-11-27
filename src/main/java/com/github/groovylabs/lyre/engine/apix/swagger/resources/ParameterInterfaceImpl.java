@@ -35,6 +35,7 @@ public class ParameterInterfaceImpl implements Parameter {
     private String access;
     private String name;
     private String description;
+    private String type;
     private boolean required = false;
     private String pattern;
     private Map<String, Object> vendorExtensions;
@@ -80,6 +81,14 @@ public class ParameterInterfaceImpl implements Parameter {
     @Override
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
