@@ -63,7 +63,7 @@ public class Resources {
         endpoint.setMethod(method);
         endpoint.setPath(path);
         endpoint.setResponse(new Response());
-        endpoint.getResponse().setStatus(status);
+        endpoint.getResponse().setStatus(Integer.parseInt(status));
 
         return endpoint;
     }

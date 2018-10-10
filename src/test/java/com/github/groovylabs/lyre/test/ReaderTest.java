@@ -76,8 +76,8 @@ public class ReaderTest {
         reader.read(file);
 
         //should have a object node with json file on it.
-        assertThat(reader.getObjectNodes()).isNotEmpty();
-        assertThat(reader.getObjectNodes().get(file.getAbsolutePath())).isNotNull();
+        assertThat(reader.getNodes()).isNotEmpty();
+        assertThat(reader.getNodes().get(file.getAbsolutePath())).isNotNull();
 
     }
 
@@ -100,8 +100,8 @@ public class ReaderTest {
         reader.read(file);
 
         //should have a object node with yaml file on it.
-        assertThat(reader.getObjectNodes()).isNotEmpty();
-        assertThat(reader.getObjectNodes().get(file.getAbsolutePath())).isNotNull();
+        assertThat(reader.getNodes()).isNotEmpty();
+        assertThat(reader.getNodes().get(file.getAbsolutePath())).isNotNull();
 
     }
 

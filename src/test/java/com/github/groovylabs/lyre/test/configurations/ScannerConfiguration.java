@@ -53,7 +53,7 @@ public class ScannerConfiguration {
     @Bean
     @Primary
     public Scanner scanner() {
-        Scanner scanner = new Scanner();
+        Scanner scanner = new Scanner(lyreProperties, reader);
         return scanner;
     }
 

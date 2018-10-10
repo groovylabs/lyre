@@ -25,7 +25,7 @@
 
 package com.github.groovylabs.lyre.domain;
 
-import com.github.groovylabs.lyre.domain.exceptions.EndpointNotFoundException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,10 +33,6 @@ import java.util.List;
 public class Bundle {
 
     private List<Endpoint> endpoints = new ArrayList<>();
-
-    public Bundle() {
-
-    }
 
     public List<Endpoint> getEndpoints() {
         return endpoints;
@@ -63,21 +59,32 @@ public class Bundle {
         );
     }
 
+    public Endpoint find(Endpoint endpoint) {
+        return this.find(endpoint.getMethod().name(), endpoint.getPath());
+    }
+
     public Endpoint find(String method, String path) {
         return endpoints.stream()
             .filter(e -> e.getMethod().name().equals(method) && e.getPath().equals(path)).findFirst().orElse(null);
     }
 
-    public void update(Endpoint endpoint) {
-        if (exists(endpoint)) {
-            endpoints.removeIf(e -> e.getPath().equals(endpoint.getPath()) && e.getMethod().equals(endpoint.getMethod()));
-            endpoints.add(endpoint);
-        } else
-            throw new EndpointNotFoundException("Endpoint [" + endpoint.getMethod() + " - " + endpoint.getPath() + "] not found at the Bundle list!");
+    public boolean update(Endpoint endpoint) {
+        if (endpoints.removeIf(e ->
+            e.getPath().equals(endpoint.getPath()) &&
+                e.getMethod().equals(endpoint.getMethod())))
+            return endpoints.add(endpoint);
+        else
+            return false;
     }
 
+    @JsonIgnore
     public boolean isEmpty() {
         return endpoints.isEmpty();
+    }
+
+    public void clone(Bundle bundle) {
+        this.clear();
+        this.addAll(bundle.getEndpoints());
     }
 
     public void clear() {

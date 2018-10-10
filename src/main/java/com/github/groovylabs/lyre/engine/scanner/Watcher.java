@@ -90,7 +90,7 @@ public class Watcher extends Overlay<Scanner> implements Runnable {
             LOGGER.error("Error during watch files");
 
             if (lyreProperties.isDebug()) {
-                LOGGER.debug("Stacktrace", e);
+                LOGGER.error("Stacktrace", e);
             } else
                 LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
 

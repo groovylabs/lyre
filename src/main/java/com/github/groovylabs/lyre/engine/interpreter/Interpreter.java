@@ -31,7 +31,9 @@ import com.github.groovylabs.lyre.config.LyreProperties;
 import com.github.groovylabs.lyre.domain.Bundle;
 import com.github.groovylabs.lyre.domain.Endpoint;
 import com.github.groovylabs.lyre.domain.Level;
-import com.github.groovylabs.lyre.engine.APIx.controller.APIxController;
+import com.github.groovylabs.lyre.engine.manager.Manager;
+import com.github.groovylabs.lyre.utils.EndpointUtils;
+import com.github.groovylabs.lyre.validator.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,22 +42,27 @@ import java.util.Map;
 @Component
 public class Interpreter extends Parser {
 
-    @Autowired
     private LyreProperties lyreProperties;
 
-    @Autowired
-    private APIxController apixController;
+    private Manager manager;
 
-    @Autowired
     private Bundle bundle;
 
     private boolean update = false;
+
+    @Autowired
+    public Interpreter(Validator validator, LyreProperties lyreProperties, Manager manager, Bundle bundle) {
+        super(validator);
+        this.lyreProperties = lyreProperties;
+        this.manager = manager;
+        this.bundle = bundle;
+    }
 
     public void interpret(Map<String, ObjectNode> nodes) {
 
         for (Map.Entry<String, ObjectNode> object : nodes.entrySet()) {
 
-            fileName = object.getKey();
+            metadata = object.getKey().split("\\|");
             ObjectNode parentNode = object.getValue();
 
             parentNode.fields().forEachRemaining(entry -> {
@@ -66,17 +73,17 @@ public class Interpreter extends Parser {
 
                     this.parse(endpoint, entry, Level.ENDPOINT);
 
-                    if (validator.integrity(fileName, endpoint, bundle.getEndpoints(), update)) {
-                        endpoint.createHash();
+                    if (validator.integrity(metadata[0], endpoint, bundle.getEndpoints(), update)) {
+                        endpoint.setHash(EndpointUtils.createHash(endpoint));
                         bundle.add(endpoint);
                     }
 
                 } catch (Exception e) {
 
-                    LOGGER.error("Error parsing file [{}] to endpoint bundle", fileName);
+                    LOGGER.error("Error parsing file [{}] to endpoint bundle", metadata[0]);
 
                     if (lyreProperties.isDebug()) {
-                        LOGGER.debug("Stacktrace", e);
+                        LOGGER.error("Stacktrace", e);
                     } else
                         LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
 
@@ -88,7 +95,7 @@ public class Interpreter extends Parser {
 
         update = true;
 
-        apixController.bootAttempt(nodes.entrySet().size() + " file resource(s)");
+        manager.handle(bundle, "Interpreted " + nodes.entrySet().size() + " file resource(s)");
     }
 
     public Bundle getBundle() {

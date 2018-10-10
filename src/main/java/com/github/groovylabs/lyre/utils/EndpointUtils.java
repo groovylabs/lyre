@@ -25,7 +25,12 @@
 
 package com.github.groovylabs.lyre.utils;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.groovylabs.lyre.config.LyreProperties;
+import com.github.groovylabs.lyre.domain.Endpoint;
+import com.google.common.hash.Hashing;
 import org.glassfish.jersey.message.internal.ReaderWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,14 +42,19 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 @Component
 public class EndpointUtils {
 
-    @Autowired
+    private static final Logger LOGGER = LoggerFactory.getLogger(EndpointUtils.class);
+
     private LyreProperties lyreProperties;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EndpointUtils.class);
+    @Autowired
+    public EndpointUtils(LyreProperties lyreProperties) {
+        this.lyreProperties = lyreProperties;
+    }
 
     /**
      * Return the body json in one String Object.
@@ -69,11 +79,25 @@ public class EndpointUtils {
             LOGGER.error("Error to read the body of this request.");
 
             if (lyreProperties.isDebug()) {
-                LOGGER.debug("Stacktrace", e);
+                LOGGER.error("Stacktrace", e);
             } else
                 LOGGER.warn("\u21B3 " + "Enable debug mode to see stacktrace log");
         }
         return result;
+    }
+
+    public static String createHash(Endpoint endpoint) {
+
+        ObjectMapper mapper = new ObjectMapper(new JsonFactory());
+
+        try {
+            String jsonInString = mapper.writeValueAsString(endpoint);
+            return Hashing.sha256()
+                .hashString(jsonInString, StandardCharsets.UTF_8)
+                .toString();
+        } catch (JsonProcessingException e) {
+            return null;
+        }
     }
 
 }

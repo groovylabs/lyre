@@ -25,13 +25,9 @@
 
 package com.github.groovylabs.lyre.domain.exceptions;
 
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-public class EndpointNotFoundException extends WebApplicationException {
+public class EndpointNotFoundException extends Exception {
 
     public EndpointNotFoundException(String message) {
-        super(Response.status(Response.Status.BAD_REQUEST).entity(message).type(MediaType.TEXT_PLAIN).build());
+        super(message);
     }
 }
